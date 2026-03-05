@@ -37,10 +37,13 @@ export async function POST(req: NextRequest) {
       const periodStart = (sub as unknown as { current_period_start: number }).current_period_start
       const periodEnd   = (sub as unknown as { current_period_end: number }).current_period_end
 
+      const priceId = sub.items.data[0].price.id
+      const plan = priceId === process.env.STRIPE_PRICE_YEARLY ? 'yearly' : 'monthly'
+
       const row = {
         stripe_customer_id:     customerId,
         stripe_subscription_id: subscriptionId,
-        stripe_price_id:        sub.items.data[0].price.id,
+        plan,
         status:                 sub.status,
         current_period_start:   new Date(periodStart * 1000).toISOString(),
         current_period_end:     new Date(periodEnd * 1000).toISOString(),
@@ -73,11 +76,12 @@ export async function POST(req: NextRequest) {
         const periodStart = (sub as unknown as { current_period_start: number }).current_period_start
         const periodEnd   = (sub as unknown as { current_period_end: number }).current_period_end
 
+        const priceId2 = sub.items.data[0].price.id
         await supabase.from('subscriptions').upsert({
           user_id:                existing.user_id,
           stripe_customer_id:     customerId,
           stripe_subscription_id: sub.id,
-          stripe_price_id:        sub.items.data[0].price.id,
+          plan:                   priceId2 === process.env.STRIPE_PRICE_YEARLY ? 'yearly' : 'monthly',
           status:                 sub.status,
           current_period_start:   new Date(periodStart * 1000).toISOString(),
           current_period_end:     new Date(periodEnd * 1000).toISOString(),
