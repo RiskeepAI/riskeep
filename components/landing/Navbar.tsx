@@ -18,6 +18,7 @@ export default function Navbar() {
           <Link href="#features" className="hover:text-white transition-colors">Funciones</Link>
           <Link href="#pricing" className="hover:text-white transition-colors">Precios</Link>
           <Link href="#faq" className="hover:text-white transition-colors">FAQ</Link>
+          <Link href="/legal" className="hover:text-white transition-colors">Legal</Link>
         </nav>
 
         <div className="flex items-center gap-3">

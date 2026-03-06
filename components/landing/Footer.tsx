@@ -16,6 +16,7 @@ export default function Footer() {
             <Link href="#features" className="hover:text-slate-300 transition-colors">Funciones</Link>
             <Link href="#pricing" className="hover:text-slate-300 transition-colors">Precios</Link>
             <Link href="#faq" className="hover:text-slate-300 transition-colors">FAQ</Link>
+            <Link href="/legal" className="hover:text-slate-300 transition-colors">Legal</Link>
             <Link href="/login" className="hover:text-slate-300 transition-colors">Mi cuenta</Link>
           </nav>
 
