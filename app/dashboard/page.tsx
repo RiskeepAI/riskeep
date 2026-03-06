@@ -16,12 +16,16 @@ export default async function DashboardPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  // Get subscription status
-  const { data: subscription } = await supabase
+  // Get subscription status — order by most recent, pick first active or fallback to latest
+  const { data: subscriptions } = await supabase
     .from('subscriptions')
     .select('*')
     .eq('user_id', user.id)
-    .single()
+    .order('current_period_end', { ascending: false })
+
+  const subscription = subscriptions?.find(
+    s => s.status === 'active' || s.status === 'trialing'
+  ) ?? subscriptions?.[0] ?? null
 
   const isActive = subscription?.status === 'active' || subscription?.status === 'trialing'
   const name = user.user_metadata?.full_name || user.email?.split('@')[0]
