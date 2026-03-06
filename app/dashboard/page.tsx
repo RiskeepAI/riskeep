@@ -126,20 +126,22 @@ export default async function DashboardPage({
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <a
-                  href="/downloads/riskeep-setup-windows.exe"
+                  href={process.env.NEXT_PUBLIC_DOWNLOAD_WIN ?? '#'}
+                  download
                   className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/12 bg-white/5 hover:bg-white/8 transition-colors text-sm text-white"
                 >
                   <span>🪟</span> Windows
                 </a>
                 <a
-                  href="/downloads/riskeep-setup-mac.dmg"
+                  href={process.env.NEXT_PUBLIC_DOWNLOAD_MAC ?? '#'}
+                  download
                   className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/12 bg-white/5 hover:bg-white/8 transition-colors text-sm text-white"
                 >
                   <span>🍎</span> macOS
                 </a>
               </div>
               <p className="text-xs text-slate-600">
-                Versión actual: v5.0 · Requiere Windows 10+ o macOS 12+
+                Versión actual: v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '5.0'} · Requiere Windows 10+ o macOS 12+
               </p>
             </div>
           ) : (
