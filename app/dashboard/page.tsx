@@ -4,6 +4,7 @@ import { Download, CreditCard, LogOut, CheckCircle, XCircle, Lock, Zap } from 'l
 import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
 import UpgradeButton from '@/components/dashboard/UpgradeButton'
+import CancelButton from '@/components/dashboard/CancelButton'
 
 export const metadata = { title: 'Mi cuenta — Riskeep' }
 
@@ -119,6 +120,22 @@ export default async function DashboardPage({
               </div>
             </div>
           </div>
+
+          {/* Cancel — only if active and not already canceling */}
+          {isActive && !subscription?.cancel_at_period_end && (
+            <div className="pt-2 border-t border-white/6">
+              <CancelButton />
+            </div>
+          )}
+
+          {/* Pending cancellation notice */}
+          {isActive && subscription?.cancel_at_period_end && (
+            <div className="pt-2 border-t border-white/6">
+              <p className="text-xs text-yellow-500/80">
+                ⚠ Suscripción programada para cancelarse el {periodEnd}. ARIA pasará a modo demo automáticamente.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Upgrade CTA — only for paper/demo users */}
