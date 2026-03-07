@@ -10,11 +10,11 @@ const faqs = [
   },
   {
     q: '¿Es seguro conectar mi cuenta de Binance?',
-    a: 'Sí. Solo necesitas crear una API key con permisos de trading (sin permisos de retiro). Las claves se almacenan localmente en tu equipo, nunca pasan por nuestros servidores.',
+    a: 'Sí. Solo necesitas crear una API key con permisos de trading (sin permisos de retiro). Las claves se almacenan localmente en tu equipo, nunca pasan por nuestros servidores. Para mejorar el razonamiento de ARIA, cada operación cerrada registra únicamente datos técnicos (indicadores, señal y resultado): nunca se almacenan claves, saldos ni datos personales.',
   },
   {
     q: '¿Cómo funciona el modo paper?',
-    a: 'El modo paper simula operaciones con precios reales pero sin dinero real. Es ideal para probar la estrategia de ARIA antes de arriesgar capital.',
+    a: 'El modo paper conecta con Binance Testnet, la red de pruebas oficial de Binance. Opera con fondos virtuales en condiciones reales de mercado. Es completamente gratuito — no necesitas tarjeta ni suscripción para empezar.',
   },
   {
     q: '¿En qué sistemas operativos funciona el launcher?',
