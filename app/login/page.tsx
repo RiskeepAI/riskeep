@@ -32,6 +32,13 @@ export default async function LoginPage({
         <div className="p-8 rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm">
           <LoginForm />
         </div>
+
+        <p className="text-center text-sm text-slate-500">
+          ¿No tienes cuenta?{' '}
+          <Link href="/register" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+            Regístrate gratis
+          </Link>
+        </p>
       </div>
     </div>
   )
