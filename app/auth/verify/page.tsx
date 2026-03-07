@@ -2,12 +2,13 @@ import Link from 'next/link'
 import { Mail, ArrowRight, RefreshCw } from 'lucide-react'
 
 interface Props {
-  searchParams: Promise<{ email?: string }>
+  searchParams: Promise<{ email?: string; plan?: string }>
 }
 
 export default async function VerifyPage({ searchParams }: Props) {
-  const { email } = await searchParams
+  const { email, plan } = await searchParams
   const displayEmail = email ? decodeURIComponent(email) : null
+  const loginHref = plan ? `/login?plan=${plan}` : '/login'
 
   return (
     <div className="min-h-screen bg-[#020810] flex items-center justify-center px-6">
@@ -70,10 +71,10 @@ export default async function VerifyPage({ searchParams }: Props) {
           {/* Actions */}
           <div className="space-y-3">
             <Link
-              href="/auth/login"
+              href={loginHref}
               className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-sm hover:from-blue-400 hover:to-cyan-400 transition-all duration-300 shadow-lg shadow-blue-500/20"
             >
-              Ya confirmé — Iniciar sesión
+              {plan ? 'Ya confirmé — Continuar con la suscripción' : 'Ya confirmé — Iniciar sesión'}
               <ArrowRight className="w-4 h-4" />
             </Link>
 

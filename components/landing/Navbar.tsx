@@ -36,7 +36,7 @@ export default function Navbar() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <Link href="/login"><Button variant="ghost" size="sm">Entrar</Button></Link>
-          <Link href="#pricing"><Button size="sm">Empezar</Button></Link>
+          <Link href="#pricing"><Button size="sm">Empezar gratis</Button></Link>
         </div>
 
         {/* Mobile: CTA + hamburger */}

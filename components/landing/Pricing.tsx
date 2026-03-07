@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Check } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import { createClient } from '@/lib/supabase/client'
 
 const plans = {
   monthly: {
@@ -40,12 +42,24 @@ const plans = {
 }
 
 export default function Pricing() {
+  const router = useRouter()
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
 
   async function handleSubscribe() {
     setLoading(true)
     try {
+      // Check if user is logged in first
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!user) {
+        // Not logged in → send to login with plan info preserved
+        router.push(`/login?plan=${billing}`)
+        return
+      }
+
+      // Logged in → go straight to Stripe
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
