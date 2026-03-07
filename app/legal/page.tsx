@@ -518,7 +518,7 @@ function TabTOS() {
             <DefRow term="Software ARIA" def={<span>El software ARIA, incluyendo su código fuente, arquitectura, algoritmos de trading, sistema de memoria episódica y motor de riesgo, son <strong className="text-white">propiedad exclusiva de Riskeep.com</strong> y están protegidos por las leyes de propiedad intelectual aplicables.</span>} />
             <DefRow term="Marca Riskeep" def="La marca Riskeep, el logo, el nombre ARIA y cualquier identidad visual asociada son marcas registradas o en proceso de registro de Riskeep.com. Su uso no autorizado está prohibido." />
             <DefRow term="Modelos y LoRAs" def={<span>Los <strong className="text-white">LoRAs de especialización</strong> desarrollados por Riskeep (aria-btc-patterns, aria-news-sentiment, aria-risk-adaptive) son propiedad de Riskeep.com. Los modelos base (qwen2.5, phi4-mini, nomic-embed-text) pertenecen a sus respectivos creadores bajo sus licencias correspondientes.</span>} />
-            <DefRow term="Datos del usuario" def="Los datos generados por el uso de ARIA (historial de trades, episodios de memoria, logs) pertenecen al usuario. Riskeep.com no recopila ni tiene acceso a estos datos, que se almacenan exclusivamente en el equipo local del usuario." />
+            <DefRow term="Datos del usuario" def={<span>Los datos generados por ARIA (historial de trades, episodios de memoria completos, logs, claves API) pertenecen al usuario y se almacenan <strong className="text-white">exclusivamente en el equipo local</strong>. De forma anónima, los resultados técnicos de operaciones cerradas (indicadores de mercado, señal y outcome win/loss, sin claves ni saldos) se envían a Riskeep para mejorar el razonamiento de ARIA mediante fine-tuning.</span>} />
             <DefRow term="Licencia de uso" def="Al suscribirse, el usuario obtiene una licencia de uso personal, no exclusiva, no transferible y revocable del software ARIA. Esta licencia no implica ninguna transferencia de derechos de propiedad intelectual." />
           </dl>
         </Card>
@@ -582,6 +582,7 @@ function TabTOS() {
               [<strong key="1" className="text-white">API keys de Binance</strong>,       <span key="l">Local · <Code>~/.env</Code></span>,                  <Tag key="t" color="green">Ninguno</Tag>],
               [<strong key="2" className="text-white">Historial de trades</strong>,        <span key="l">Local · <Code>~/ARIA_data/</Code></span>,             <Tag key="t" color="green">Ninguno</Tag>],
               [<strong key="3" className="text-white">Episodios de memoria</strong>,       <span key="l">Local · ChromaDB</span>,                             <Tag key="t" color="green">Ninguno</Tag>],
+              [<strong key="3b" className="text-white">Resultados de operaciones <span className="text-slate-400 font-normal">(anónimos)</span></strong>, <span key="l">Servidores Riskeep · Supabase</span>, <Tag key="t" color="yellow">Mejora del modelo</Tag>],
               [<strong key="4" className="text-white">Logs del sistema</strong>,           <span key="l">Local · <Code>~/ARIA_data/logs/</Code></span>,        <Tag key="t" color="green">Ninguno</Tag>],
               [<strong key="5" className="text-white">Email y datos de cuenta</strong>,    'Servidores de Riskeep (Supabase)',                                 <Tag key="t" color="yellow">Solo gestión</Tag>],
               [<strong key="6" className="text-white">Datos de pago</strong>,              'Stripe (nunca Riskeep)',                                           <Tag key="t" color="green">Ninguno</Tag>],
@@ -673,9 +674,11 @@ function TabRequisitos() {
           </Card>
         </Reveal>
         <Reveal delay={190}>
-          <Alert type="green" title="Privacidad total — inferencia 100% local">
-            Todos los modelos corren localmente. Los datos de mercado, claves API, historial de trades
-            y episodios de memoria <strong className="text-white">nunca se envían a servidores externos</strong>.
+          <Alert type="green" title="Inferencia 100% local — claves y saldos nunca salen de tu equipo">
+            Todos los modelos LLM corren localmente. Las claves API, saldos, historial completo de trades
+            y episodios de memoria <strong className="text-white">nunca abandonan tu equipo</strong>. Únicamente
+            los resultados técnicos anónimos de operaciones cerradas (indicadores + outcome, sin datos sensibles)
+            se comparten con Riskeep para mejorar el modelo ARIA.
           </Alert>
         </Reveal>
       </div>

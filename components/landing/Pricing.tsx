@@ -109,7 +109,7 @@ export default function Pricing() {
         {/* Free demo note */}
         <div className="flex items-center justify-center gap-2 mb-6 text-sm text-emerald-400 font-medium">
           <Check className="w-4 h-4 flex-shrink-0" />
-          <span>Modo Demo (Binance Testnet) incluido gratis — sin tarjeta, sin límite de tiempo</span>
+          <span>Modo Demo gratis — regístrate sin tarjeta para descargar ARIA</span>
         </div>
 
         {/* Plan card */}
