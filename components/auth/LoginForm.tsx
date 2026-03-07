@@ -1,17 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
 
 export default function LoginForm() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
+  const searchParams = useSearchParams()
+  const plan = searchParams.get('plan') as 'monthly' | 'yearly' | null
+
+  const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [error, setError]       = useState('')
+  const [loading, setLoading]   = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -22,9 +25,28 @@ export default function LoginForm() {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('Email o contraseña incorrectos.')
+      if (error.message.toLowerCase().includes('email not confirmed')) {
+        setError('Confirma tu email antes de entrar. Revisa tu bandeja de entrada.')
+      } else {
+        setError('Email o contraseña incorrectos.')
+      }
       setLoading(false)
       return
+    }
+
+    // If user came from pricing, redirect straight to Stripe
+    if (plan === 'monthly' || plan === 'yearly') {
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan }),
+        })
+        const { url } = await res.json()
+        if (url) { window.location.href = url; return }
+      } catch {
+        // on error, fall through to dashboard
+      }
     }
 
     router.push('/dashboard')
@@ -69,15 +91,8 @@ export default function LoginForm() {
       )}
 
       <Button type="submit" size="lg" className="w-full" loading={loading}>
-        Iniciar sesión
+        {plan ? 'Iniciar sesión y suscribirse' : 'Iniciar sesión'}
       </Button>
-
-      <p className="text-center text-sm text-slate-500">
-        ¿Aún no tienes cuenta?{' '}
-        <Link href="/#pricing" className="text-blue-400 hover:text-blue-300 transition-colors">
-          Suscríbete aquí
-        </Link>
-      </p>
     </form>
   )
 }

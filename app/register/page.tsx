@@ -16,7 +16,7 @@ export default function RegisterPage() {
             <span className="text-white font-bold text-xl">Riskeep</span>
           </Link>
           <h1 className="text-2xl font-bold text-white">Crea tu cuenta</h1>
-          <p className="text-slate-400 text-sm">Usa el email con el que hiciste el pago</p>
+          <p className="text-slate-400 text-sm">Gratis · Empieza en modo demo</p>
         </div>
 
         <div className="p-8 rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm">
@@ -24,6 +24,13 @@ export default function RegisterPage() {
             <RegisterForm />
           </Suspense>
         </div>
+
+        <p className="text-center text-sm text-slate-500">
+          ¿Ya tienes cuenta?{' '}
+          <Link href="/login" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
+            Inicia sesión
+          </Link>
+        </p>
       </div>
     </div>
   )

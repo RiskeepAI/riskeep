@@ -9,6 +9,7 @@ export default function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
+  const plan      = searchParams.get('plan')
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -46,7 +47,10 @@ export default function RegisterForm() {
       return
     }
 
-    router.push(`/auth/verify?email=${encodeURIComponent(email)}`)
+    const verifyUrl = plan
+      ? `/auth/verify?email=${encodeURIComponent(email)}&plan=${plan}`
+      : `/auth/verify?email=${encodeURIComponent(email)}`
+    router.push(verifyUrl)
   }
 
   return (
