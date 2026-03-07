@@ -46,7 +46,7 @@ export default function RegisterForm() {
       return
     }
 
-    router.push('/dashboard?welcome=1')
+    router.push(`/auth/verify?email=${encodeURIComponent(email)}`)
   }
 
   return (
