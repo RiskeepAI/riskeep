@@ -5,10 +5,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
+import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useT()
   const plan = searchParams.get('plan') as 'monthly' | 'yearly' | null
 
   const [email, setEmail]       = useState('')
@@ -26,9 +28,9 @@ export default function LoginForm() {
 
     if (error) {
       if (error.message.toLowerCase().includes('email not confirmed')) {
-        setError('Confirma tu email antes de entrar. Revisa tu bandeja de entrada.')
+        setError(t.auth.loginErrConfirm)
       } else {
-        setError('Email o contraseña incorrectos.')
+        setError(t.auth.loginErrWrong)
       }
       setLoading(false)
       return
@@ -56,7 +58,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300">Email</label>
+        <label className="text-sm font-medium text-slate-300">{t.auth.loginEmail}</label>
         <input
           type="email"
           value={email}
@@ -69,9 +71,9 @@ export default function LoginForm() {
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-slate-300">Contraseña</label>
+          <label className="text-sm font-medium text-slate-300">{t.auth.loginPassword}</label>
           <Link href="/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
-            ¿Olvidaste tu contraseña?
+            {t.auth.loginForgot}
           </Link>
         </div>
         <input
@@ -91,7 +93,7 @@ export default function LoginForm() {
       )}
 
       <Button type="submit" size="lg" className="w-full" loading={loading}>
-        {plan ? 'Iniciar sesión y suscribirse' : 'Iniciar sesión'}
+        {plan ? t.auth.loginButtonPlan : t.auth.loginButton}
       </Button>
     </form>
   )

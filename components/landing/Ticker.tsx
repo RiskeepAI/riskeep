@@ -1,17 +1,8 @@
-const ITEMS = [
-  { icon: '⚡', text: 'Análisis en tiempo real' },
-  { icon: '🛡️', text: 'Stop loss automático' },
-  { icon: '📄', text: 'Modo paper gratuito' },
-  { icon: '🔗', text: 'Compatible con Binance' },
-  { icon: '📱', text: 'Alertas por Telegram' },
-  { icon: '🧠', text: 'IA de última generación' },
-  { icon: '📊', text: 'Win rate 64%+' },
-  { icon: '⏱️', text: 'Ejecución < 0.5s' },
-  { icon: '🔒', text: 'Claves locales, sin servidor' },
-  { icon: '🤖', text: 'ARIA opera 24/7' },
-  { icon: '🎯', text: 'Stop loss por ATR dinámico' },
-  { icon: '💼', text: 'Multi-par simultáneo' },
-]
+'use client'
+
+import { useT } from '@/lib/i18n/LanguageContext'
+
+const ICONS = ['⚡', '🛡️', '📄', '🔗', '📱', '🧠', '📈', '⚡', '🔒', '🤖', '📉', '🔀']
 
 function TickerItem({ icon, text }: { icon: string; text: string }) {
   return (
@@ -24,8 +15,9 @@ function TickerItem({ icon, text }: { icon: string; text: string }) {
 }
 
 export default function Ticker() {
-  // Duplicate items so the loop is seamless (animate-ticker moves -50%)
-  const all = [...ITEMS, ...ITEMS]
+  const t = useT()
+  const items = t.ticker.map((text, i) => ({ icon: ICONS[i] ?? '·', text }))
+  const all = [...items, ...items]
 
   return (
     <div className="relative py-5 border-y border-white/6 bg-white/[0.012] overflow-hidden">

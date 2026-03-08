@@ -4,18 +4,20 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
+import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useT()
   const sessionId = searchParams.get('session_id')
   const plan      = searchParams.get('plan')
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [name, setName]       = useState('')
+  const [email, setEmail]     = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError]     = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -23,11 +25,11 @@ export default function RegisterForm() {
     setError('')
 
     if (password !== confirm) {
-      setError('Las contraseñas no coinciden.')
+      setError(t.auth.registerErrMatch)
       return
     }
     if (password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres.')
+      setError(t.auth.registerErrShort)
       return
     }
 
@@ -58,24 +60,24 @@ export default function RegisterForm() {
       {sessionId && (
         <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm">
           <span>✓</span>
-          <span>Pago confirmado. Crea tu cuenta para acceder al launcher.</span>
+          <span>{t.auth.registerPaymentOk}</span>
         </div>
       )}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300">Nombre</label>
+        <label className="text-sm font-medium text-slate-300">{t.auth.registerName}</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Tu nombre"
+          placeholder={t.auth.registerNamePh}
           required
           className="w-full px-4 py-3 rounded-xl bg-white/6 border border-white/12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all text-sm"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300">Email</label>
+        <label className="text-sm font-medium text-slate-300">{t.auth.registerEmail}</label>
         <input
           type="email"
           value={email}
@@ -87,24 +89,24 @@ export default function RegisterForm() {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300">Contraseña</label>
+        <label className="text-sm font-medium text-slate-300">{t.auth.registerPassword}</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Mínimo 8 caracteres"
+          placeholder={t.auth.registerPassPh}
           required
           className="w-full px-4 py-3 rounded-xl bg-white/6 border border-white/12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all text-sm"
         />
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-300">Confirmar contraseña</label>
+        <label className="text-sm font-medium text-slate-300">{t.auth.registerConfirm}</label>
         <input
           type="password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
-          placeholder="Repite tu contraseña"
+          placeholder={t.auth.registerConfirmPh}
           required
           className="w-full px-4 py-3 rounded-xl bg-white/6 border border-white/12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/60 focus:bg-white/8 transition-all text-sm"
         />
@@ -117,7 +119,7 @@ export default function RegisterForm() {
       )}
 
       <Button type="submit" size="lg" className="w-full" loading={loading}>
-        Crear cuenta
+        {t.auth.registerButton}
       </Button>
     </form>
   )
