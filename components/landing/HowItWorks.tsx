@@ -1,45 +1,50 @@
-import AnimateIn from '@/components/ui/AnimateIn'
+'use client'
 
-const steps = [
-  {
-    step: '01',
-    title: 'Suscríbete',
-    description: 'Elige tu plan en riskeep.com y completa el pago en segundos con Stripe. Crea tu cuenta con el email que usaste.',
-    detail: 'Pago seguro · Cancela cuando quieras',
-    icon: '🔐',
-    color: 'from-blue-500 to-blue-600',
-    glow: 'shadow-blue-500/20',
-  },
-  {
-    step: '02',
-    title: 'Descarga y configura',
-    description: 'Descarga el launcher de ARIA para tu sistema. Conecta tu cuenta de Binance con una API key (sin permisos de retiro).',
-    detail: 'Windows · macOS · Modo paper disponible',
-    icon: '⚙️',
-    color: 'from-cyan-500 to-cyan-600',
-    glow: 'shadow-cyan-500/20',
-  },
-  {
-    step: '03',
-    title: 'ARIA opera por ti',
-    description: 'El agente analiza el mercado continuamente, identifica oportunidades con alta confianza y ejecuta las operaciones automáticamente.',
-    detail: 'IA en tiempo real · Stop loss automático',
-    icon: '🤖',
-    color: 'from-violet-500 to-violet-600',
-    glow: 'shadow-violet-500/20',
-  },
-]
+import AnimateIn from '@/components/ui/AnimateIn'
+import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function HowItWorks() {
+  const t = useT()
+
+  const steps = [
+    {
+      step:        '01',
+      title:       t.how.step1title,
+      description: t.how.step1desc,
+      detail:      t.how.step1badge,
+      icon:        '🔐',
+      color:       'from-blue-500 to-blue-600',
+      glow:        'shadow-blue-500/20',
+    },
+    {
+      step:        '02',
+      title:       t.how.step2title,
+      description: t.how.step2desc,
+      detail:      t.how.step2badge,
+      icon:        '⚙️',
+      color:       'from-cyan-500 to-cyan-600',
+      glow:        'shadow-cyan-500/20',
+    },
+    {
+      step:        '03',
+      title:       t.how.step3title,
+      description: t.how.step3desc,
+      detail:      t.how.step3badge,
+      icon:        '🤖',
+      color:       'from-violet-500 to-violet-600',
+      glow:        'shadow-violet-500/20',
+    },
+  ]
+
   return (
     <section id="how-it-works" className="py-28 px-6">
       <div className="max-w-5xl mx-auto">
 
         <AnimateIn className="text-center mb-16 space-y-4">
-          <div className="text-sm font-mono uppercase tracking-widest label-gradient">Cómo funciona</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white">En 3 pasos, listo</h2>
+          <div className="text-sm font-mono uppercase tracking-widest label-gradient">{t.how.chip}</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white">{t.how.title}</h2>
           <p className="max-w-xl mx-auto text-slate-400 text-lg">
-            Sin configuraciones complejas. Sin servidores que mantener. Solo descarga y funciona.
+            {t.how.subtitle}
           </p>
         </AnimateIn>
 

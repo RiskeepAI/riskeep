@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import { useT } from '@/lib/i18n/LanguageContext'
 
 function MiniChart() {
   const points = [
@@ -32,6 +33,8 @@ function MiniChart() {
 }
 
 export default function Hero() {
+  const t = useT()
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-24 overflow-hidden">
       {/* Background glows */}
@@ -45,35 +48,34 @@ export default function Hero() {
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <Badge variant="blue">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          Trading con Inteligencia Artificial
+          {t.hero.badge}
         </Badge>
 
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-          <span className="text-white">Tu agente de trading</span>
+          <span className="text-white">{t.hero.headline1}</span>
           <br />
           <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-            autónomo e inteligente
+            {t.hero.headline2}
           </span>
         </h1>
 
         <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-400 leading-relaxed">
-          <strong className="text-slate-200">ARIA</strong> analiza el mercado, gestiona el riesgo y ejecuta operaciones
-          por ti. Sin emociones, sin errores humanos. Solo estrategia.
+          <strong className="text-slate-200">ARIA</strong> {t.hero.subheadline}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
           <Link href="#pricing">
-            <Button size="lg">Empezar ahora →</Button>
+            <Button size="lg">{t.hero.ctaPrimary}</Button>
           </Link>
           <Link href="#how-it-works">
-            <Button size="lg" variant="secondary">Ver cómo funciona</Button>
+            <Button size="lg" variant="secondary">{t.hero.ctaSecondary}</Button>
           </Link>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-6 pt-2 text-sm text-slate-500">
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> Sin tarjeta para empezar</span>
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> Cancela cuando quieras</span>
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> Modo paper incluido</span>
+          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustNoCard}</span>
+          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustCancel}</span>
+          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustPaper}</span>
         </div>
       </div>
 
@@ -86,7 +88,7 @@ export default function Hero() {
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
               <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-              <span className="ml-2 text-[10px] text-slate-500 font-mono">ARIA Dashboard</span>
+              <span className="ml-2 text-[10px] text-slate-500 font-mono">{t.hero.dashTitle}</span>
             </div>
             <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -98,10 +100,10 @@ export default function Hero() {
             {/* Stats grid */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               {([
-                { label: 'Capital',  value: '$2,450',  cls: 'text-white'       },
-                { label: 'PnL Hoy',  value: '+$84.20', cls: 'text-emerald-400' },
-                { label: 'Win Rate', value: '64.2%',   cls: 'text-white'       },
-                { label: 'Drawdown', value: '1.2%',    cls: 'text-yellow-400'  },
+                { label: t.hero.dashCapital,  value: '$2,450',  cls: 'text-white'       },
+                { label: t.hero.dashPnlToday, value: '+$84.20', cls: 'text-emerald-400' },
+                { label: t.hero.dashWinRate,  value: '64.2%',   cls: 'text-white'       },
+                { label: t.hero.dashDrawdown, value: '1.2%',    cls: 'text-yellow-400'  },
               ] as { label: string; value: string; cls: string }[]).map(({ label, value, cls }) => (
                 <div key={label} className="bg-white/4 rounded-lg p-3 border border-white/6">
                   <div className="text-slate-500 text-[10px] uppercase mb-1">{label}</div>
@@ -116,10 +118,10 @@ export default function Hero() {
                 <span className="px-2 py-0.5 rounded text-[9px] bg-red-500/15 text-red-300 border border-red-500/25">SHORT</span>
               </div>
               <div className="flex justify-between text-[10px] text-slate-500 mb-2">
-                <span>Entrada: <span className="text-slate-300">$97,432</span></span>
+                <span>{t.hero.dashEntry} <span className="text-slate-300">$97,432</span></span>
                 <span className="text-emerald-400 font-bold">+$47.20</span>
               </div>
-              <div className="text-[10px] text-slate-500 mb-1">Confianza ARIA — 85%</div>
+              <div className="text-[10px] text-slate-500 mb-1">{t.hero.dashAriaConf}</div>
               <div className="h-1.5 bg-white/8 rounded-full overflow-hidden">
                 <div className="h-full w-[85%] bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full" />
               </div>
@@ -127,8 +129,8 @@ export default function Hero() {
             {/* ARIA snippet */}
             <div className="bg-white/3 rounded-lg p-3 border border-white/6 text-[10px] text-slate-400 leading-relaxed">
               <span className="text-blue-300 block mb-1">🤖 ARIA — 17:13:48</span>
-              RSI 68.4 sobrecompra · Three Black Crows confirmado ·{' '}
-              <span className="text-emerald-300">Abriendo SHORT con confianza alta</span>
+              {t.hero.dashAriaSnippetMobile}{' '}
+              <span className="text-emerald-300">{t.hero.dashAriaOpening}</span>
             </div>
           </div>
         </div>
@@ -143,12 +145,12 @@ export default function Hero() {
               <div className="w-3 h-3 rounded-full bg-red-500/70" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
               <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-3 text-xs text-slate-500 font-mono">Riskeep — ARIA Dashboard</span>
+              <span className="ml-3 text-xs text-slate-500 font-mono">Riskeep — {t.hero.dashTitle}</span>
             </div>
             <div className="flex items-center gap-3 text-xs font-mono">
               <span className="flex items-center gap-1.5 text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Conectado · PAPER
+                {t.hero.dashConnected}
               </span>
               <span className="text-slate-600">17:14:03</span>
             </div>
@@ -156,7 +158,7 @@ export default function Hero() {
 
           {/* Nav tabs */}
           <div className="flex items-center gap-1 px-4 pt-2 border-b border-white/6 bg-[#040b1c]">
-            {['⚡ Dashboard', '🕯️ Velas', '🧠 Memoria', '📊 Performance'].map((tab, i) => (
+            {[t.hero.dashTabDash, t.hero.dashTabCandles, t.hero.dashTabMemory, t.hero.dashTabPerf].map((tab, i) => (
               <div
                 key={tab}
                 className={`px-4 py-2 text-xs font-mono rounded-t-lg transition-colors ${
@@ -175,36 +177,36 @@ export default function Hero() {
 
             {/* Portfolio */}
             <div className="col-span-3 bg-[#040b1c] p-4 space-y-3">
-              <div className="text-slate-500 uppercase tracking-widest text-[10px]">💼 Portfolio</div>
+              <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashPortfolio}</div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">Capital</div>
+                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashCapital}</div>
                   <div className="text-white font-bold text-sm mt-0.5">$2,450</div>
                 </div>
                 <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">PnL Hoy</div>
+                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashPnlToday}</div>
                   <div className="text-emerald-400 font-bold text-sm mt-0.5">+$84.20</div>
                 </div>
                 <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">Drawdown</div>
+                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashDrawdown}</div>
                   <div className="text-yellow-400 font-bold text-sm mt-0.5">1.2%</div>
                 </div>
                 <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">Posiciones</div>
+                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashPositions}</div>
                   <div className="text-white font-bold text-sm mt-0.5">2 / 3</div>
                 </div>
               </div>
               <div className="bg-white/4 rounded-lg p-2.5 border border-white/6 space-y-1.5">
                 <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">Win Rate</span>
+                  <span className="text-slate-500">{t.hero.dashWinRate}</span>
                   <span className="text-emerald-400">64.2%</span>
                 </div>
                 <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">Episodios</span>
+                  <span className="text-slate-500">{t.hero.dashEpisodes}</span>
                   <span className="text-slate-300">312</span>
                 </div>
                 <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">PnL Total</span>
+                  <span className="text-slate-500">{t.hero.dashPnlTotal}</span>
                   <span className="text-emerald-400">+$1,284</span>
                 </div>
               </div>
@@ -212,7 +214,7 @@ export default function Hero() {
 
             {/* Analysis */}
             <div className="col-span-5 bg-[#040b1c] p-4 space-y-3">
-              <div className="text-slate-500 uppercase tracking-widest text-[10px]">📊 Análisis de Mercado</div>
+              <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashMarketAnalysis}</div>
               <div className="flex gap-1">
                 {['BTC/USDT', 'ETH/USDT', 'SOL/USDT'].map((sym, i) => (
                   <div key={sym} className={`px-2.5 py-1 rounded-lg text-[9px] ${
@@ -239,17 +241,17 @@ export default function Hero() {
                 <div className="bg-white/4 rounded-lg p-2 border border-white/6">
                   <div className="text-slate-500 text-[9px]">RSI (14)</div>
                   <div className="text-yellow-400 font-bold text-sm">68.4</div>
-                  <div className="text-[8px] text-yellow-400/70">Sobrecompra</div>
+                  <div className="text-[8px] text-yellow-400/70">{t.hero.dashOverbought}</div>
                 </div>
                 <div className="bg-white/4 rounded-lg p-2 border border-white/6">
-                  <div className="text-slate-500 text-[9px]">Tendencia</div>
-                  <div className="text-red-400 font-bold text-sm">Bajista</div>
+                  <div className="text-slate-500 text-[9px]">{t.hero.dashTrend}</div>
+                  <div className="text-red-400 font-bold text-sm">{t.hero.dashBearish}</div>
                   <div className="text-[8px] text-slate-500">EMA 9/21</div>
                 </div>
                 <div className="bg-white/4 rounded-lg p-2 border border-white/6">
-                  <div className="text-slate-500 text-[9px]">Patrón</div>
+                  <div className="text-slate-500 text-[9px]">{t.hero.dashPattern}</div>
                   <div className="text-white font-bold text-[10px] leading-tight">Three Black Crows</div>
-                  <div className="text-[8px] text-emerald-400">Conf: 85%</div>
+                  <div className="text-[8px] text-emerald-400">{t.hero.dashConfidence}: 85%</div>
                 </div>
               </div>
             </div>
@@ -257,16 +259,15 @@ export default function Hero() {
             {/* Right: reasoning + positions */}
             <div className="col-span-4 bg-[#040b1c] flex flex-col divide-y divide-white/5">
               <div className="p-4 space-y-2 flex-1">
-                <div className="text-slate-500 uppercase tracking-widest text-[10px]">🤖 Razonamiento ARIA</div>
+                <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashReasoning}</div>
                 <div className="text-slate-400 text-[9px] leading-relaxed bg-white/3 rounded-lg p-2.5 border border-white/6">
                   <span className="text-blue-300">17:13:48 — BTC/USDT</span>
                   <br />
-                  RSI en sobrecompra (68.4), patrón Three Black Crows confirmando tendencia bajista. Volumen 1.2x.
-                  Stop: <span className="text-emerald-300">$95,820</span>. TP: <span className="text-cyan-300">$94,100</span>. Confianza alta — abriendo SHORT.
+                  {t.hero.dashAriaSnippet}
                 </div>
                 <div className="space-y-1">
                   <div className="flex justify-between text-[9px]">
-                    <span className="text-slate-500">Confianza</span>
+                    <span className="text-slate-500">{t.hero.dashConfidence}</span>
                     <span className="text-emerald-400">85%</span>
                   </div>
                   <div className="h-1 bg-white/8 rounded-full overflow-hidden">
@@ -275,7 +276,7 @@ export default function Hero() {
                 </div>
               </div>
               <div className="p-4 space-y-2">
-                <div className="text-slate-500 uppercase tracking-widest text-[10px]">📋 Posiciones Abiertas</div>
+                <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashOpenPos}</div>
                 {[
                   { pair: 'BTC/USDT', side: 'SHORT', entry: '$97,432', sl: '$99,100', tp: '$94,100', pnl: '+$47.20' },
                   { pair: 'ETH/USDT', side: 'SHORT', entry: '$2,680',  sl: '$2,750',  tp: '$2,540',  pnl: '+$37.00' },

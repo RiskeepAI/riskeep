@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState('')
-  const [sent, setSent] = useState(false)
+  const t = useT()
+  const [email, setEmail]     = useState('')
+  const [sent, setSent]       = useState(false)
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -32,19 +34,19 @@ export default function ForgotPasswordPage() {
             </div>
             <span className="text-white font-bold text-lg">Riskeep</span>
           </Link>
-          <h1 className="text-2xl font-bold text-white">Recuperar contraseña</h1>
-          <p className="text-slate-400 text-sm">Te enviamos un enlace para restablecer tu contraseña.</p>
+          <h1 className="text-2xl font-bold text-white">{t.auth.forgotTitle}</h1>
+          <p className="text-slate-400 text-sm">{t.auth.forgotSubtitle}</p>
         </div>
 
         {sent ? (
           <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm text-center space-y-2">
-            <p className="font-medium">¡Email enviado!</p>
-            <p className="text-emerald-400/70">Revisa tu bandeja de entrada (y la carpeta de spam).</p>
+            <p className="font-medium">{t.auth.forgotSuccessTitle}</p>
+            <p className="text-emerald-400/70">{t.auth.forgotSuccessDesc}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">Email</label>
+              <label className="text-sm font-medium text-slate-300">{t.auth.forgotEmailLabel}</label>
               <input
                 type="email"
                 value={email}
@@ -60,14 +62,14 @@ export default function ForgotPasswordPage() {
               disabled={loading}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {loading ? 'Enviando...' : 'Enviar enlace'}
+              {loading ? t.auth.forgotSending : t.auth.forgotButton}
             </button>
           </form>
         )}
 
         <p className="text-center text-sm text-slate-500">
           <Link href="/login" className="text-blue-400 hover:text-blue-300 transition-colors">
-            ← Volver al login
+            {t.auth.forgotBack}
           </Link>
         </p>
       </div>
