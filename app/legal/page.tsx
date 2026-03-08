@@ -6,7 +6,7 @@ import {
   AlertTriangle, Shield, Monitor, Brain, Puzzle,
   Gamepad2, BarChart3, Wrench, MessageSquare,
   ArrowLeft, Apple, AppWindow, Terminal,
-  Lock, Info, ChevronRight, FileText,
+  Lock, Info, ChevronRight, FileText, Download,
   UserCheck, Key, Globe, CreditCard,
   Database, Scale, BookOpen, Copyright,
 } from 'lucide-react'
@@ -745,6 +745,24 @@ function TabInstalacion() {
           </div>
         </Card>
       </Reveal>
+
+      {process.env.NEXT_PUBLIC_ARIA_GUIDE_URL && (
+        <Reveal delay={240}>
+          <a
+            href={process.env.NEXT_PUBLIC_ARIA_GUIDE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-5 py-3.5 rounded-xl border border-blue-500/25 bg-blue-500/6 hover:bg-blue-500/12 hover:border-blue-500/40 transition-all duration-200 group"
+          >
+            <Download className="w-4 h-4 text-blue-400 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm text-white group-hover:text-blue-300 transition-colors font-medium">{t.legal.instGuide}</p>
+              <p className="text-xs text-slate-500">{t.legal.instGuideDesc}</p>
+            </div>
+            <span className="text-xs font-mono px-2 py-0.5 rounded border border-blue-500/25 text-blue-400/70">PDF</span>
+          </a>
+        </Reveal>
+      )}
 
       <Divider />
 

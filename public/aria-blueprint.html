@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>ARIA — Guía Completa de Usuario · Riskeep</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    @page { size:A4; margin:0; }
+    body {
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
+      background:#020810; color:#e2e8f0;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+
+    /* ── PAGES ─────────────────────────────────────── */
+    .page {
+      width:210mm; min-height:297mm; padding:14mm 16mm 12mm;
+      page-break-after:always; position:relative; background:#020810; overflow:hidden;
+    }
+    .page:last-child { page-break-after:avoid; }
+
+    /* ── AMBIENT ORBS ──────────────────────────────── */
+    .orb {
+      position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none;
+    }
+
+    /* ── TYPOGRAPHY ────────────────────────────────── */
+    h1 { font-size:22px; font-weight:800; color:#f1f5f9; line-height:1.15; }
+    h2 { font-size:13px; font-weight:700; color:#f1f5f9; }
+    h3 { font-size:11px; font-weight:700; color:#f1f5f9; }
+    p  { font-size:10px; color:#94a3b8; line-height:1.6; }
+    li { font-size:10px; color:#94a3b8; line-height:1.55; }
+    strong { color:#e2e8f0; font-weight:600; }
+    code {
+      font-family:monospace; font-size:9.5px;
+      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+      border-radius:4px; padding:1px 5px; color:#67e8f9;
+    }
+
+    /* ── BADGES ────────────────────────────────────── */
+    .badge {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:8.5px; font-family:monospace; letter-spacing:.13em; text-transform:uppercase;
+      padding:3px 10px; border-radius:99px; border:1px solid;
+    }
+    .badge-blue  {background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd;}
+    .badge-cyan  {background:rgba(6,182,212,.10);border-color:rgba(6,182,212,.28);color:#67e8f9;}
+    .badge-green {background:rgba(16,185,129,.10);border-color:rgba(16,185,129,.28);color:#6ee7b7;}
+    .badge-amber {background:rgba(245,158,11,.10);border-color:rgba(245,158,11,.28);color:#fcd34d;}
+    .badge-rose  {background:rgba(239,68,68,.10);border-color:rgba(239,68,68,.28);color:#fca5a5;}
+    .badge-purple{background:rgba(147,51,234,.12);border-color:rgba(147,51,234,.3);color:#c4b5fd;}
+    .badge-slate {background:rgba(100,116,139,.10);border-color:rgba(100,116,139,.28);color:#94a3b8;}
+
+    /* ── CARDS ─────────────────────────────────────── */
+    .card {
+      background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+      border-radius:12px; padding:11px 13px;
+    }
+    .card-blue  {background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.18);}
+    .card-green {background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.18);}
+    .card-red   {background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.18);}
+    .card-amber {background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.18);}
+    .card-cyan  {background:rgba(6,182,212,.06);border-color:rgba(6,182,212,.18);}
+    .card-purple{background:rgba(147,51,234,.06);border-color:rgba(147,51,234,.18);}
+
+    /* ── SECTION HEADER BAND ───────────────────────── */
+    .band {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:8px 12px; border-radius:10px; margin-bottom:11px;
+    }
+    .band-blue  {background:rgba(59,130,246,.10);border:1px solid rgba(59,130,246,.22);}
+    .band-green {background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.20);}
+    .band-amber {background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.20);}
+    .band-rose  {background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.20);}
+    .band-cyan  {background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.20);}
+    .band-purple{background:rgba(147,51,234,.08);border:1px solid rgba(147,51,234,.20);}
+    .band h2 { font-size:13px; }
+    .band .pn { font-family:monospace; font-size:10px; color:#475569; }
+
+    /* ── TABLE ─────────────────────────────────────── */
+    table { width:100%; border-collapse:collapse; font-size:9.5px; }
+    thead th {
+      text-align:left; font-family:monospace; font-size:8px; letter-spacing:.14em;
+      text-transform:uppercase; color:#475569; padding:6px 8px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    tbody td {
+      padding:6px 8px; border-bottom:1px solid rgba(255,255,255,.05);
+      color:#94a3b8; vertical-align:top; line-height:1.45;
+    }
+    tbody tr:last-child td { border-bottom:none; }
+    tbody tr:hover td { background:rgba(255,255,255,.02); }
+    td strong { color:#e2e8f0; }
+
+    /* ── CHECK LIST ────────────────────────────────── */
+    .clist { list-style:none; display:flex; flex-direction:column; gap:5px; }
+    .clist li { display:flex; align-items:flex-start; gap:7px; font-size:10px; }
+    .ico {
+      flex-shrink:0; width:16px; height:16px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:8px; margin-top:1px;
+    }
+    .ico-ok  {background:rgba(16,185,129,.18);color:#34d399;}
+    .ico-no  {background:rgba(239,68,68,.18);color:#f87171;}
+    .ico-tip {background:rgba(59,130,246,.18);color:#93c5fd;}
+    .ico-warn{background:rgba(245,158,11,.18);color:#fcd34d;}
+
+    /* ── GRIDS ─────────────────────────────────────── */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+    .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;}
+
+    /* ── DIVIDER ───────────────────────────────────── */
+    .div {height:1px;margin:9px 0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);}
+
+    /* ── LOGO BAR ──────────────────────────────────── */
+    .logo-bar {display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+    .logo-icon {
+      width:26px; height:26px; border-radius:7px;
+      background:linear-gradient(135deg,#3b82f6,#06b6d4);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; color:white; font-size:13px;
+    }
+    .logo-name {font-weight:800;font-size:14px;color:#f1f5f9;}
+    .logo-tag  {font-size:8.5px;color:#475569;font-family:monospace;margin-left:4px;}
+
+    /* ── PAGE FOOTER ───────────────────────────────── */
+    .pfooter {
+      position:absolute; bottom:8mm; left:16mm; right:16mm;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .pfooter span { font-size:7.5px; color:#334155; font-family:monospace; }
+
+    /* ── STAT BOX ──────────────────────────────────── */
+    .stat { text-align:center; padding:8px 6px; }
+    .stat .val { font-size:17px; font-weight:800; color:#3b82f6; }
+    .stat .lbl { font-size:8.5px; color:#64748b; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+
+    /* ── MODE BADGE ────────────────────────────────── */
+    .mode-row { display:flex; align-items:flex-start; gap:9px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+    .mode-row:last-child { border-bottom:none; }
+    .mode-chip {
+      flex-shrink:0; font-family:monospace; font-size:9px; font-weight:700;
+      padding:2px 8px; border-radius:5px; border:1px solid; margin-top:1px;
+    }
+
+    /* ── TOC ITEM ──────────────────────────────────── */
+    .toc-item {
+      display:flex; align-items:center; gap:10px; padding:7px 10px;
+      border-radius:9px; border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02); margin-bottom:5px;
+      text-decoration:none;
+    }
+    .toc-num {
+      width:24px; height:24px; border-radius:50%; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-mono:monospace; font-size:10px; font-weight:700;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     COVER PAGE
+     ═══════════════════════════════════════════════ -->
+<div class="page" style="display:flex;flex-direction:column;justify-content:space-between;padding:0;">
+
+  <!-- Top brand band -->
+  <div style="padding:10mm 14mm 0;display:flex;align-items:center;justify-content:space-between;">
+    <div class="logo-bar" style="margin-bottom:0;">
+      <div class="logo-icon" style="width:32px;height:32px;font-size:15px;">R</div>
+      <span style="font-weight:800;font-size:16px;color:#f1f5f9;">Riskeep</span>
+    </div>
+    <span style="font-family:monospace;font-size:9px;color:#334155;">ARIA v5.0 · 2025</span>
+  </div>
+
+  <!-- Center hero -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 14mm;position:relative;">
+
+    <!-- Ambient orbs -->
+    <div class="orb" style="width:360px;height:360px;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(59,130,246,.09);"></div>
+    <div class="orb" style="width:200px;height:200px;top:20%;right:10%;background:rgba(6,182,212,.06);"></div>
+    <div class="orb" style="width:160px;height:160px;bottom:20%;left:5%;background:rgba(147,51,234,.06);"></div>
+
+    <!-- Decorative SVG -->
+    <svg viewBox="0 0 420 420" width="220" style="position:absolute;opacity:.07;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="210" cy="210" r="180" fill="none" stroke="#3b82f6" stroke-width="1"/>
+      <circle cx="210" cy="210" r="140" fill="none" stroke="#06b6d4" stroke-width="0.8"/>
+      <circle cx="210" cy="210" r="100" fill="none" stroke="#3b82f6" stroke-width="0.6"/>
+      <line x1="210" y1="30" x2="210" y2="390" stroke="#3b82f6" stroke-width="0.5"/>
+      <line x1="30" y1="210" x2="390" y2="210" stroke="#3b82f6" stroke-width="0.5"/>
+      <line x1="83" y1="83" x2="337" y2="337" stroke="#06b6d4" stroke-width="0.5"/>
+      <line x1="337" y1="83" x2="83" y2="337" stroke="#06b6d4" stroke-width="0.5"/>
+      <polygon points="210,90 316,150 316,270 210,330 104,270 104,150" fill="none" stroke="#3b82f6" stroke-width="0.7"/>
+    </svg>
+
+    <!-- Big R logo -->
+    <div style="position:relative;width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#1d4ed8,#0891b2);display:flex;align-items:center;justify-content:center;box-shadow:0 0 60px rgba(59,130,246,.3),0 0 120px rgba(59,130,246,.1);margin-bottom:22px;">
+      <span style="color:white;font-weight:900;font-size:44px;line-height:1;">R</span>
+    </div>
+
+    <div class="badge badge-cyan" style="margin-bottom:14px;font-size:9px;">📖 Guía Completa de Usuario</div>
+
+    <h1 style="font-size:26px;margin-bottom:10px;line-height:1.1;">
+      <span style="background:linear-gradient(90deg,#3b82f6,#06b6d4,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+        ARIA
+      </span>
+      — Trading Autónomo<br>con IA Local
+    </h1>
+
+    <p style="font-size:11px;color:#64748b;max-width:340px;line-height:1.7;margin-bottom:20px;">
+      Arquitectura, instalación, configuración de riesgo y operativa completa para Binance Futures con inteligencia artificial local.
+    </p>
+
+    <div class="g3" style="max-width:340px;gap:8px;">
+      <div class="card stat" style="padding:8px 5px;">
+        <div class="val" style="font-size:14px;">~13 GB</div>
+        <div class="lbl" style="font-size:7.5px;">Modelos locales</div>
+      </div>
+      <div class="card stat" style="padding:8px 5px;">
+        <div class="val" style="font-size:14px;color:#06b6d4;">5 modos</div>
+        <div class="lbl" style="font-size:7.5px;">de operación</div>
+      </div>
+      <div class="card stat" style="padding:8px 5px;">
+        <div class="val" style="font-size:14px;color:#8b5cf6;">100%</div>
+        <div class="lbl" style="font-size:7.5px;">datos locales</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px;justify-content:center;position:relative;z-index:1;">
+      <a href="#es-toc" style="display:inline-flex;align-items:center;gap:7px;padding:10px 26px;border-radius:11px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.38);color:#93c5fd;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.04em;">🇪🇸 &nbsp;Español</a>
+      <a href="#en-toc" style="display:inline-flex;align-items:center;gap:7px;padding:10px 26px;border-radius:11px;background:rgba(147,51,234,.15);border:1px solid rgba(147,51,234,.38);color:#c4b5fd;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.04em;">🇬🇧 &nbsp;English</a>
+    </div>
+  </div>
+
+  <!-- Bottom band -->
+  <div style="background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.07);padding:8mm 14mm;display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <p style="font-size:9px;color:#64748b;font-family:monospace;">ARIA v5.0 · Riskeep · riskeep.com</p>
+      <p style="font-size:8px;color:#334155;margin-top:2px;">© 2025 Riskeep. Este documento es confidencial para usuarios con suscripción activa.</p>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <span class="badge badge-blue">macOS</span>
+      <span class="badge badge-slate">Windows</span>
+      <span class="badge badge-amber">Linux</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 2 — TABLE OF CONTENTS
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-toc">
+  <div class="orb" style="width:200px;height:200px;top:-60px;right:-40px;background:rgba(59,130,246,.06);"></div>
+
+  <div class="logo-bar">
+    <div class="logo-icon">R</div>
+    <span class="logo-name">Riskeep</span>
+    <span class="logo-tag">— ARIA v5.0</span>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <div class="badge badge-slate" style="margin-bottom:7px;">📋 Índice de contenidos</div>
+    <h1 style="font-size:18px;margin-bottom:4px;">Tabla de contenidos</h1>
+    <p style="font-size:9.5px;color:#475569;">Guía completa de instalación, configuración y operativa de ARIA</p>
+  </div>
+
+  <!-- TOC entries -->
+  <div style="margin-bottom:14px;">
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#67e8f9;">1</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Arquitectura del sistema</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Diagrama de flujo completo · Capas del motor · Componentes clave</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 3</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;">2</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Configuración de API Key en Binance</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Permisos a activar · Qué nunca tocar · Rate limits y bans</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 4</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;">3</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">La Regla de la Bolsa Aislada</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Separación de capital · Freno de emergencia · Consolidación de ganancias</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 5</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#fcd34d;">4</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Risk Manager — Parámetros y modos de operación</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Tabla de configuración · OBSERVE / MANUAL / AUTO / PAPER / REAL</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 6</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(147,51,234,.12);border:1px solid rgba(147,51,234,.25);color:#c4b5fd;">5</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Ollama, modelos LLM y dashboard local</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Modelos requeridos · Dashboard en localhost:8080 · Checklist post-instalación</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 7</span>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- Prerequisites -->
+  <div style="margin-bottom:12px;">
+    <div class="badge badge-amber" style="margin-bottom:8px;">⚠️ Antes de empezar</div>
+    <div class="g2" style="gap:8px;">
+      <div class="card card-amber" style="padding:9px 11px;">
+        <h3 style="color:#fcd34d;margin-bottom:5px;">Requisitos mínimos de hardware</h3>
+        <ul class="clist">
+          <li><div class="ico ico-ok">✓</div><div><strong>CPU:</strong> Apple Silicon M1 / AMD Ryzen 5 3600+ / Intel i7-8700+</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>RAM:</strong> 16 GB mínimo · 32 GB recomendado</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Disco:</strong> 20 GB libres (modelos ~13 GB + datos)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ · Windows 11 · Ubuntu 22.04+</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> Para descarga inicial y conexión a Binance WS</div></li>
+        </ul>
+      </div>
+      <div class="card" style="padding:9px 11px;">
+        <h3 style="margin-bottom:5px;">Cuentas necesarias</h3>
+        <ul class="clist">
+          <li><div class="ico ico-ok">✓</div><div><strong>Riskeep</strong> — Suscripción activa en riskeep.com</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Binance Testnet</strong> — Cuenta gratuita en testnet.binance.vision (para PAPER)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Binance Mainnet</strong> — Solo necesaria para modo REAL, tras 30 días en PAPER</div></li>
+          <li><div class="ico ico-tip">i</div><div><strong>Telegram</strong> — Opcional. Para notificaciones de trades en tiempo real</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick reference -->
+  <div class="card card-blue" style="padding:10px 12px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <span style="font-size:12px;">📍</span>
+      <h3 style="color:#93c5fd;">Rutas clave del sistema</h3>
+    </div>
+    <div class="g2" style="gap:6px;">
+      <div><p style="font-size:9px;"><code>~/.aria/session.json</code> — Sesión y token de acceso</p></div>
+      <div><p style="font-size:9px;"><code>~/.env</code> — Claves API de Binance y Telegram</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/episodes/</code> — Episodios de trading (JSON)</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/logs/</code> — Logs del sistema ARIA</p></div>
+      <div><p style="font-size:9px;"><code>~/.ollama/models/</code> — Modelos LLM descargados</p></div>
+      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — Dashboard web de ARIA</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter">
+    <span>riskeep.com · ARIA — Guía Completa de Usuario</span>
+    <span>Página 2 / 7</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 3 — ARCHITECTURE
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-arch">
+  <div class="orb" style="width:300px;height:300px;top:-100px;left:50%;transform:translateX(-50%);background:rgba(59,130,246,.07);"></div>
+
+  <div class="logo-bar">
+    <div class="logo-icon">R</div>
+    <span class="logo-name">Riskeep</span>
+    <span class="logo-tag">— ARIA v5.0</span>
+  </div>
+
+  <div class="band band-cyan">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🏗️</span>
+      <div>
+        <h2>Arquitectura del sistema</h2>
+        <p style="font-size:9px;color:#64748b;margin-top:1px;">Flujo completo desde los datos de Binance hasta la ejecución de órdenes</p>
+      </div>
+    </div>
+    <span class="pn">01 / 05</span>
+  </div>
+
+  <div class="card" style="padding:10px 12px;margin-bottom:11px;">
+    <svg viewBox="0 0 640 352" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <defs>
+        <marker id="a0" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(99,130,200,.65)"/></marker>
+        <marker id="ac" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(6,182,212,.75)"/></marker>
+        <marker id="ag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.75)"/></marker>
+      </defs>
+      <!-- Binance WS -->
+      <rect x="8" y="6" width="624" height="46" rx="8" fill="rgba(6,182,212,.09)" stroke="rgba(6,182,212,.3)" stroke-width="1"/>
+      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BINANCE WEBSOCKET FEED</text>
+      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · BNBUSDT — velas 5m · Order Book L2 · Funding Rate</text>
+      <!-- Arrow -->
+      <line x1="320" y1="52" x2="320" y2="72" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#a0)"/>
+      <text x="328" y="65" fill="#334155" font-size="8" font-family="monospace">OHLCV + Vol</text>
+      <!-- Market Analysis -->
+      <rect x="8" y="73" width="624" height="56" rx="8" fill="rgba(59,130,246,.09)" stroke="rgba(59,130,246,.28)" stroke-width="1"/>
+      <text x="320" y="93" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">ANÁLISIS DE MERCADO</text>
+      <text x="320" y="108" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">RSI · MACD · Bollinger Bands · EMA · Patrones de velas · Volumen relativo</text>
+      <text x="320" y="122" text-anchor="middle" fill="#7dd3fc" font-size="9.5" font-weight="600">Score 0–100 pts · Señal de entrada + Contexto de mercado</text>
+      <!-- Fork arrows -->
+      <path d="M 160,129 L 160,152" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#a0)"/>
+      <text x="100" y="144" fill="#334155" font-size="8" font-family="monospace">Score+ctx</text>
+      <path d="M 500,129 L 500,152" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#a0)"/>
+      <text x="506" y="144" fill="#334155" font-size="8" font-family="monospace">patrón</text>
+      <!-- LLM -->
+      <rect x="8" y="153" width="288" height="60" rx="8" fill="rgba(147,51,234,.09)" stroke="rgba(147,51,234,.28)" stroke-width="1"/>
+      <text x="152" y="172" text-anchor="middle" fill="#c4b5fd" font-size="10.5" font-weight="700" font-family="monospace">LLM ENGINE</text>
+      <text x="152" y="186" text-anchor="middle" fill="#7c3aed" font-size="9" font-family="monospace">qwen2.5:14b · phi4-mini · LoRA adapters</text>
+      <text x="152" y="200" text-anchor="middle" fill="#94a3b8" font-size="8.5">Razonamiento · BUY / SELL / HOLD + Confianza %</text>
+      <!-- Memory -->
+      <rect x="344" y="153" width="288" height="60" rx="8" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.25)" stroke-width="1"/>
+      <text x="488" y="172" text-anchor="middle" fill="#5eead4" font-size="10.5" font-weight="700" font-family="monospace">MEMORIA VECTORIAL</text>
+      <text x="488" y="186" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">ChromaDB · nomic-embed-text</text>
+      <text x="488" y="200" text-anchor="middle" fill="#94a3b8" font-size="8.5">Episodios pasados · Win rate por patrón · Lecciones</text>
+      <!-- Horizontal arrow Memory → LLM -->
+      <line x1="344" y1="181" x2="298" y2="181" stroke="rgba(6,182,212,.6)" stroke-width="1.5" marker-end="url(#ac)"/>
+      <text x="315" y="177" text-anchor="middle" fill="#0e7490" font-size="7.5" font-family="monospace">contexto</text>
+      <!-- Arrow LLM → Risk Manager -->
+      <path d="M 152,213 L 152,238 L 320,238 L 320,249" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#a0)"/>
+      <text x="248" y="235" fill="#334155" font-size="8" font-family="monospace">decisión + confianza</text>
+      <!-- Risk Manager -->
+      <rect x="8" y="250" width="624" height="50" rx="8" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1"/>
+      <text x="320" y="270" text-anchor="middle" fill="#fcd34d" font-size="10.5" font-weight="700" font-family="monospace">RISK MANAGER</text>
+      <text x="320" y="284" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Sizing · Drawdown · Stop-loss dinámico · Trailing stop · Pausa automática por racha</text>
+      <text x="320" y="296" text-anchor="middle" fill="#92400e" font-size="8.5">Solo ejecuta si TODOS los límites de riesgo se respetan</text>
+      <!-- Arrow to Execution -->
+      <line x1="320" y1="300" x2="320" y2="318" stroke="rgba(16,185,129,.65)" stroke-width="1.5" marker-end="url(#ag)"/>
+      <!-- Execution -->
+      <rect x="8" y="319" width="624" height="28" rx="8" fill="rgba(16,185,129,.09)" stroke="rgba(16,185,129,.28)" stroke-width="1"/>
+      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BINANCE API — EJECUCIÓN DE ÓRDENES</text>
+      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Futures · Post-only optional · PAPER (Testnet) | REAL (Mainnet)</text>
+    </svg>
+  </div>
+
+  <div class="g2" style="gap:7px;">
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-cyan" style="margin-bottom:4px;font-size:7.5px;">Capa 1 · Datos</div><p style="font-size:9px;">WebSocket persistente. Reconexión automática. OHLCV en tiempo real sin polling REST.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-blue" style="margin-bottom:4px;font-size:7.5px;">Capa 2 · Análisis</div><p style="font-size:9px;">Score 0-100 que filtra señales débiles antes de invocar al LLM, ahorrando inferencia innecesaria.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-purple" style="margin-bottom:4px;font-size:7.5px;">Capa 3 · IA Local</div><p style="font-size:9px;">LLM completamente offline. LoRA adapters especializados en patrones BTC y gestión de riesgo.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-amber" style="margin-bottom:4px;font-size:7.5px;">Capa 4 · Riesgo</div><p style="font-size:9px;">Barrera independiente del LLM. Si los límites se exceden, la orden nunca llega al mercado.</p></div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Guía Completa de Usuario</span><span>Página 3 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 4 — API SECURITY
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-api">
+  <div class="orb" style="width:240px;height:240px;top:-60px;right:-50px;background:rgba(239,68,68,.05);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-rose">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🔑</span>
+      <div><h2>Configuración de API Key en Binance</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Permisos requeridos, qué bloquear y cómo evitar baneos por Rate Limits</p></div>
+    </div>
+    <span class="pn">02 / 05</span>
+  </div>
+
+  <div class="g2" style="margin-bottom:10px;align-items:start;">
+    <div class="card card-green">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">ACTIVAR</h3></div>
+      <ul class="clist">
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Reading</strong> — Precio, balance y posiciones abiertas</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Futures</strong> — Abrir y cerrar posiciones en Binance Futures</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>IP Restriction</strong> — Whitelist de la IP de tu máquina (imprescindible)</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Testnet Key separada</strong> — Crea una API Key exclusiva para <code>testnet.binance.vision</code></div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Spot Trading</strong> — Si también operas en spot</div></li>
+      </ul>
+    </div>
+    <div class="card card-red">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NUNCA ACTIVAR</h3></div>
+      <ul class="clist">
+        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — El bot NUNCA necesita retirar fondos</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Internal Transfers</strong> — Innecesario y peligroso si la clave se filtra</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Sin IP whitelist</strong> — Una clave sin restricción de IP es accesible desde cualquier lugar</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Misma key testnet/mainnet</strong> — Entornos separados, siempre</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Keys en código / git</strong> — Solo en <code>~/.env</code>, fuera del repositorio</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-amber" style="margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="font-size:12px;">⚡</span><h3 style="color:#fcd34d;">Rate Limits — Cómo evitar el baneo de IP</h3></div>
+    <div class="g2" style="gap:8px;">
+      <ul class="clist">
+        <li><div class="ico ico-tip">→</div><div><strong>WebSocket sobre REST:</strong> streams de velas sin límite de peso frente a 1200 pts/min en REST.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Header <code>X-MBX-USED-WEIGHT</code>:</strong> monitorízalo en cada respuesta para saber el consumo real.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Stream combinado:</strong> <code>/stream?streams=btcusdt@kline_5m/ethusdt@kline_5m</code> — una sola conexión para múltiples pares.</div></li>
+      </ul>
+      <ul class="clist">
+        <li><div class="ico ico-warn">!</div><div><strong>Error 429</strong> = límite alcanzado. Espera mínima de 1 minuto antes de reintentar.</div></li>
+        <li><div class="ico ico-warn">!</div><div><strong>Error 418</strong> = IP baneada. Binance bannea automáticamente si sigues enviando peticiones tras un 429.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Exponential backoff:</strong> el launcher implementa reintentos con espera exponencial para evitar acumular errores.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="padding:10px 12px;">
+    <div style="display:flex;gap:9px;align-items:flex-start;">
+      <span style="font-size:18px;flex-shrink:0;">🔒</span>
+      <div>
+        <h3 style="margin-bottom:4px;">Principio de mínimo privilegio</h3>
+        <p style="font-size:9.5px;">La API Key del bot solo puede <strong>operar en Futures</strong>. No puede retirar, transferir ni acceder a otras cuentas. Ante una clave comprometida, el peor escenario posible es pérdida de posiciones abiertas — nunca vaciado de cuenta.</p>
+        <div class="div" style="margin:6px 0;"></div>
+        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Rotación recomendada:</strong> cada 90 días en producción. Revoca inmediatamente si detectas actividad inusual.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Guía Completa de Usuario</span><span>Página 4 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 5 — BOLSA AISLADA
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-bolsa">
+  <div class="orb" style="width:260px;height:260px;bottom:-60px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.06);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-green">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">💰</span>
+      <div><h2>La Regla de la Bolsa Aislada</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Cómo proteger tu capital total mientras ARIA opera de forma autónoma</p></div>
+    </div>
+    <span class="pn">03 / 05</span>
+  </div>
+
+  <div class="card" style="padding:10px 12px;margin-bottom:11px;">
+    <svg viewBox="0 0 640 200" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <defs>
+        <marker id="mg" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.8)"/></marker>
+        <marker id="mr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(239,68,68,.8)"/></marker>
+        <marker id="mb" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(59,130,246,.8)"/></marker>
+      </defs>
+      <!-- Total balance -->
+      <rect x="8" y="55" width="155" height="90" rx="10" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.28)" stroke-width="1.5"/>
+      <text x="85" y="84" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BALANCE TOTAL</text>
+      <text x="85" y="102" text-anchor="middle" fill="#34d399" font-size="16" font-weight="800">$10,000</text>
+      <text x="85" y="118" text-anchor="middle" fill="#064e3b" font-size="8.5" font-family="monospace">Intacto · Protegido</text>
+      <text x="85" y="134" text-anchor="middle" fill="#065f46" font-size="8">ARIA no accede al total</text>
+      <!-- Arrow → Bolsa -->
+      <line x1="163" y1="100" x2="213" y2="100" stroke="rgba(16,185,129,.7)" stroke-width="2" marker-end="url(#mg)"/>
+      <text x="188" y="94" text-anchor="middle" fill="#065f46" font-size="7.5" font-family="monospace">5–10%</text>
+      <!-- Bolsa Operativa -->
+      <rect x="214" y="37" width="190" height="126" rx="10" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.28)" stroke-width="1.5"/>
+      <text x="309" y="62" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700" font-family="monospace">BOLSA OPERATIVA</text>
+      <text x="309" y="80" text-anchor="middle" fill="#3b82f6" font-size="15" font-weight="800">$1,000</text>
+      <text x="309" y="95" text-anchor="middle" fill="#1e40af" font-size="8.5" font-family="monospace">Capital activo de ARIA</text>
+      <rect x="228" y="103" width="162" height="22" rx="5" fill="rgba(59,130,246,.12)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+      <text x="309" y="117" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-family="monospace">Riesgo/trade: 1-2% → $10-$20</text>
+      <rect x="228" y="131" width="162" height="20" rx="5" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+      <text x="309" y="144" text-anchor="middle" fill="#fca5a5" font-size="8.5" font-family="monospace">🛑 Freno: –15% → pausa auto</text>
+      <!-- Arrow → Market -->
+      <line x1="404" y1="100" x2="444" y2="100" stroke="rgba(59,130,246,.7)" stroke-width="2" marker-end="url(#mb)"/>
+      <text x="424" y="94" text-anchor="middle" fill="#1e3a8a" font-size="7.5" font-family="monospace">orden</text>
+      <!-- Market -->
+      <rect x="445" y="55" width="175" height="90" rx="10" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1.5"/>
+      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BINANCE FUTURES</text>
+      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Testnet → Mainnet</text>
+      <text x="532" y="116" text-anchor="middle" fill="#78350f" font-size="8">PAPER antes de REAL</text>
+      <text x="532" y="132" text-anchor="middle" fill="#78350f" font-size="8">Mínimo 30 días demo</text>
+      <!-- Profits return -->
+      <path d="M 532,145 L 532,178 L 85,178 L 85,147" fill="none" stroke="rgba(16,185,129,.5)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mg)"/>
+      <text x="309" y="192" text-anchor="middle" fill="#065f46" font-size="8" font-family="monospace">↩ Ganancias consolidadas diariamente en balance total</text>
+      <!-- Emergency brake -->
+      <path d="M 309,37 L 309,15 L 85,15 L 85,55" fill="none" stroke="rgba(239,68,68,.4)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mr)"/>
+      <text x="197" y="10" text-anchor="middle" fill="#7f1d1d" font-size="8" font-family="monospace">🛑 Si –15% → fondos congelados hasta revisión manual</text>
+    </svg>
+  </div>
+
+  <div class="g2" style="margin-bottom:10px;">
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🧱</div><h3 style="margin-bottom:3px;color:#6ee7b7;">Capital segregado</h3><p style="font-size:9.5px;">ARIA opera solo con la bolsa asignada. Si el sistema falla completamente, tu pérdida máxima es el tamaño de esa bolsa — el resto queda intacto.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">📉</div><h3 style="margin-bottom:3px;color:#fcd34d;">Drawdown máximo</h3><p style="font-size:9.5px;">Si la bolsa cae el % configurado, ARIA entra en pausa automática. No reanuda hasta que un humano revisa el estado y confirma la continuación.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🎯</div><h3 style="margin-bottom:3px;color:#93c5fd;">Sizing adaptativo</h3><p style="font-size:9.5px;">Tras 3 pérdidas consecutivas, el tamaño de posición baja a ×0.5 automáticamente. Se recupera al tamaño normal tras 2 operaciones ganadoras.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🔄</div><h3 style="margin-bottom:3px;color:#5eead4;">Consolidación diaria</h3><p style="font-size:9.5px;">Las ganancias netas se consolidan en el balance total al final del día. El bot no compound-interea sobre ganancias no revisadas.</p></div>
+  </div>
+
+  <div class="card card-amber" style="padding:9px 12px;">
+    <div style="display:flex;gap:8px;align-items:flex-start;">
+      <span style="font-size:14px;flex-shrink:0;">⚠️</span>
+      <div><h3 style="color:#fcd34d;margin-bottom:3px;">Los 30 días en Testnet no son opcionales</h3><p style="font-size:9.5px;">Es el tiempo mínimo para que el LLM genere suficientes episodios de memoria y los LoRA adapters se especialicen en tu perfil de riesgo específico. Saltar este paso en modo REAL equivale a operar con un sistema sin calibrar.</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Guía Completa de Usuario</span><span>Página 5 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 6 — RISK MANAGER + MODES
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-risk">
+  <div class="orb" style="width:220px;height:220px;top:-40px;right:-50px;background:rgba(245,158,11,.06);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-amber">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">⚙️</span>
+      <div><h2>Risk Manager — Configuración y modos de operación</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Parámetros de riesgo configurables y los 5 modos de operación de ARIA</p></div>
+    </div>
+    <span class="pn">04 / 05</span>
+  </div>
+
+  <!-- Parameters table -->
+  <div class="card" style="margin-bottom:11px;padding:9px 11px;">
+    <div class="badge badge-amber" style="margin-bottom:7px;font-size:8px;">📊 Parámetros configurables del Risk Manager</div>
+    <table>
+      <thead>
+        <tr><th>Parámetro</th><th>Default</th><th>Descripción</th><th>Recomendado</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>max_drawdown</code></td><td><strong>15%</strong></td><td>Pausa automática si la bolsa cae este porcentaje</td><td>10–20%</td></tr>
+        <tr><td><code>risk_per_trade</code></td><td><strong>1.5%</strong></td><td>% de la bolsa operativa arriesgado por posición</td><td>1–2%</td></tr>
+        <tr><td><code>max_positions</code></td><td><strong>3</strong></td><td>Posiciones abiertas simultáneas máximas</td><td>2–4</td></tr>
+        <tr><td><code>min_confidence</code></td><td><strong>72%</strong></td><td>Confianza mínima del LLM para abrir posición</td><td>65–80%</td></tr>
+        <tr><td><code>position_timeout</code></td><td><strong>8h</strong></td><td>Tiempo máximo antes de cerrar forzosamente</td><td>4–12h</td></tr>
+        <tr><td><code>loss_streak_pause</code></td><td><strong>3</strong></td><td>Pausa automática tras N pérdidas consecutivas</td><td>3–5</td></tr>
+        <tr><td><code>trailing_stop</code></td><td><strong>activado</strong></td><td>Stop móvil en posiciones ganadoras (+0.5%)</td><td>Siempre ON</td></tr>
+        <tr><td><code>funding_awareness</code></td><td><strong>activado</strong></td><td>Evita abrir posiciones con funding rate alto (&gt;0.1%)</td><td>Siempre ON</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Operating modes -->
+  <div class="badge badge-blue" style="margin-bottom:8px;font-size:8px;">🎮 Modos de operación</div>
+  <div class="card" style="padding:9px 11px;">
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(100,116,139,.12);border-color:rgba(100,116,139,.3);color:#94a3b8;">OBSERVE</div>
+      <div><p style="font-size:9.5px;"><strong>Solo análisis</strong> — ARIA analiza el mercado y registra episodios pero <strong>no ejecuta ninguna orden</strong>. Ideal para verificar que el sistema funciona correctamente tras la instalación.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd;">MANUAL</div>
+      <div><p style="font-size:9.5px;"><strong>Semi-automático</strong> — ARIA propone la operación (símbolo, dirección, tamaño, stop, TP) y espera tu aprobación en el dashboard. Útil para aprender el funcionamiento del sistema antes de pasar a AUTO.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(6,182,212,.12);border-color:rgba(6,182,212,.3);color:#67e8f9;">AUTO</div>
+      <div><p style="font-size:9.5px;"><strong>Completamente autónomo</strong> — ARIA ejecuta dentro de los límites del Risk Manager sin intervención humana. El Risk Manager sigue actuando como barrera — ninguna orden pasa si viola los límites configurados.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:#6ee7b7;">PAPER</div>
+      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Binance Testnet</strong> — Sin dinero real. Las operaciones se ejecutan en <code>testnet.binance.vision</code> con créditos de prueba. <strong>Obligatorio 30 días antes de pasar a REAL.</strong></p></div>
+    </div>
+    <div class="mode-row" style="border-bottom:none;">
+      <div class="mode-chip" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5;">REAL</div>
+      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Binance Mainnet</strong> — Capital real. Requiere mínimo 30 días en modo PAPER y configuración explícita de claves de mainnet. El sistema bloquea el cambio si no se cumplen los requisitos.</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Guía Completa de Usuario</span><span>Página 6 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE 7 — OLLAMA + DASHBOARD + CHECKLIST
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="es-ollama">
+  <div class="orb" style="width:220px;height:220px;bottom:-50px;right:-40px;background:rgba(147,51,234,.05);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-purple">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🧠</span>
+      <div><h2>Ollama, modelos LLM y dashboard local</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Modelos requeridos, secciones del dashboard y checklist post-instalación</p></div>
+    </div>
+    <span class="pn">05 / 05</span>
+  </div>
+
+  <!-- Models table -->
+  <div style="margin-bottom:10px;">
+    <div class="badge badge-purple" style="margin-bottom:7px;font-size:8px;">🤖 Modelos LLM requeridos (descarga automática ~13 GB)</div>
+    <div class="card" style="padding:9px 11px;">
+      <table>
+        <thead><tr><th>Modelo</th><th>Tamaño</th><th>Función</th><th>Descarga</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>qwen2.5:14b</code></td>
+            <td><strong>~9 GB</strong></td>
+            <td>LLM principal: razonamiento de mercado, análisis de contexto, decisiones de trading con justificación</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+          <tr>
+            <td><code>phi4-mini</code></td>
+            <td><strong>~2.5 GB</strong></td>
+            <td>LLM auxiliar: confirmaciones rápidas, filtros de señal, respuestas de baja latencia</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+          <tr>
+            <td><code>nomic-embed-text</code></td>
+            <td><strong>~274 MB</strong></td>
+            <td>Modelo de embeddings: convierte episodios de trading en vectores para ChromaDB (memoria)</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.5px;color:#475569;margin-top:6px;border-top:1px solid rgba(255,255,255,.06);padding-top:5px;">Verificar estado: <code>ollama list</code> en terminal. Tiempo estimado de descarga inicial: <strong style="color:#c4b5fd;">15–40 min</strong> según conexión.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard sections -->
+  <div style="margin-bottom:10px;">
+    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard web — localhost:8080</div>
+    <div class="card card-cyan" style="padding:9px 11px;">
+      <table>
+        <thead><tr><th>Sección</th><th>Qué muestra</th></tr></thead>
+        <tbody>
+          <tr><td><strong>⚡ Dashboard</strong></td><td>Capital actual, PnL del día, drawdown, posiciones abiertas, racha actual, confianza media</td></tr>
+          <tr><td><strong>🕯️ Candles</strong></td><td>Gráficos de precio en tiempo real con RSI, MACD, Bollinger Bands y las señales generadas</td></tr>
+          <tr><td><strong>🧠 Memory</strong></td><td>Episodios pasados por símbolo, estadísticas de win rate por patrón, lecciones aprendidas</td></tr>
+          <tr><td><strong>📊 Performance</strong></td><td>Win rate, profit factor, Sharpe ratio, curva de equity acumulada, distribución de PnL</td></tr>
+          <tr><td><strong>⚙️ Config</strong></td><td>Todos los parámetros del Risk Manager, claves API, modo de operación, alertas Telegram</td></tr>
+          <tr><td><strong>📋 Logs</strong></td><td>Logs del sistema en tiempo real, nivel INFO/WARNING/ERROR, exportables por fecha</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Post-install checklist -->
+  <div class="badge badge-green" style="margin-bottom:7px;font-size:8px;">✅ Checklist post-instalación</div>
+  <div class="g2" style="gap:8px;">
+    <div class="card card-green" style="padding:9px 11px;">
+      <h3 style="color:#34d399;margin-bottom:5px;">Configuración inicial</h3>
+      <ul class="clist">
+        <li><div class="ico ico-ok">1</div><div>Verificar que <code>ollama list</code> muestra los 3 modelos</div></li>
+        <li><div class="ico ico-ok">2</div><div>Configurar claves API de <strong>Binance Testnet</strong> en Config</div></li>
+        <li><div class="ico ico-ok">3</div><div>Establecer <code>max_drawdown</code> y <code>risk_per_trade</code></div></li>
+        <li><div class="ico ico-ok">4</div><div>Iniciar en modo <strong>OBSERVE</strong> — verificar que el score funciona</div></li>
+        <li><div class="ico ico-ok">5</div><div>Cambiar a modo <strong>PAPER</strong> y dejar correr 30 días</div></li>
+      </ul>
+    </div>
+    <div class="card" style="padding:9px 11px;">
+      <h3 style="margin-bottom:5px;">Antes de pasar a REAL</h3>
+      <ul class="clist">
+        <li><div class="ico ico-ok">6</div><div>Win rate en PAPER &gt; 52% sostenido durante 30 días</div></li>
+        <li><div class="ico ico-ok">7</div><div>Revisar Memory tab — mínimo 50 episodios registrados</div></li>
+        <li><div class="ico ico-ok">8</div><div>Configurar claves de <strong>Binance Mainnet</strong> (IP whitelist ON)</div></li>
+        <li><div class="ico ico-ok">9</div><div>Reducir <code>risk_per_trade</code> al 50% durante la primera semana REAL</div></li>
+        <li><div class="ico ico-tip">→</div><div>Soporte: <strong style="color:#e2e8f0;">riskeep.com</strong> · chat y email disponibles</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pfooter">
+    <span>riskeep.com · ARIA — Guía Completa de Usuario · © 2025 Riskeep</span>
+    <span>Página 7 / 7</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 8 — TABLE OF CONTENTS (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-toc">
+  <div class="orb" style="width:200px;height:200px;top:-60px;right:-40px;background:rgba(59,130,246,.06);"></div>
+
+  <div class="logo-bar">
+    <div class="logo-icon">R</div>
+    <span class="logo-name">Riskeep</span>
+    <span class="logo-tag">— ARIA v5.0</span>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <div class="badge badge-slate" style="margin-bottom:7px;">📋 Table of contents</div>
+    <h1 style="font-size:18px;margin-bottom:4px;">Table of Contents</h1>
+    <p style="font-size:9.5px;color:#475569;">Complete installation, configuration and operating guide for ARIA</p>
+  </div>
+
+  <!-- TOC entries -->
+  <div style="margin-bottom:14px;">
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#67e8f9;">1</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">System Architecture</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Complete flow diagram · Engine layers · Key components</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 9</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;">2</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Binance API Key Setup</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Required permissions · What to avoid · Rate limits &amp; bans</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 10</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;">3</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">The Isolated Wallet Rule</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Capital separation · Emergency brake · Profit consolidation</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 11</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#fcd34d;">4</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Risk Manager — Parameters &amp; Operating Modes</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Config table · OBSERVE / MANUAL / AUTO / PAPER / REAL</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 12</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num" style="background:rgba(147,51,234,.12);border:1px solid rgba(147,51,234,.25);color:#c4b5fd;">5</div>
+      <div style="flex:1;">
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Ollama, LLM Models &amp; Local Dashboard</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Required models · Dashboard on localhost:8080 · Post-install checklist</div>
+      </div>
+      <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 13</span>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- Prerequisites -->
+  <div style="margin-bottom:12px;">
+    <div class="badge badge-amber" style="margin-bottom:8px;">⚠️ Before you begin</div>
+    <div class="g2" style="gap:8px;">
+      <div class="card card-amber" style="padding:9px 11px;">
+        <h3 style="color:#fcd34d;margin-bottom:5px;">Minimum hardware requirements</h3>
+        <ul class="clist">
+          <li><div class="ico ico-ok">✓</div><div><strong>CPU:</strong> Apple Silicon M1 / AMD Ryzen 5 3600+ / Intel i7-8700+</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>RAM:</strong> 16 GB minimum · 32 GB recommended</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Disk:</strong> 20 GB free (models ~13 GB + data)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ · Windows 11 · Ubuntu 22.04+</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> For initial download and Binance WS connection</div></li>
+        </ul>
+      </div>
+      <div class="card" style="padding:9px 11px;">
+        <h3 style="margin-bottom:5px;">Required accounts</h3>
+        <ul class="clist">
+          <li><div class="ico ico-ok">✓</div><div><strong>Riskeep</strong> — Active subscription at riskeep.com</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Binance Testnet</strong> — Free account at testnet.binance.vision (for PAPER)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Binance Mainnet</strong> — Only needed for REAL mode, after 30 days in PAPER</div></li>
+          <li><div class="ico ico-tip">i</div><div><strong>Telegram</strong> — Optional. For real-time trade notifications</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick reference -->
+  <div class="card card-blue" style="padding:10px 12px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+      <span style="font-size:12px;">📍</span>
+      <h3 style="color:#93c5fd;">Key system paths</h3>
+    </div>
+    <div class="g2" style="gap:6px;">
+      <div><p style="font-size:9px;"><code>~/.aria/session.json</code> — Sesión y token de acceso</p></div>
+      <div><p style="font-size:9px;"><code>~/.env</code> — Claves API de Binance y Telegram</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/episodes/</code> — Episodios de trading (JSON)</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/logs/</code> — Logs del sistema ARIA</p></div>
+      <div><p style="font-size:9px;"><code>~/.ollama/models/</code> — Modelos LLM descargados</p></div>
+      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — Dashboard web de ARIA</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter">
+    <span>riskeep.com · ARIA — Complete User Guide</span>
+    <span>Page 2 / 7</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 9 — ARCHITECTURE (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-arch">
+  <div class="orb" style="width:300px;height:300px;top:-100px;left:50%;transform:translateX(-50%);background:rgba(59,130,246,.07);"></div>
+
+  <div class="logo-bar">
+    <div class="logo-icon">R</div>
+    <span class="logo-name">Riskeep</span>
+    <span class="logo-tag">— ARIA v5.0</span>
+  </div>
+
+  <div class="band band-cyan">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🏗️</span>
+      <div>
+        <h2>System Architecture</h2>
+        <p style="font-size:9px;color:#64748b;margin-top:1px;">Complete flow from Binance data to order execution</p>
+      </div>
+    </div>
+    <span class="pn">01 / 05</span>
+  </div>
+
+  <div class="card" style="padding:10px 12px;margin-bottom:11px;">
+    <svg viewBox="0 0 640 352" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <defs>
+        <marker id="ea0" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(99,130,200,.65)"/></marker>
+        <marker id="eac" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(6,182,212,.75)"/></marker>
+        <marker id="eag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.75)"/></marker>
+      </defs>
+      <!-- Binance WS -->
+      <rect x="8" y="6" width="624" height="46" rx="8" fill="rgba(6,182,212,.09)" stroke="rgba(6,182,212,.3)" stroke-width="1"/>
+      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BINANCE WEBSOCKET FEED</text>
+      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · BNBUSDT — 5m candles · Order Book L2 · Funding Rate</text>
+      <!-- Arrow -->
+      <line x1="320" y1="52" x2="320" y2="72" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#ea0)"/>
+      <text x="328" y="65" fill="#334155" font-size="8" font-family="monospace">OHLCV + Vol</text>
+      <!-- Market Analysis -->
+      <rect x="8" y="73" width="624" height="56" rx="8" fill="rgba(59,130,246,.09)" stroke="rgba(59,130,246,.28)" stroke-width="1"/>
+      <text x="320" y="93" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">MARKET ANALYSIS</text>
+      <text x="320" y="108" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">RSI · MACD · Bollinger Bands · EMA · Candlestick Patterns · Relative Volume</text>
+      <text x="320" y="122" text-anchor="middle" fill="#7dd3fc" font-size="9.5" font-weight="600">Score 0–100 pts · Entry Signal + Market Context</text>
+      <!-- Fork arrows -->
+      <path d="M 160,129 L 160,152" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#ea0)"/>
+      <text x="100" y="144" fill="#334155" font-size="8" font-family="monospace">Score+ctx</text>
+      <path d="M 500,129 L 500,152" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#ea0)"/>
+      <text x="506" y="144" fill="#334155" font-size="8" font-family="monospace">pattern</text>
+      <!-- LLM -->
+      <rect x="8" y="153" width="288" height="60" rx="8" fill="rgba(147,51,234,.09)" stroke="rgba(147,51,234,.28)" stroke-width="1"/>
+      <text x="152" y="172" text-anchor="middle" fill="#c4b5fd" font-size="10.5" font-weight="700" font-family="monospace">LLM ENGINE</text>
+      <text x="152" y="186" text-anchor="middle" fill="#7c3aed" font-size="9" font-family="monospace">qwen2.5:14b · phi4-mini · LoRA adapters</text>
+      <text x="152" y="200" text-anchor="middle" fill="#94a3b8" font-size="8.5">Reasoning · BUY / SELL / HOLD + Confidence %</text>
+      <!-- Memory -->
+      <rect x="344" y="153" width="288" height="60" rx="8" fill="rgba(20,184,166,.08)" stroke="rgba(20,184,166,.25)" stroke-width="1"/>
+      <text x="488" y="172" text-anchor="middle" fill="#5eead4" font-size="10.5" font-weight="700" font-family="monospace">VECTOR MEMORY</text>
+      <text x="488" y="186" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">ChromaDB · nomic-embed-text</text>
+      <text x="488" y="200" text-anchor="middle" fill="#94a3b8" font-size="8.5">Past Episodes · Win Rate by Pattern · Lessons</text>
+      <!-- Horizontal arrow Memory → LLM -->
+      <line x1="344" y1="181" x2="298" y2="181" stroke="rgba(6,182,212,.6)" stroke-width="1.5" marker-end="url(#eac)"/>
+      <text x="315" y="177" text-anchor="middle" fill="#0e7490" font-size="7.5" font-family="monospace">context</text>
+      <!-- Arrow LLM → Risk Manager -->
+      <path d="M 152,213 L 152,238 L 320,238 L 320,249" fill="none" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#ea0)"/>
+      <text x="248" y="235" fill="#334155" font-size="8" font-family="monospace">decision + confidence</text>
+      <!-- Risk Manager -->
+      <rect x="8" y="250" width="624" height="50" rx="8" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1"/>
+      <text x="320" y="270" text-anchor="middle" fill="#fcd34d" font-size="10.5" font-weight="700" font-family="monospace">RISK MANAGER</text>
+      <text x="320" y="284" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Sizing · Drawdown · Dynamic Stop-Loss · Trailing Stop · Auto-Pause on Streak</text>
+      <text x="320" y="296" text-anchor="middle" fill="#92400e" font-size="8.5">Only executes if ALL risk limits are respected</text>
+      <!-- Arrow to Execution -->
+      <line x1="320" y1="300" x2="320" y2="318" stroke="rgba(16,185,129,.65)" stroke-width="1.5" marker-end="url(#eag)"/>
+      <!-- Execution -->
+      <rect x="8" y="319" width="624" height="28" rx="8" fill="rgba(16,185,129,.09)" stroke="rgba(16,185,129,.28)" stroke-width="1"/>
+      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BINANCE API — ORDER EXECUTION</text>
+      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Futures · Post-only optional · PAPER (Testnet) | REAL (Mainnet)</text>
+    </svg>
+  </div>
+
+  <div class="g2" style="gap:7px;">
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-cyan" style="margin-bottom:4px;font-size:7.5px;">Layer 1 · Data</div><p style="font-size:9px;">Persistent WebSocket. Automatic reconnection. Real-time OHLCV without REST polling.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-blue" style="margin-bottom:4px;font-size:7.5px;">Layer 2 · Analysis</div><p style="font-size:9px;">Score 0-100 that filters weak signals before invoking the LLM, saving unnecessary inference.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-purple" style="margin-bottom:4px;font-size:7.5px;">Layer 3 · Local AI</div><p style="font-size:9px;">Fully offline LLM. LoRA adapters specialized in BTC patterns and risk management.</p></div>
+    <div class="card" style="padding:8px 10px;"><div class="badge badge-amber" style="margin-bottom:4px;font-size:7.5px;">Layer 4 · Risk</div><p style="font-size:9px;">Independent barrier from the LLM. If limits are exceeded, the order never reaches the market.</p></div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Complete User Guide</span><span>Page 3 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 10 — API SECURITY (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-api">
+  <div class="orb" style="width:240px;height:240px;top:-60px;right:-50px;background:rgba(239,68,68,.05);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-rose">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🔑</span>
+      <div><h2>Binance API Key Setup</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Required permissions, what to block and how to avoid Rate Limit bans</p></div>
+    </div>
+    <span class="pn">02 / 05</span>
+  </div>
+
+  <div class="g2" style="margin-bottom:10px;align-items:start;">
+    <div class="card card-green">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">ENABLE</h3></div>
+      <ul class="clist">
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Reading</strong> — Price, balance and open positions</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Futures</strong> — Open and close positions on Binance Futures</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>IP Restriction</strong> — Whitelist your machine's IP (mandatory)</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Separate Testnet Key</strong> — Create a dedicated API Key for <code>testnet.binance.vision</code></div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Enable Spot Trading</strong> — Only if you also trade spot</div></li>
+      </ul>
+    </div>
+    <div class="card card-red">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NEVER ENABLE</h3></div>
+      <ul class="clist">
+        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — The bot NEVER needs to withdraw funds</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Internal Transfers</strong> — Unnecessary and dangerous if the key is leaked</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>No IP whitelist</strong> — A key without IP restriction is accessible from anywhere</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Same key testnet/mainnet</strong> — Separate environments, always</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Keys in code / git</strong> — Only in <code>~/.env</code>, outside the repository</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card card-amber" style="margin-bottom:10px;">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="font-size:12px;">⚡</span><h3 style="color:#fcd34d;">Rate Limits — How to avoid IP bans</h3></div>
+    <div class="g2" style="gap:8px;">
+      <ul class="clist">
+        <li><div class="ico ico-tip">→</div><div><strong>WebSocket over REST:</strong> candlestick streams with no weight limit vs 1200 pts/min on REST.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Header <code>X-MBX-USED-WEIGHT</code>:</strong> monitor it on every response to know the real consumption.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Combined stream:</strong> <code>/stream?streams=btcusdt@kline_5m/ethusdt@kline_5m</code> — a single connection for multiple pairs.</div></li>
+      </ul>
+      <ul class="clist">
+        <li><div class="ico ico-warn">!</div><div><strong>Error 429</strong> = limit reached. Minimum wait of 1 minute before retrying.</div></li>
+        <li><div class="ico ico-warn">!</div><div><strong>Error 418</strong> = IP banned. Binance automatically bans if you keep sending requests after a 429.</div></li>
+        <li><div class="ico ico-tip">→</div><div><strong>Exponential backoff:</strong> the launcher implements retries with exponential wait to avoid accumulating errors.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="padding:10px 12px;">
+    <div style="display:flex;gap:9px;align-items:flex-start;">
+      <span style="font-size:18px;flex-shrink:0;">🔒</span>
+      <div>
+        <h3 style="margin-bottom:4px;">Principle of Least Privilege</h3>
+        <p style="font-size:9.5px;">The bot's API Key can only <strong>operate in Futures</strong>. It cannot withdraw, transfer or access other accounts. In the event of a compromised key, the worst possible scenario is loss of open positions — never an emptied account.</p>
+        <div class="div" style="margin:6px 0;"></div>
+        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Recommended rotation:</strong> every 90 days in production. Revoke immediately if you detect unusual activity.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Complete User Guide</span><span>Page 4 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 11 — ISOLATED WALLET (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-wallet">
+  <div class="orb" style="width:260px;height:260px;bottom:-60px;left:50%;transform:translateX(-50%);background:rgba(16,185,129,.06);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-green">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">💰</span>
+      <div><h2>The Isolated Wallet Rule</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">How to protect your total capital while ARIA operates autonomously</p></div>
+    </div>
+    <span class="pn">03 / 05</span>
+  </div>
+
+  <div class="card" style="padding:10px 12px;margin-bottom:11px;">
+    <svg viewBox="0 0 640 200" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+      <defs>
+        <marker id="emg" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.8)"/></marker>
+        <marker id="emr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(239,68,68,.8)"/></marker>
+        <marker id="emb" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(59,130,246,.8)"/></marker>
+      </defs>
+      <!-- Total balance -->
+      <rect x="8" y="55" width="155" height="90" rx="10" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.28)" stroke-width="1.5"/>
+      <text x="85" y="84" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">TOTAL BALANCE</text>
+      <text x="85" y="102" text-anchor="middle" fill="#34d399" font-size="16" font-weight="800">$10,000</text>
+      <text x="85" y="118" text-anchor="middle" fill="#064e3b" font-size="8.5" font-family="monospace">Intact · Protected</text>
+      <text x="85" y="134" text-anchor="middle" fill="#065f46" font-size="8">ARIA has no access to total</text>
+      <!-- Arrow → Wallet -->
+      <line x1="163" y1="100" x2="213" y2="100" stroke="rgba(16,185,129,.7)" stroke-width="2" marker-end="url(#emg)"/>
+      <text x="188" y="94" text-anchor="middle" fill="#065f46" font-size="7.5" font-family="monospace">5–10%</text>
+      <!-- Trading Wallet -->
+      <rect x="214" y="37" width="190" height="126" rx="10" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.28)" stroke-width="1.5"/>
+      <text x="309" y="62" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700" font-family="monospace">TRADING WALLET</text>
+      <text x="309" y="80" text-anchor="middle" fill="#3b82f6" font-size="15" font-weight="800">$1,000</text>
+      <text x="309" y="95" text-anchor="middle" fill="#1e40af" font-size="8.5" font-family="monospace">ARIA's active capital</text>
+      <rect x="228" y="103" width="162" height="22" rx="5" fill="rgba(59,130,246,.12)" stroke="rgba(59,130,246,.2)" stroke-width="1"/>
+      <text x="309" y="117" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-family="monospace">Risk/trade: 1-2% → $10-$20</text>
+      <rect x="228" y="131" width="162" height="20" rx="5" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+      <text x="309" y="144" text-anchor="middle" fill="#fca5a5" font-size="8.5" font-family="monospace">🛑 Brake: –15% → auto-pause</text>
+      <!-- Arrow → Market -->
+      <line x1="404" y1="100" x2="444" y2="100" stroke="rgba(59,130,246,.7)" stroke-width="2" marker-end="url(#emb)"/>
+      <text x="424" y="94" text-anchor="middle" fill="#1e3a8a" font-size="7.5" font-family="monospace">order</text>
+      <!-- Market -->
+      <rect x="445" y="55" width="175" height="90" rx="10" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1.5"/>
+      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BINANCE FUTURES</text>
+      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Testnet → Mainnet</text>
+      <text x="532" y="116" text-anchor="middle" fill="#78350f" font-size="8">PAPER before REAL</text>
+      <text x="532" y="132" text-anchor="middle" fill="#78350f" font-size="8">Minimum 30 days demo</text>
+      <!-- Profits return -->
+      <path d="M 532,145 L 532,178 L 85,178 L 85,147" fill="none" stroke="rgba(16,185,129,.5)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#emg)"/>
+      <text x="309" y="192" text-anchor="middle" fill="#065f46" font-size="8" font-family="monospace">↩ Profits consolidated daily into total balance</text>
+      <!-- Emergency brake -->
+      <path d="M 309,37 L 309,15 L 85,15 L 85,55" fill="none" stroke="rgba(239,68,68,.4)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#emr)"/>
+      <text x="197" y="10" text-anchor="middle" fill="#7f1d1d" font-size="8" font-family="monospace">🛑 If –15% → funds frozen until manual review</text>
+    </svg>
+  </div>
+
+  <div class="g2" style="margin-bottom:10px;">
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🧱</div><h3 style="margin-bottom:3px;color:#6ee7b7;">Segregated capital</h3><p style="font-size:9.5px;">ARIA only operates with the assigned wallet. If the system fails completely, your maximum loss is the size of that wallet — the rest remains untouched.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">📉</div><h3 style="margin-bottom:3px;color:#fcd34d;">Maximum drawdown</h3><p style="font-size:9.5px;">If the wallet falls the configured %, ARIA enters automatic pause. It does not resume until a human reviews the state and confirms continuation.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🎯</div><h3 style="margin-bottom:3px;color:#93c5fd;">Adaptive sizing</h3><p style="font-size:9.5px;">After 3 consecutive losses, position size drops to ×0.5 automatically. It recovers to normal size after 2 winning trades.</p></div>
+    <div class="card"><div style="font-size:13px;margin-bottom:4px;">🔄</div><h3 style="margin-bottom:3px;color:#5eead4;">Daily consolidation</h3><p style="font-size:9.5px;">Net profits are consolidated into the total balance at the end of the day. The bot does not compound on unreviewed gains.</p></div>
+  </div>
+
+  <div class="card card-amber" style="padding:9px 12px;">
+    <div style="display:flex;gap:8px;align-items:flex-start;">
+      <span style="font-size:14px;flex-shrink:0;">⚠️</span>
+      <div><h3 style="color:#fcd34d;margin-bottom:3px;">The 30 days on Testnet are not optional</h3><p style="font-size:9.5px;">This is the minimum time for the LLM to generate enough memory episodes and for the LoRA adapters to specialize in your specific risk profile. Skipping this step in REAL mode is equivalent to operating with an uncalibrated system.</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Complete User Guide</span><span>Page 5 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 12 — RISK MANAGER + MODES (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-risk">
+  <div class="orb" style="width:220px;height:220px;top:-40px;right:-50px;background:rgba(245,158,11,.06);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-amber">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">⚙️</span>
+      <div><h2>Risk Manager — Configuration &amp; Operating Modes</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Configurable risk parameters and ARIA's 5 operating modes</p></div>
+    </div>
+    <span class="pn">04 / 05</span>
+  </div>
+
+  <!-- Parameters table -->
+  <div class="card" style="margin-bottom:11px;padding:9px 11px;">
+    <div class="badge badge-amber" style="margin-bottom:7px;font-size:8px;">📊 Configurable Risk Manager parameters</div>
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Default</th><th>Description</th><th>Recommended</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>max_drawdown</code></td><td><strong>15%</strong></td><td>Automatic pause if the wallet drops this percentage</td><td>10–20%</td></tr>
+        <tr><td><code>risk_per_trade</code></td><td><strong>1.5%</strong></td><td>% of trading wallet risked per position</td><td>1–2%</td></tr>
+        <tr><td><code>max_positions</code></td><td><strong>3</strong></td><td>Maximum simultaneous open positions</td><td>2–4</td></tr>
+        <tr><td><code>min_confidence</code></td><td><strong>72%</strong></td><td>Minimum LLM confidence to open a position</td><td>65–80%</td></tr>
+        <tr><td><code>position_timeout</code></td><td><strong>8h</strong></td><td>Maximum time before forced close</td><td>4–12h</td></tr>
+        <tr><td><code>loss_streak_pause</code></td><td><strong>3</strong></td><td>Automatic pause after N consecutive losses</td><td>3–5</td></tr>
+        <tr><td><code>trailing_stop</code></td><td><strong>activado</strong></td><td>Moving stop on winning positions (+0.5%)</td><td>Siempre ON</td></tr>
+        <tr><td><code>funding_awareness</code></td><td><strong>activado</strong></td><td>Avoids opening positions with high funding rate (&gt;0.1%)</td><td>Siempre ON</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Operating modes -->
+  <div class="badge badge-blue" style="margin-bottom:8px;font-size:8px;">🎮 Operating modes</div>
+  <div class="card" style="padding:9px 11px;">
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(100,116,139,.12);border-color:rgba(100,116,139,.3);color:#94a3b8;">OBSERVE</div>
+      <div><p style="font-size:9.5px;"><strong>Analysis only</strong> — ARIA analyses the market and records episodes but <strong>executes no orders</strong>. Ideal to verify the system works correctly after installation.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd;">MANUAL</div>
+      <div><p style="font-size:9.5px;"><strong>Semi-automatic</strong> — ARIA proposes the trade (symbol, direction, size, stop, TP) and waits for your approval in the dashboard. Useful for learning how the system works before moving to AUTO.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(6,182,212,.12);border-color:rgba(6,182,212,.3);color:#67e8f9;">AUTO</div>
+      <div><p style="font-size:9.5px;"><strong>Fully autonomous</strong> — ARIA executes within Risk Manager limits without human intervention. The Risk Manager still acts as a barrier — no order passes if it violates the configured limits.</p></div>
+    </div>
+    <div class="mode-row">
+      <div class="mode-chip" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:#6ee7b7;">PAPER</div>
+      <div><p style="font-size:9.5px;"><strong>AUTO mode on Binance Testnet</strong> — No real money. Trades are executed on <code>testnet.binance.vision</code> with test credits. <strong>Mandatory 30 days before switching to REAL.</strong></p></div>
+    </div>
+    <div class="mode-row" style="border-bottom:none;">
+      <div class="mode-chip" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5;">REAL</div>
+      <div><p style="font-size:9.5px;"><strong>AUTO mode on Binance Mainnet</strong> — Real capital. Requires a minimum of 30 days in PAPER mode and explicit mainnet key configuration. The system blocks the switch if requirements are not met.</p></div>
+    </div>
+  </div>
+
+  <div class="pfooter"><span>riskeep.com · ARIA — Complete User Guide</span><span>Page 6 / 7</span></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EN PAGE 13 — OLLAMA + DASHBOARD + CHECKLIST (ENGLISH)
+     ═══════════════════════════════════════════════ -->
+<div class="page" id="en-ollama">
+  <div class="orb" style="width:220px;height:220px;bottom:-50px;right:-40px;background:rgba(147,51,234,.05);"></div>
+
+  <div class="logo-bar"><div class="logo-icon">R</div><span class="logo-name">Riskeep</span><span class="logo-tag">— ARIA v5.0</span></div>
+
+  <div class="band band-purple">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:15px;">🧠</span>
+      <div><h2>Ollama, LLM Models &amp; Local Dashboard</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Required models, dashboard sections and post-install checklist</p></div>
+    </div>
+    <span class="pn">05 / 05</span>
+  </div>
+
+  <!-- Models table -->
+  <div style="margin-bottom:10px;">
+    <div class="badge badge-purple" style="margin-bottom:7px;font-size:8px;">🤖 Required LLM models (automatic download ~13 GB)</div>
+    <div class="card" style="padding:9px 11px;">
+      <table>
+        <thead><tr><th>Model</th><th>Size</th><th>Function</th><th>Download</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>qwen2.5:14b</code></td>
+            <td><strong>~9 GB</strong></td>
+            <td>Main LLM: market reasoning, context analysis, trading decisions with justification</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+          <tr>
+            <td><code>phi4-mini</code></td>
+            <td><strong>~2.5 GB</strong></td>
+            <td>Auxiliary LLM: quick confirmations, signal filters, low-latency responses</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+          <tr>
+            <td><code>nomic-embed-text</code></td>
+            <td><strong>~274 MB</strong></td>
+            <td>Embeddings model: converts trading episodes into vectors for ChromaDB (memory)</td>
+            <td><span class="badge badge-purple" style="font-size:7.5px;">Automática</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:8.5px;color:#475569;margin-top:6px;border-top:1px solid rgba(255,255,255,.06);padding-top:5px;">Check status: <code>ollama list</code> in terminal. Estimated initial download time: <strong style="color:#c4b5fd;">15–40 min</strong> depending on connection.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard sections -->
+  <div style="margin-bottom:10px;">
+    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard web — localhost:8080</div>
+    <div class="card card-cyan" style="padding:9px 11px;">
+      <table>
+        <thead><tr><th>Section</th><th>What it shows</th></tr></thead>
+        <tbody>
+          <tr><td><strong>⚡ Dashboard</strong></td><td>Current capital, daily PnL, drawdown, open positions, current streak, average confidence</td></tr>
+          <tr><td><strong>🕯️ Candles</strong></td><td>Real-time price charts with RSI, MACD, Bollinger Bands and generated signals</td></tr>
+          <tr><td><strong>🧠 Memory</strong></td><td>Past episodes by symbol, win rate statistics by pattern, learned lessons</td></tr>
+          <tr><td><strong>📊 Performance</strong></td><td>Win rate, profit factor, Sharpe ratio, cumulative equity curve, PnL distribution</td></tr>
+          <tr><td><strong>⚙️ Config</strong></td><td>All Risk Manager parameters, API keys, operating mode, Telegram alerts</td></tr>
+          <tr><td><strong>📋 Logs</strong></td><td>Real-time system logs, INFO/WARNING/ERROR level, exportable by date</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Post-install checklist -->
+  <div class="badge badge-green" style="margin-bottom:7px;font-size:8px;">✅ Post-install checklist</div>
+  <div class="g2" style="gap:8px;">
+    <div class="card card-green" style="padding:9px 11px;">
+      <h3 style="color:#34d399;margin-bottom:5px;">Initial setup</h3>
+      <ul class="clist">
+        <li><div class="ico ico-ok">1</div><div>Verify <code>ollama list</code> shows all 3 models</div></li>
+        <li><div class="ico ico-ok">2</div><div>Set up <strong>Binance Testnet</strong> API keys in Config</div></li>
+        <li><div class="ico ico-ok">3</div><div>Set <code>max_drawdown</code> and <code>risk_per_trade</code></div></li>
+        <li><div class="ico ico-ok">4</div><div>Start in <strong>OBSERVE</strong> mode — verify the score is working</div></li>
+        <li><div class="ico ico-ok">5</div><div>Switch to <strong>PAPER</strong> mode and let it run for 30 days</div></li>
+      </ul>
+    </div>
+    <div class="card" style="padding:9px 11px;">
+      <h3 style="margin-bottom:5px;">Before switching to REAL</h3>
+      <ul class="clist">
+        <li><div class="ico ico-ok">6</div><div>Win rate in PAPER &gt; 52% sustained for 30 days</div></li>
+        <li><div class="ico ico-ok">7</div><div>Review Memory tab — minimum 50 recorded episodes</div></li>
+        <li><div class="ico ico-ok">8</div><div>Set up <strong>Binance Mainnet</strong> keys (IP whitelist ON)</div></li>
+        <li><div class="ico ico-ok">9</div><div>Reduce <code>risk_per_trade</code> to 50% during the first REAL week</div></li>
+        <li><div class="ico ico-tip">→</div><div>Support: <strong style="color:#e2e8f0;">riskeep.com</strong> · chat and email available</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pfooter">
+    <span>riskeep.com · ARIA — Complete User Guide · © 2025 Riskeep</span>
+    <span>Page 7 / 7</span>
+  </div>
+</div>
+
+</body>
+</html>

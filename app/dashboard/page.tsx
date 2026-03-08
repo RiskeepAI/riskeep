@@ -45,6 +45,7 @@ export default async function DashboardPage({
       cancelAtPeriodEnd={!!subscription?.cancel_at_period_end}
       downloadWin={process.env.NEXT_PUBLIC_DOWNLOAD_WIN ?? '#'}
       downloadMac={process.env.NEXT_PUBLIC_DOWNLOAD_MAC ?? '#'}
+      downloadGuide={process.env.NEXT_PUBLIC_ARIA_GUIDE_URL ?? ''}
       ariaVersion={process.env.NEXT_PUBLIC_ARIA_VERSION ?? '5.0'}
     />
   )
