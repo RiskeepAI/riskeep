@@ -11,13 +11,14 @@ function getAdminClient() {
 }
 
 export async function GET(req: NextRequest) {
-  let userId: string | null = null
+  let userId:      string | null = null
+  let displayName: string        = ''
+  let email:       string        = ''
 
   // ── Auth: Bearer token (ARIA desktop) ─────────────────────────────────
   const authHeader = req.headers.get('authorization')
   if (authHeader?.startsWith('Bearer ')) {
     const token = authHeader.slice(7)
-    // Verify JWT with Supabase using the anon client
     const supabase = createSupabaseAdmin(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -26,7 +27,9 @@ export async function GET(req: NextRequest) {
     if (error || !user) {
       return NextResponse.json({ error: 'Token inválido o expirado' }, { status: 401 })
     }
-    userId = user.id
+    userId      = user.id
+    email       = user.email ?? ''
+    displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || ''
   } else {
     // ── Auth: Cookie session (web dashboard) ──────────────────────────────
     const supabase = await createClient()
@@ -34,7 +37,9 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
     }
-    userId = user.id
+    userId      = user.id
+    email       = user.email ?? ''
+    displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || ''
   }
 
   // ── Query subscription ─────────────────────────────────────────────────
@@ -65,6 +70,8 @@ export async function GET(req: NextRequest) {
       status:            subscription?.status ?? null,
       validUntil:        subscription?.current_period_end ?? null,
       cancelAtPeriodEnd: subscription?.cancel_at_period_end ?? false,
+      displayName,
+      email,
     },
     {
       headers: {
