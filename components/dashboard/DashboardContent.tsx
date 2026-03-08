@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Download, CreditCard, LogOut, CheckCircle, XCircle, Lock, Zap } from 'lucide-react'
+import { Download, CreditCard, LogOut, CheckCircle, XCircle, Lock, Zap, FileText } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import UpgradeButton from './UpgradeButton'
 import CancelButton from './CancelButton'
@@ -17,13 +17,14 @@ interface Props {
   cancelAtPeriodEnd: boolean
   downloadWin:       string
   downloadMac:       string
+  downloadGuide:     string
   ariaVersion:       string
 }
 
 export default function DashboardContent({
   name, email, isActive, showWelcome,
   plan, periodEnd, cancelAtPeriodEnd,
-  downloadWin, downloadMac, ariaVersion,
+  downloadWin, downloadMac, downloadGuide, ariaVersion,
 }: Props) {
   const t = useT()
 
@@ -179,6 +180,21 @@ export default function DashboardContent({
                 <span>🍎</span> {t.dashboard.downloadMac}
               </a>
             </div>
+            {downloadGuide && (
+              <a
+                href={downloadGuide}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl border border-blue-500/25 bg-blue-500/6 hover:bg-blue-500/12 hover:border-blue-500/40 transition-colors group"
+              >
+                <FileText className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm text-white group-hover:text-blue-300 transition-colors">{t.dashboard.downloadGuide}</div>
+                  <div className="text-xs text-slate-500 truncate">{t.dashboard.downloadGuideDesc}</div>
+                </div>
+                <span className="text-xs font-mono text-blue-500/60">PDF</span>
+              </a>
+            )}
             <p className="text-xs text-slate-600">
               {t.dashboard.downloadVersion.replace('{version}', ariaVersion)}
             </p>
