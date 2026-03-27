@@ -15,7 +15,7 @@ export const PLANS = {
       'ARIA — Agente de trading autónomo',
       'Análisis técnico con IA en tiempo real',
       'Gestión automática de riesgo',
-      'Soporte Binance (paper + real)',
+      'Soporte Bitget (paper + real)',
       'Alertas vía Telegram',
       'Actualizaciones incluidas',
     ],
