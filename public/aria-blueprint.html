@@ -207,7 +207,7 @@
     </h1>
 
     <p style="font-size:11px;color:#64748b;max-width:340px;line-height:1.7;margin-bottom:20px;">
-      Arquitectura, instalación, configuración de riesgo y operativa completa para Binance Futures con inteligencia artificial local.
+      Arquitectura, instalación, configuración de riesgo y operativa completa para Bitget Futures con inteligencia artificial local.
     </p>
 
     <div class="g3" style="max-width:340px;gap:8px;">
@@ -276,8 +276,8 @@
     <div class="toc-item">
       <div class="toc-num" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;">2</div>
       <div style="flex:1;">
-        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Configuración de API Key en Binance</div>
-        <div style="font-size:9px;color:#64748b;margin-top:1px;">Permisos a activar · Qué nunca tocar · Rate limits y bans</div>
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Configuración de API Key en Bitget</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Cuenta Simulated Trading · Permisos · Passphrase · Fondos demo</div>
       </div>
       <span style="font-family:monospace;font-size:9px;color:#334155;">pág. 4</span>
     </div>
@@ -320,15 +320,15 @@
           <li><div class="ico ico-ok">✓</div><div><strong>RAM:</strong> 16 GB mínimo · 32 GB recomendado</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>Disco:</strong> 20 GB libres (modelos ~13 GB + datos)</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ · Windows 11 · Ubuntu 22.04+</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> Para descarga inicial y conexión a Binance WS</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> Para descarga inicial y conexión a Bitget WS</div></li>
         </ul>
       </div>
       <div class="card" style="padding:9px 11px;">
         <h3 style="margin-bottom:5px;">Cuentas necesarias</h3>
         <ul class="clist">
           <li><div class="ico ico-ok">✓</div><div><strong>Riskeep</strong> — Suscripción activa en riskeep.com</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Binance Testnet</strong> — Cuenta gratuita en testnet.binance.vision (para PAPER)</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Binance Mainnet</strong> — Solo necesaria para modo REAL, tras 30 días en PAPER</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Bitget</strong> — Cuenta gratuita en bitget.com (activa Simulated Trading para PAPER)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Bitget Mainnet</strong> — Activa el modo REAL con claves reales tras 30 días en simulado</div></li>
           <li><div class="ico ico-tip">i</div><div><strong>Telegram</strong> — Opcional. Para notificaciones de trades en tiempo real</div></li>
         </ul>
       </div>
@@ -343,7 +343,7 @@
     </div>
     <div class="g2" style="gap:6px;">
       <div><p style="font-size:9px;"><code>~/.aria/session.json</code> — Sesión y token de acceso</p></div>
-      <div><p style="font-size:9px;"><code>~/.env</code> — Claves API de Binance y Telegram</p></div>
+      <div><p style="font-size:9px;"><code>~/.env</code> — Claves API de Bitget y Telegram</p></div>
       <div><p style="font-size:9px;"><code>~/ARIA_data/episodes/</code> — Episodios de trading (JSON)</p></div>
       <div><p style="font-size:9px;"><code>~/ARIA_data/logs/</code> — Logs del sistema ARIA</p></div>
       <div><p style="font-size:9px;"><code>~/.ollama/models/</code> — Modelos LLM descargados</p></div>
@@ -375,7 +375,7 @@
       <span style="font-size:15px;">🏗️</span>
       <div>
         <h2>Arquitectura del sistema</h2>
-        <p style="font-size:9px;color:#64748b;margin-top:1px;">Flujo completo desde los datos de Binance hasta la ejecución de órdenes</p>
+        <p style="font-size:9px;color:#64748b;margin-top:1px;">Flujo completo desde los datos de Bitget hasta la ejecución de órdenes</p>
       </div>
     </div>
     <span class="pn">01 / 05</span>
@@ -388,10 +388,10 @@
         <marker id="ac" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(6,182,212,.75)"/></marker>
         <marker id="ag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.75)"/></marker>
       </defs>
-      <!-- Binance WS -->
+      <!-- Bitget WS -->
       <rect x="8" y="6" width="624" height="46" rx="8" fill="rgba(6,182,212,.09)" stroke="rgba(6,182,212,.3)" stroke-width="1"/>
-      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BINANCE WEBSOCKET FEED</text>
-      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · BNBUSDT — velas 5m · Order Book L2 · Funding Rate</text>
+      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BITGET WEBSOCKET FEED</text>
+      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · XRPUSDT · SOLUSDT — velas 15m · Order Book · Funding Rate</text>
       <!-- Arrow -->
       <line x1="320" y1="52" x2="320" y2="72" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#a0)"/>
       <text x="328" y="65" fill="#334155" font-size="8" font-family="monospace">OHLCV + Vol</text>
@@ -430,8 +430,8 @@
       <line x1="320" y1="300" x2="320" y2="318" stroke="rgba(16,185,129,.65)" stroke-width="1.5" marker-end="url(#ag)"/>
       <!-- Execution -->
       <rect x="8" y="319" width="624" height="28" rx="8" fill="rgba(16,185,129,.09)" stroke="rgba(16,185,129,.28)" stroke-width="1"/>
-      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BINANCE API — EJECUCIÓN DE ÓRDENES</text>
-      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Futures · Post-only optional · PAPER (Testnet) | REAL (Mainnet)</text>
+      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BITGET API — EJECUCIÓN DE ÓRDENES</text>
+      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">USDT Futures · Margen aislado · PAPER (Simulated Trading) | REAL (Mainnet)</text>
     </svg>
   </div>
 
@@ -457,46 +457,59 @@
   <div class="band band-rose">
     <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:15px;">🔑</span>
-      <div><h2>Configuración de API Key en Binance</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Permisos requeridos, qué bloquear y cómo evitar baneos por Rate Limits</p></div>
+      <div><h2>Configuración de API Key en Bitget</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Cuenta Simulated Trading, permisos requeridos y las 3 credenciales de autenticación</p></div>
     </div>
     <span class="pn">02 / 05</span>
   </div>
 
-  <div class="g2" style="margin-bottom:10px;align-items:start;">
-    <div class="card card-green">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">ACTIVAR</h3></div>
-      <ul class="clist">
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Reading</strong> — Precio, balance y posiciones abiertas</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Futures</strong> — Abrir y cerrar posiciones en Binance Futures</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>IP Restriction</strong> — Whitelist de la IP de tu máquina (imprescindible)</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Testnet Key separada</strong> — Crea una API Key exclusiva para <code>testnet.binance.vision</code></div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Spot Trading</strong> — Si también operas en spot</div></li>
-      </ul>
-    </div>
-    <div class="card card-red">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NUNCA ACTIVAR</h3></div>
-      <ul class="clist">
-        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — El bot NUNCA necesita retirar fondos</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Internal Transfers</strong> — Innecesario y peligroso si la clave se filtra</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Sin IP whitelist</strong> — Una clave sin restricción de IP es accesible desde cualquier lugar</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Misma key testnet/mainnet</strong> — Entornos separados, siempre</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Keys en código / git</strong> — Solo en <code>~/.env</code>, fuera del repositorio</div></li>
-      </ul>
+  <!-- Step by step guide -->
+  <div class="card card-blue" style="margin-bottom:10px;padding:10px 12px;">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;"><span style="font-size:12px;">📋</span><h3 style="color:#93c5fd;">Guía paso a paso — Crear API en Bitget Simulated Trading</h3></div>
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">1</div>
+        <p style="font-size:9.5px;"><strong>Crear cuenta Bitget</strong> — Regístrate en <code>bitget.com</code>. La cuenta es gratuita y no requiere verificación para el modo simulado.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">2</div>
+        <p style="font-size:9.5px;"><strong>Activar Simulated Trading</strong> — Entra en <strong>Trade → Futures</strong> y pulsa el botón <strong>"Simulated Trading"</strong> en la parte superior de la interfaz.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">3</div>
+        <p style="font-size:9.5px;"><strong>API desde el simulador</strong> — Estando en Simulated Trading, ve a tu perfil → <strong>API Management</strong>. Crea la clave <em>dentro del simulador</em>, no desde la cuenta principal.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">4</div>
+        <p style="font-size:9.5px;"><strong>Permisos a activar</strong> — Marca: <strong>Futures + Orders + Holdings</strong>. Tipo de acceso: <strong>Read-Write</strong>. No actives Withdrawals.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">5</div>
+        <p style="font-size:9.5px;"><strong>Guardar las 3 credenciales</strong> — Bitget genera: <strong>API Key</strong> + <strong>Secret Key</strong> + <strong>Passphrase</strong>. Copia las 3. La Passphrase no se puede recuperar después.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(16,185,129,.25);border:1px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#6ee7b7;margin-top:1px;">6</div>
+        <p style="font-size:9.5px;"><strong>Transferir fondos demo</strong> — En el simulador ve a <strong>Assets → Transfer</strong> y mueve los USDT del balance Spot al balance <strong>USDT-M Futures</strong>.</p>
+      </div>
     </div>
   </div>
 
-  <div class="card card-amber" style="margin-bottom:10px;">
-    <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="font-size:12px;">⚡</span><h3 style="color:#fcd34d;">Rate Limits — Cómo evitar el baneo de IP</h3></div>
-    <div class="g2" style="gap:8px;">
+  <div class="g2" style="margin-bottom:10px;align-items:start;">
+    <div class="card card-green" style="padding:9px 11px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">LAS 3 CREDENCIALES</h3></div>
       <ul class="clist">
-        <li><div class="ico ico-tip">→</div><div><strong>WebSocket sobre REST:</strong> streams de velas sin límite de peso frente a 1200 pts/min en REST.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Header <code>X-MBX-USED-WEIGHT</code>:</strong> monitorízalo en cada respuesta para saber el consumo real.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Stream combinado:</strong> <code>/stream?streams=btcusdt@kline_5m/ethusdt@kline_5m</code> — una sola conexión para múltiples pares.</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>API Key</strong> — Identificador público de la clave</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Secret Key</strong> — Clave privada para firmar las peticiones</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Passphrase</strong> — Contraseña adicional que tú defines al crear la API. <strong>Las 3 son obligatorias</strong> para ARIA.</div></li>
+        <li><div class="ico ico-tip">i</div><div>Introdúcelas en ARIA desde el launcher (Config) o desde la pantalla de configuración del dashboard</div></li>
       </ul>
+    </div>
+    <div class="card card-red" style="padding:9px 11px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NUNCA HACER</h3></div>
       <ul class="clist">
-        <li><div class="ico ico-warn">!</div><div><strong>Error 429</strong> = límite alcanzado. Espera mínima de 1 minuto antes de reintentar.</div></li>
-        <li><div class="ico ico-warn">!</div><div><strong>Error 418</strong> = IP baneada. Binance bannea automáticamente si sigues enviando peticiones tras un 429.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Exponential backoff:</strong> el launcher implementa reintentos con espera exponencial para evitar acumular errores.</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — El bot NUNCA necesita retirar fondos</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Crear key desde cuenta principal</strong> — Para PAPER la key debe ser del simulador</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Usar key simulado en modo REAL</strong> — Entornos separados, siempre</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Keys en código / git</strong> — Solo en ARIA Config, nunca en archivos de texto plano</div></li>
       </ul>
     </div>
   </div>
@@ -508,7 +521,7 @@
         <h3 style="margin-bottom:4px;">Principio de mínimo privilegio</h3>
         <p style="font-size:9.5px;">La API Key del bot solo puede <strong>operar en Futures</strong>. No puede retirar, transferir ni acceder a otras cuentas. Ante una clave comprometida, el peor escenario posible es pérdida de posiciones abiertas — nunca vaciado de cuenta.</p>
         <div class="div" style="margin:6px 0;"></div>
-        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Rotación recomendada:</strong> cada 90 días en producción. Revoca inmediatamente si detectas actividad inusual.</p>
+        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Rotación recomendada:</strong> cada 90 días en producción. Revoca inmediatamente si detectas actividad inusual en tu cuenta de Bitget.</p>
       </div>
     </div>
   </div>
@@ -563,8 +576,8 @@
       <text x="424" y="94" text-anchor="middle" fill="#1e3a8a" font-size="7.5" font-family="monospace">orden</text>
       <!-- Market -->
       <rect x="445" y="55" width="175" height="90" rx="10" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1.5"/>
-      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BINANCE FUTURES</text>
-      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Testnet → Mainnet</text>
+      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BITGET FUTURES</text>
+      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Simulado → Mainnet</text>
       <text x="532" y="116" text-anchor="middle" fill="#78350f" font-size="8">PAPER antes de REAL</text>
       <text x="532" y="132" text-anchor="middle" fill="#78350f" font-size="8">Mínimo 30 días demo</text>
       <!-- Profits return -->
@@ -647,11 +660,11 @@
     </div>
     <div class="mode-row">
       <div class="mode-chip" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:#6ee7b7;">PAPER</div>
-      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Binance Testnet</strong> — Sin dinero real. Las operaciones se ejecutan en <code>testnet.binance.vision</code> con créditos de prueba. <strong>Obligatorio 30 días antes de pasar a REAL.</strong></p></div>
+      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Bitget Simulated Trading</strong> — Sin dinero real. Las operaciones se ejecutan contra el entorno demo oficial de Bitget con fondos virtuales. <strong>Obligatorio 30 días antes de pasar a REAL.</strong></p></div>
     </div>
     <div class="mode-row" style="border-bottom:none;">
       <div class="mode-chip" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5;">REAL</div>
-      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Binance Mainnet</strong> — Capital real. Requiere mínimo 30 días en modo PAPER y configuración explícita de claves de mainnet. El sistema bloquea el cambio si no se cumplen los requisitos.</p></div>
+      <div><p style="font-size:9.5px;"><strong>Modo AUTO en Bitget Mainnet</strong> — Capital real. Requiere mínimo 30 días en modo PAPER y configuración explícita de claves de mainnet de Bitget. El sistema bloquea el cambio si no se cumplen los requisitos.</p></div>
     </div>
   </div>
 
@@ -731,7 +744,7 @@
       <h3 style="color:#34d399;margin-bottom:5px;">Configuración inicial</h3>
       <ul class="clist">
         <li><div class="ico ico-ok">1</div><div>Verificar que <code>ollama list</code> muestra los 3 modelos</div></li>
-        <li><div class="ico ico-ok">2</div><div>Configurar claves API de <strong>Binance Testnet</strong> en Config</div></li>
+        <li><div class="ico ico-ok">2</div><div>Configurar claves API de <strong>Bitget Simulated Trading</strong> en Config</div></li>
         <li><div class="ico ico-ok">3</div><div>Establecer <code>max_drawdown</code> y <code>risk_per_trade</code></div></li>
         <li><div class="ico ico-ok">4</div><div>Iniciar en modo <strong>OBSERVE</strong> — verificar que el score funciona</div></li>
         <li><div class="ico ico-ok">5</div><div>Cambiar a modo <strong>PAPER</strong> y dejar correr 30 días</div></li>
@@ -742,7 +755,7 @@
       <ul class="clist">
         <li><div class="ico ico-ok">6</div><div>Win rate en PAPER &gt; 52% sostenido durante 30 días</div></li>
         <li><div class="ico ico-ok">7</div><div>Revisar Memory tab — mínimo 50 episodios registrados</div></li>
-        <li><div class="ico ico-ok">8</div><div>Configurar claves de <strong>Binance Mainnet</strong> (IP whitelist ON)</div></li>
+        <li><div class="ico ico-ok">8</div><div>Configurar claves de <strong>Bitget Mainnet</strong> en Config (Key + Secret + Passphrase)</div></li>
         <li><div class="ico ico-ok">9</div><div>Reducir <code>risk_per_trade</code> al 50% durante la primera semana REAL</div></li>
         <li><div class="ico ico-tip">→</div><div>Soporte: <strong style="color:#e2e8f0;">riskeep.com</strong> · chat y email disponibles</div></li>
       </ul>
@@ -787,8 +800,8 @@
     <div class="toc-item">
       <div class="toc-num" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#fca5a5;">2</div>
       <div style="flex:1;">
-        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Binance API Key Setup</div>
-        <div style="font-size:9px;color:#64748b;margin-top:1px;">Required permissions · What to avoid · Rate limits &amp; bans</div>
+        <div style="font-size:10.5px;font-weight:700;color:#e2e8f0;">Bitget API Key Setup</div>
+        <div style="font-size:9px;color:#64748b;margin-top:1px;">Simulated Trading account · Permissions · Passphrase · Demo funds</div>
       </div>
       <span style="font-family:monospace;font-size:9px;color:#334155;">pg. 10</span>
     </div>
@@ -831,15 +844,15 @@
           <li><div class="ico ico-ok">✓</div><div><strong>RAM:</strong> 16 GB minimum · 32 GB recommended</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>Disk:</strong> 20 GB free (models ~13 GB + data)</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ · Windows 11 · Ubuntu 22.04+</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> For initial download and Binance WS connection</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> For initial download and Bitget WS connection</div></li>
         </ul>
       </div>
       <div class="card" style="padding:9px 11px;">
         <h3 style="margin-bottom:5px;">Required accounts</h3>
         <ul class="clist">
           <li><div class="ico ico-ok">✓</div><div><strong>Riskeep</strong> — Active subscription at riskeep.com</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Binance Testnet</strong> — Free account at testnet.binance.vision (for PAPER)</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>Binance Mainnet</strong> — Only needed for REAL mode, after 30 days in PAPER</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Bitget</strong> — Free account at bitget.com (activate Simulated Trading for PAPER)</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>Bitget Mainnet</strong> — Enable REAL mode with live keys after 30 days in simulation</div></li>
           <li><div class="ico ico-tip">i</div><div><strong>Telegram</strong> — Optional. For real-time trade notifications</div></li>
         </ul>
       </div>
@@ -853,12 +866,12 @@
       <h3 style="color:#93c5fd;">Key system paths</h3>
     </div>
     <div class="g2" style="gap:6px;">
-      <div><p style="font-size:9px;"><code>~/.aria/session.json</code> — Sesión y token de acceso</p></div>
-      <div><p style="font-size:9px;"><code>~/.env</code> — Claves API de Binance y Telegram</p></div>
-      <div><p style="font-size:9px;"><code>~/ARIA_data/episodes/</code> — Episodios de trading (JSON)</p></div>
-      <div><p style="font-size:9px;"><code>~/ARIA_data/logs/</code> — Logs del sistema ARIA</p></div>
-      <div><p style="font-size:9px;"><code>~/.ollama/models/</code> — Modelos LLM descargados</p></div>
-      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — Dashboard web de ARIA</p></div>
+      <div><p style="font-size:9px;"><code>~/.aria/session.json</code> — Session and access token</p></div>
+      <div><p style="font-size:9px;"><code>~/.env</code> — Bitget API keys and Telegram token</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/episodes/</code> — Trading episodes (JSON)</p></div>
+      <div><p style="font-size:9px;"><code>~/ARIA_data/logs/</code> — ARIA system logs</p></div>
+      <div><p style="font-size:9px;"><code>~/.ollama/models/</code> — Downloaded LLM models</p></div>
+      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — ARIA web dashboard</p></div>
     </div>
   </div>
 
@@ -886,7 +899,7 @@
       <span style="font-size:15px;">🏗️</span>
       <div>
         <h2>System Architecture</h2>
-        <p style="font-size:9px;color:#64748b;margin-top:1px;">Complete flow from Binance data to order execution</p>
+        <p style="font-size:9px;color:#64748b;margin-top:1px;">Complete flow from Bitget data to order execution</p>
       </div>
     </div>
     <span class="pn">01 / 05</span>
@@ -899,10 +912,10 @@
         <marker id="eac" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(6,182,212,.75)"/></marker>
         <marker id="eag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="rgba(16,185,129,.75)"/></marker>
       </defs>
-      <!-- Binance WS -->
+      <!-- Bitget WS -->
       <rect x="8" y="6" width="624" height="46" rx="8" fill="rgba(6,182,212,.09)" stroke="rgba(6,182,212,.3)" stroke-width="1"/>
-      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BINANCE WEBSOCKET FEED</text>
-      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · BNBUSDT — 5m candles · Order Book L2 · Funding Rate</text>
+      <text x="320" y="25" text-anchor="middle" fill="#67e8f9" font-size="11" font-weight="700" font-family="monospace" letter-spacing="1">BITGET WEBSOCKET FEED</text>
+      <text x="320" y="41" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">BTCUSDT · ETHUSDT · LTCUSDT · XRPUSDT · SOLUSDT — 15m candles · Order Book · Funding Rate</text>
       <!-- Arrow -->
       <line x1="320" y1="52" x2="320" y2="72" stroke="rgba(99,130,200,.5)" stroke-width="1.5" marker-end="url(#ea0)"/>
       <text x="328" y="65" fill="#334155" font-size="8" font-family="monospace">OHLCV + Vol</text>
@@ -941,8 +954,8 @@
       <line x1="320" y1="300" x2="320" y2="318" stroke="rgba(16,185,129,.65)" stroke-width="1.5" marker-end="url(#eag)"/>
       <!-- Execution -->
       <rect x="8" y="319" width="624" height="28" rx="8" fill="rgba(16,185,129,.09)" stroke="rgba(16,185,129,.28)" stroke-width="1"/>
-      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BINANCE API — ORDER EXECUTION</text>
-      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">Futures · Post-only optional · PAPER (Testnet) | REAL (Mainnet)</text>
+      <text x="320" y="330" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700" font-family="monospace">BITGET API — ORDER EXECUTION</text>
+      <text x="320" y="342" text-anchor="middle" fill="#64748b" font-size="9" font-family="monospace">USDT Futures · Isolated margin · PAPER (Simulated Trading) | REAL (Mainnet)</text>
     </svg>
   </div>
 
@@ -968,46 +981,59 @@
   <div class="band band-rose">
     <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:15px;">🔑</span>
-      <div><h2>Binance API Key Setup</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Required permissions, what to block and how to avoid Rate Limit bans</p></div>
+      <div><h2>Bitget API Key Setup</h2><p style="font-size:9px;color:#64748b;margin-top:1px;">Simulated Trading account, required permissions and the 3 authentication credentials</p></div>
     </div>
     <span class="pn">02 / 05</span>
   </div>
 
-  <div class="g2" style="margin-bottom:10px;align-items:start;">
-    <div class="card card-green">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">ENABLE</h3></div>
-      <ul class="clist">
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Reading</strong> — Price, balance and open positions</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Futures</strong> — Open and close positions on Binance Futures</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>IP Restriction</strong> — Whitelist your machine's IP (mandatory)</div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Separate Testnet Key</strong> — Create a dedicated API Key for <code>testnet.binance.vision</code></div></li>
-        <li><div class="ico ico-ok">✓</div><div><strong>Enable Spot Trading</strong> — Only if you also trade spot</div></li>
-      </ul>
-    </div>
-    <div class="card card-red">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NEVER ENABLE</h3></div>
-      <ul class="clist">
-        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — The bot NEVER needs to withdraw funds</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Internal Transfers</strong> — Unnecessary and dangerous if the key is leaked</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>No IP whitelist</strong> — A key without IP restriction is accessible from anywhere</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Same key testnet/mainnet</strong> — Separate environments, always</div></li>
-        <li><div class="ico ico-no">✗</div><div><strong>Keys in code / git</strong> — Only in <code>~/.env</code>, outside the repository</div></li>
-      </ul>
+  <!-- Step by step guide -->
+  <div class="card card-blue" style="margin-bottom:10px;padding:10px 12px;">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;"><span style="font-size:12px;">📋</span><h3 style="color:#93c5fd;">Step-by-step guide — Create API key in Bitget Simulated Trading</h3></div>
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">1</div>
+        <p style="font-size:9.5px;"><strong>Create Bitget account</strong> — Sign up at <code>bitget.com</code>. Free account, no verification required for simulation mode.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">2</div>
+        <p style="font-size:9.5px;"><strong>Activate Simulated Trading</strong> — Go to <strong>Trade → Futures</strong> and click the <strong>"Simulated Trading"</strong> button at the top of the interface.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">3</div>
+        <p style="font-size:9.5px;"><strong>API from inside the simulator</strong> — While in Simulated Trading, go to your profile → <strong>API Management</strong>. Create the key <em>inside the simulator</em>, not from the main account.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">4</div>
+        <p style="font-size:9.5px;"><strong>Permissions to enable</strong> — Check: <strong>Futures + Orders + Holdings</strong>. Access type: <strong>Read-Write</strong>. Do not enable Withdrawals.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;margin-top:1px;">5</div>
+        <p style="font-size:9.5px;"><strong>Save all 3 credentials</strong> — Bitget generates: <strong>API Key</strong> + <strong>Secret Key</strong> + <strong>Passphrase</strong>. Copy all 3. The Passphrase cannot be recovered afterwards.</p>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(16,185,129,.25);border:1px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#6ee7b7;margin-top:1px;">6</div>
+        <p style="font-size:9.5px;"><strong>Transfer demo funds</strong> — In the simulator go to <strong>Assets → Transfer</strong> and move USDT from Spot balance to <strong>USDT-M Futures</strong> balance.</p>
+      </div>
     </div>
   </div>
 
-  <div class="card card-amber" style="margin-bottom:10px;">
-    <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;"><span style="font-size:12px;">⚡</span><h3 style="color:#fcd34d;">Rate Limits — How to avoid IP bans</h3></div>
-    <div class="g2" style="gap:8px;">
+  <div class="g2" style="margin-bottom:10px;align-items:start;">
+    <div class="card card-green" style="padding:9px 11px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">✅</span><h3 style="color:#34d399;">THE 3 CREDENTIALS</h3></div>
       <ul class="clist">
-        <li><div class="ico ico-tip">→</div><div><strong>WebSocket over REST:</strong> candlestick streams with no weight limit vs 1200 pts/min on REST.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Header <code>X-MBX-USED-WEIGHT</code>:</strong> monitor it on every response to know the real consumption.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Combined stream:</strong> <code>/stream?streams=btcusdt@kline_5m/ethusdt@kline_5m</code> — a single connection for multiple pairs.</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>API Key</strong> — Public identifier of the key</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Secret Key</strong> — Private key for signing requests</div></li>
+        <li><div class="ico ico-ok">✓</div><div><strong>Passphrase</strong> — Additional password you set when creating the API. <strong>All 3 are mandatory</strong> for ARIA.</div></li>
+        <li><div class="ico ico-tip">i</div><div>Enter them in ARIA from the launcher (Config) or from the dashboard settings screen</div></li>
       </ul>
+    </div>
+    <div class="card card-red" style="padding:9px 11px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px;"><span style="font-size:12px;">🚫</span><h3 style="color:#f87171;">NEVER DO</h3></div>
       <ul class="clist">
-        <li><div class="ico ico-warn">!</div><div><strong>Error 429</strong> = limit reached. Minimum wait of 1 minute before retrying.</div></li>
-        <li><div class="ico ico-warn">!</div><div><strong>Error 418</strong> = IP banned. Binance automatically bans if you keep sending requests after a 429.</div></li>
-        <li><div class="ico ico-tip">→</div><div><strong>Exponential backoff:</strong> the launcher implements retries with exponential wait to avoid accumulating errors.</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Enable Withdrawals</strong> — The bot NEVER needs to withdraw funds</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Create key from main account</strong> — For PAPER the key must be from the simulator</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Use simulator key in REAL mode</strong> — Separate environments, always</div></li>
+        <li><div class="ico ico-no">✗</div><div><strong>Keys in code / git</strong> — Only in ARIA Config, never in plain text files</div></li>
       </ul>
     </div>
   </div>
@@ -1019,7 +1045,7 @@
         <h3 style="margin-bottom:4px;">Principle of Least Privilege</h3>
         <p style="font-size:9.5px;">The bot's API Key can only <strong>operate in Futures</strong>. It cannot withdraw, transfer or access other accounts. In the event of a compromised key, the worst possible scenario is loss of open positions — never an emptied account.</p>
         <div class="div" style="margin:6px 0;"></div>
-        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Recommended rotation:</strong> every 90 days in production. Revoke immediately if you detect unusual activity.</p>
+        <p style="font-size:9px;color:#475569;"><strong style="color:#e2e8f0;">Recommended rotation:</strong> every 90 days in production. Revoke immediately if you detect unusual activity on your Bitget account.</p>
       </div>
     </div>
   </div>
@@ -1074,8 +1100,8 @@
       <text x="424" y="94" text-anchor="middle" fill="#1e3a8a" font-size="7.5" font-family="monospace">order</text>
       <!-- Market -->
       <rect x="445" y="55" width="175" height="90" rx="10" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.25)" stroke-width="1.5"/>
-      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BINANCE FUTURES</text>
-      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Testnet → Mainnet</text>
+      <text x="532" y="84" text-anchor="middle" fill="#fcd34d" font-size="10" font-weight="700" font-family="monospace">BITGET FUTURES</text>
+      <text x="532" y="100" text-anchor="middle" fill="#92400e" font-size="9" font-family="monospace">Simulated → Mainnet</text>
       <text x="532" y="116" text-anchor="middle" fill="#78350f" font-size="8">PAPER before REAL</text>
       <text x="532" y="132" text-anchor="middle" fill="#78350f" font-size="8">Minimum 30 days demo</text>
       <!-- Profits return -->
@@ -1135,8 +1161,8 @@
         <tr><td><code>min_confidence</code></td><td><strong>72%</strong></td><td>Minimum LLM confidence to open a position</td><td>65–80%</td></tr>
         <tr><td><code>position_timeout</code></td><td><strong>8h</strong></td><td>Maximum time before forced close</td><td>4–12h</td></tr>
         <tr><td><code>loss_streak_pause</code></td><td><strong>3</strong></td><td>Automatic pause after N consecutive losses</td><td>3–5</td></tr>
-        <tr><td><code>trailing_stop</code></td><td><strong>activado</strong></td><td>Moving stop on winning positions (+0.5%)</td><td>Siempre ON</td></tr>
-        <tr><td><code>funding_awareness</code></td><td><strong>activado</strong></td><td>Avoids opening positions with high funding rate (&gt;0.1%)</td><td>Siempre ON</td></tr>
+        <tr><td><code>trailing_stop</code></td><td><strong>enabled</strong></td><td>Moving stop on winning positions (+0.5%)</td><td>Always ON</td></tr>
+        <tr><td><code>funding_awareness</code></td><td><strong>enabled</strong></td><td>Avoids opening positions with high funding rate (&gt;0.1%)</td><td>Always ON</td></tr>
       </tbody>
     </table>
   </div>
@@ -1158,11 +1184,11 @@
     </div>
     <div class="mode-row">
       <div class="mode-chip" style="background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3);color:#6ee7b7;">PAPER</div>
-      <div><p style="font-size:9.5px;"><strong>AUTO mode on Binance Testnet</strong> — No real money. Trades are executed on <code>testnet.binance.vision</code> with test credits. <strong>Mandatory 30 days before switching to REAL.</strong></p></div>
+      <div><p style="font-size:9.5px;"><strong>AUTO mode on Bitget Simulated Trading</strong> — No real money. Trades are executed against Bitget's official demo environment with virtual funds. <strong>Mandatory 30 days before switching to REAL.</strong></p></div>
     </div>
     <div class="mode-row" style="border-bottom:none;">
       <div class="mode-chip" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5;">REAL</div>
-      <div><p style="font-size:9.5px;"><strong>AUTO mode on Binance Mainnet</strong> — Real capital. Requires a minimum of 30 days in PAPER mode and explicit mainnet key configuration. The system blocks the switch if requirements are not met.</p></div>
+      <div><p style="font-size:9.5px;"><strong>AUTO mode on Bitget Mainnet</strong> — Real capital. Requires a minimum of 30 days in PAPER mode and explicit Bitget mainnet key configuration. The system blocks the switch if requirements are not met.</p></div>
     </div>
   </div>
 
@@ -1242,7 +1268,7 @@
       <h3 style="color:#34d399;margin-bottom:5px;">Initial setup</h3>
       <ul class="clist">
         <li><div class="ico ico-ok">1</div><div>Verify <code>ollama list</code> shows all 3 models</div></li>
-        <li><div class="ico ico-ok">2</div><div>Set up <strong>Binance Testnet</strong> API keys in Config</div></li>
+        <li><div class="ico ico-ok">2</div><div>Set up <strong>Bitget Simulated Trading</strong> API keys in Config</div></li>
         <li><div class="ico ico-ok">3</div><div>Set <code>max_drawdown</code> and <code>risk_per_trade</code></div></li>
         <li><div class="ico ico-ok">4</div><div>Start in <strong>OBSERVE</strong> mode — verify the score is working</div></li>
         <li><div class="ico ico-ok">5</div><div>Switch to <strong>PAPER</strong> mode and let it run for 30 days</div></li>
@@ -1253,7 +1279,7 @@
       <ul class="clist">
         <li><div class="ico ico-ok">6</div><div>Win rate in PAPER &gt; 52% sustained for 30 days</div></li>
         <li><div class="ico ico-ok">7</div><div>Review Memory tab — minimum 50 recorded episodes</div></li>
-        <li><div class="ico ico-ok">8</div><div>Set up <strong>Binance Mainnet</strong> keys (IP whitelist ON)</div></li>
+        <li><div class="ico ico-ok">8</div><div>Set up <strong>Bitget Mainnet</strong> keys in Config (Key + Secret + Passphrase)</div></li>
         <li><div class="ico ico-ok">9</div><div>Reduce <code>risk_per_trade</code> to 50% during the first REAL week</div></li>
         <li><div class="ico ico-tip">→</div><div>Support: <strong style="color:#e2e8f0;">riskeep.com</strong> · chat and email available</div></li>
       </ul>

@@ -19,8 +19,8 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: 'Riskeep — Tu agente de trading autónomo',
-  description: 'ARIA analiza el mercado, gestiona el riesgo y ejecuta operaciones automáticamente. Trading con inteligencia artificial para Binance.',
-  keywords: ['trading bot', 'inteligencia artificial', 'binance', 'criptomonedas', 'gestión de riesgo'],
+  description: 'ARIA analiza el mercado, gestiona el riesgo y ejecuta operaciones automáticamente. Trading con inteligencia artificial para Bitget.',
+  keywords: ['trading bot', 'inteligencia artificial', 'bitget', 'criptomonedas', 'gestión de riesgo'],
   openGraph: {
     title: 'Riskeep — Tu agente de trading autónomo',
     description: 'ARIA analiza el mercado, gestiona el riesgo y ejecuta operaciones automáticamente.',
