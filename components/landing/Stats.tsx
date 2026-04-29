@@ -42,14 +42,14 @@ function AnimatedNumber({ stat, started, index }: { stat: Stat; started: boolean
 
   return (
     <div
-      className="space-y-1 text-center"
+      className="space-y-1 text-center p-5 rounded-2xl border border-white/6 bg-[#040e1f]"
       style={{
         opacity:    started ? 1 : 0,
         transform:  started ? 'none' : 'translateY(14px)',
         transition: `opacity 0.6s ease ${index * 130}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${index * 130}ms`,
       }}
     >
-      <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent tabular-nums">
+      <div className="text-3xl sm:text-4xl font-heading font-bold bg-gradient-to-r from-amber-400 to-amber-300 bg-clip-text text-transparent tabular-nums">
         {stat.prefix}{display}{stat.suffix}
       </div>
       <div className="text-sm text-slate-500">{stat.label}</div>
@@ -81,8 +81,8 @@ export default function Stats() {
   }, [])
 
   return (
-    <section ref={ref} className="py-14 px-6 border-y border-white/6 bg-white/[0.015]">
-      <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
+    <section ref={ref} className="py-10 px-6 border-y border-white/6 bg-white/[0.012]">
+      <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
         {STATS.map((stat, i) => (
           <AnimatedNumber key={stat.label} stat={stat} started={started} index={i} />
         ))}

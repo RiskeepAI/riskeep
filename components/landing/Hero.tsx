@@ -1,307 +1,406 @@
 'use client'
 
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
+import { ShieldCheck, TrendingUp, Sparkles, Play } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import AnimateIn from '@/components/ui/AnimateIn'
+import ParticleCanvas from '@/components/ui/ParticleCanvas'
 import { useT } from '@/lib/i18n/LanguageContext'
 
-function MiniChart() {
-  const points = [
-    [0, 60], [8, 52], [16, 55], [24, 42], [32, 38], [40, 44],
-    [48, 35], [56, 28], [64, 32], [72, 22], [80, 18], [88, 25],
-    [96, 16], [104, 10], [112, 14], [120, 6], [128, 12], [136, 8],
-    [144, 4], [152, 9], [160, 2],
-  ]
-  const fill = points.map(([x, y]) => `${x},${y}`).join(' ') + ` 160,70 0,70`
+/* ── Word reveal ──────────────────────────────────────────── */
+function WordReveal({ text, baseDelay = 0 }: { text: string; baseDelay?: number }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const words = el.querySelectorAll('.wr-word')
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        words.forEach((w, i) => {
+          setTimeout(() => {
+            (w as HTMLElement).style.cssText =
+              'opacity:1;transform:translateY(0)'
+          }, baseDelay + i * 80)
+        })
+        obs.unobserve(el)
+      }
+    }, { threshold: 0.1 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [baseDelay])
+  return (
+    <span ref={ref}>
+      {text.split(' ').map((word, i) => (
+        <span
+          key={i}
+          className="wr-word inline-block mr-[0.25em]"
+          style={{
+            opacity: 0,
+            transform: 'translateY(30px)',
+            transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)',
+          }}
+        >
+          {word}
+        </span>
+      ))}
+    </span>
+  )
+}
+
+/* ── Tilt 3D ──────────────────────────────────────────────── */
+function Tilt3D({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5   // -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    el.style.transform = `perspective(1000px) rotateY(${x * 14}deg) rotateX(${-y * 10}deg) translateZ(8px)`
+  }
+
+  function handleLeave() {
+    const el = ref.current
+    if (!el) return
+    el.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)'
+  }
 
   return (
-    <svg viewBox="0 0 160 70" className="w-full h-full" preserveAspectRatio="none">
+    <div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      style={{
+        transition: 'transform 0.15s ease-out',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+/* ── Typing effect ────────────────────────────────────────── */
+function TypingWord({ words }: { words: string[] }) {
+  const [idx, setIdx]           = useState(0)
+  const [text, setText]         = useState('')
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const word = words[idx] ?? ''
+    let timeout: ReturnType<typeof setTimeout>
+
+    if (!deleting && text === word) {
+      timeout = setTimeout(() => setDeleting(true), 2200)
+    } else if (deleting && text === '') {
+      setDeleting(false)
+      setIdx(i => (i + 1) % words.length)
+    } else {
+      timeout = setTimeout(() => {
+        setText(deleting ? word.slice(0, text.length - 1) : word.slice(0, text.length + 1))
+      }, deleting ? 40 : 70)
+    }
+
+    return () => clearTimeout(timeout)
+  }, [text, deleting, idx, words])
+
+  return (
+    <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 bg-clip-text text-transparent">
+      {text}
+      <span className="animate-pulse text-amber-400">|</span>
+    </span>
+  )
+}
+
+/* ── Candlestick chart with volume + EMA ──── */
+function CandlestickChart() {
+  // [x, open_y, close_y, high_y, low_y] — SVG y-space, lower y = higher price
+  const candles = [
+    [2,  44, 38, 42, 46], [10, 38, 32, 36, 40], [18, 32, 36, 30, 38],
+    [26, 36, 28, 34, 38], [34, 28, 22, 26, 30], [42, 22, 26, 20, 28],
+    [50, 26, 18, 24, 28], [58, 18, 14, 16, 20], [66, 14, 18, 12, 20],
+    [74, 18, 12, 16, 20], [82, 12,  8, 10, 14], [90,  8, 12,  6, 14],
+    [98, 12, 16, 10, 18],[106, 16, 12, 14, 18],[114, 12,  8, 10, 14],
+    [122, 8,  4,  6, 10],
+  ]
+  const vols = [4,6,5,8,5,7,9,11,6,10,13,7,6,8,10,14]
+  const maxV = 14
+  // EMA line points
+  const ema = '2,42 10,37 18,34 26,31 34,27 42,23 50,20 58,17 66,15 74,14 82,11 90,9 98,11 106,13 114,10 122,7'
+
+  return (
+    <svg viewBox="0 0 132 68" className="w-full h-full" preserveAspectRatio="none">
       <defs>
-        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+        <pattern id="cgrid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5"/>
+        </pattern>
+        <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.15"/>
+          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0"/>
         </linearGradient>
       </defs>
-      <polygon points={fill} fill="url(#chartGrad)" />
-      <polyline
-        points={points.map(([x, y]) => `${x},${y}`).join(' ')}
-        fill="none" stroke="#22d3ee" strokeWidth="1.5"
-        strokeLinecap="round" strokeLinejoin="round"
-      />
+
+      {/* Grid */}
+      <rect width="132" height="52" fill="url(#cgrid)"/>
+
+      {/* EMA dashed line */}
+      <polyline points={ema} fill="none" stroke="#F59E0B" strokeWidth="0.7" strokeDasharray="2 2" opacity="0.6"/>
+
+      {/* Candles */}
+      {candles.map(([x, o, c, h, l], i) => {
+        const bull = c <= o
+        const col  = bull ? '#22C55E' : '#EF4444'
+        const top  = Math.min(o, c)
+        const bh   = Math.max(Math.abs(o - c), 1)
+        return (
+          <g key={i}>
+            <line x1={x+4} y1={h} x2={x+4} y2={l} stroke={col} strokeWidth="0.7" opacity="0.7"/>
+            <rect x={x+1} y={top} width={6} height={bh} fill={col} opacity="0.9" rx="0.4"/>
+          </g>
+        )
+      })}
+
+      {/* Scan line */}
+      <rect width="132" height="4" fill="url(#scanGrad)" className="animate-scan"/>
+
+      {/* Volume bars */}
+      {vols.map((v, i) => (
+        <rect
+          key={i} x={i*8+2} y={52 + (16 - (v/maxV)*14)}
+          width={6} height={(v/maxV)*14}
+          fill={i % 3 !== 1 ? 'rgba(239,68,68,0.35)' : 'rgba(16,185,129,0.35)'}
+          rx="0.4"
+        />
+      ))}
     </svg>
   )
 }
 
+/* ── ARIA Dashboard preview ───────────────────────────────── */
+function DashboardPreview({ t }: { t: ReturnType<typeof useT> }) {
+  return (
+    <div className="relative w-full">
+      {/* Glows */}
+      <div className="absolute -inset-6 bg-violet-600/15 rounded-3xl blur-3xl pointer-events-none" />
+      <div className="absolute -inset-6 bg-amber-500/8  rounded-3xl blur-3xl pointer-events-none" />
+
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/80 bg-[#040e1f]"
+        style={{ border: '1px solid rgba(245,158,11,0.18)' }}>
+
+        {/* Ambient glow top */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent"/>
+
+        {/* Chrome bar */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-white/6 bg-white/[0.015]">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-red-500/60"/>
+            <div className="w-2 h-2 rounded-full bg-amber-500/60"/>
+            <div className="w-2 h-2 rounded-full bg-green-500/60"/>
+            <span className="ml-2 text-[9px] text-slate-600 font-mono tracking-wider">RISKEEP · ARIA</span>
+          </div>
+          <span className="flex items-center gap-1.5 text-[9px] font-mono" style={{ color: '#22C55E' }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#22C55E' }}/>
+            LIVE · PAPER
+          </span>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex items-center gap-0.5 px-3 pt-1 pb-0 border-b border-white/6 bg-[#060C18]">
+          {[t.hero.dashTab1, t.hero.dashTab2, t.hero.dashTab3, t.hero.dashTab4].map((tab, i) => (
+            <div key={tab} className={`px-2.5 py-1.5 text-[9px] font-mono rounded-t-md transition-colors ${
+              i === 0
+                ? 'bg-amber-500/10 text-amber-300 border-b border-amber-500/50'
+                : 'text-slate-700 hover:text-slate-500'
+            }`}>{tab}</div>
+          ))}
+        </div>
+
+        {/* Body */}
+        <div className="p-2.5 grid grid-cols-12 gap-2 font-mono">
+
+          {/* ── Left stats col ── */}
+          <div className="col-span-4 space-y-1.5">
+            {[
+              { l: t.hero.dashCapital,  v: '$2,450',  c: 'text-white',        t: '' },
+              { l: t.hero.dashPnlToday, v: '+$84.20', c: 'text-green-500',  t: '▲' },
+              { l: t.hero.dashWinRate,  v: '64.2%',   c: 'text-amber-400',    t: '' },
+              { l: t.hero.dashDrawdown, v: '−1.2%',   c: 'text-slate-400',    t: '' },
+            ].map(({ l, v, c, t: trend }) => (
+              <div key={l} className="rounded-lg p-1.5 border border-white/5 bg-white/[0.025]">
+                <div className="text-slate-600 text-[7px] uppercase tracking-wider mb-0.5">{l}</div>
+                <div className={`font-bold text-[11px] ${c} flex items-center gap-1`}>
+                  {trend && <span className="text-[8px]">{trend}</span>}
+                  {v}
+                </div>
+              </div>
+            ))}
+
+            {/* Position info */}
+            <div className="rounded-lg p-1.5 border border-red-500/20 bg-red-500/5 mt-1">
+              <div className="text-[7px] text-slate-600 uppercase tracking-wider mb-1">Posición activa</div>
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] text-white font-bold">BTC/USDT</span>
+                <span className="text-[7px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
+              </div>
+              <div className="text-[7px] text-slate-600 mt-0.5">{t.hero.dashEntry} <span className="text-slate-400">$97,432</span></div>
+            </div>
+          </div>
+
+          {/* ── Right chart col ── */}
+          <div className="col-span-8 space-y-1.5">
+
+            {/* Price header */}
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-white font-bold text-sm">$97,432</span>
+                <span className="text-red-400 text-[9px]">−2.34%</span>
+              </div>
+              <div className="flex items-center gap-1 text-[7px] text-slate-600">
+                <span className="w-3 h-0.5 bg-amber-500/60 inline-block rounded"/>EMA 20
+              </div>
+            </div>
+
+            {/* Chart */}
+            <div className="relative rounded-lg border border-white/6 bg-[#04080F] overflow-hidden" style={{ height: '80px' }}>
+              <CandlestickChart />
+            </div>
+
+            {/* ARIA reasoning */}
+            <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-2">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-amber-400 text-[8px] font-bold">ARIA · 17:13:48</span>
+                <span className="text-[7px] px-1.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-300">IA activa</span>
+              </div>
+              <div className="text-slate-500 text-[7px] leading-relaxed line-clamp-2 mb-1.5">
+                {t.hero.dashAriaSnippetMobile}
+              </div>
+              {/* Confidence bar */}
+              <div className="flex items-center gap-1.5">
+                <div className="flex-1 h-1 bg-white/6 rounded-full overflow-hidden">
+                  <div className="h-full w-[85%] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 rounded-full animate-shimmer"/>
+                </div>
+                <span className="text-amber-400 text-[8px] font-bold">85%</span>
+              </div>
+              <div className="text-[6px] text-slate-700 mt-0.5">{t.hero.dashConfidence}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
 export default function Hero() {
   const t = useT()
 
+  // Number of words in headlinePrefix to stagger badge after them
+  const wordCount = t.hero.headlinePrefix.split(' ').length
+  const badgeDelay = wordCount * 80 + 200
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-24 overflow-hidden">
-      {/* Background glows */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[140px]" />
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-cyan-600/8 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-violet-600/6 rounded-full blur-[80px]" />
+    <section className="relative min-h-screen px-6 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        {/* Hero image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35"
+          style={{ backgroundImage: "url('/images/hero-bg-v3.jpg')" }}
+        />
+        {/* Overlay to keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0F1E]/60 via-[#0A0F1E]/40 to-[#0A0F1E]/80" />
+        <ParticleCanvas className="opacity-40" />
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-violet-600/10 rounded-full blur-[160px]"/>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/7 rounded-full blur-[140px]"/>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-cyan-600/4 rounded-full blur-[120px]"/>
       </div>
 
-      {/* ── Copy ── */}
-      <div className="max-w-4xl mx-auto text-center space-y-8">
-        <Badge variant="blue">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          {t.hero.badge}
-        </Badge>
+      {/* Sticky content container */}
+      <div className="sticky top-0 min-h-screen flex items-center pt-28 pb-16">
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-          <span className="text-white">{t.hero.headline1}</span>
-          <br />
-          <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-            {t.hero.headline2}
-          </span>
-        </h1>
-
-        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-slate-400 leading-relaxed">
-          <strong className="text-slate-200">ARIA</strong> {t.hero.subheadline}
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-          <Link href="#pricing">
-            <Button size="lg">{t.hero.ctaPrimary}</Button>
-          </Link>
-          <Link href="#how-it-works">
-            <Button size="lg" variant="secondary">{t.hero.ctaSecondary}</Button>
-          </Link>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-2 text-sm text-slate-500">
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustNoCard}</span>
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustCancel}</span>
-          <span className="flex items-center gap-2"><span className="text-emerald-400">✓</span> {t.hero.trustPaper}</span>
-        </div>
-      </div>
-
-      {/* ── Mobile mockup ── */}
-      <div className="md:hidden mt-14 w-full max-w-sm mx-auto">
-        <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 bg-[#040b1c]">
-          {/* Chrome */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/8 bg-white/2">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-              <span className="ml-2 text-[10px] text-slate-500 font-mono">{t.hero.dashTitle}</span>
+          {/* ── Left: Copy ── */}
+          <AnimateIn animation="fade-right" className="space-y-8 text-center lg:text-left">
+            <div
+              style={{
+                opacity: 0,
+                transform: 'translateY(20px)',
+                transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${badgeDelay}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${badgeDelay}ms`,
+              }}
+              className="badge-reveal inline-block"
+            >
+              <Badge variant="gold">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"/>
+                {t.hero.badge}
+              </Badge>
             </div>
-            <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              PAPER
-            </span>
-          </div>
-          {/* Body */}
-          <div className="p-4 space-y-3 font-mono">
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {([
-                { label: t.hero.dashCapital,  value: '$2,450',  cls: 'text-white'       },
-                { label: t.hero.dashPnlToday, value: '+$84.20', cls: 'text-emerald-400' },
-                { label: t.hero.dashWinRate,  value: '64.2%',   cls: 'text-white'       },
-                { label: t.hero.dashDrawdown, value: '1.2%',    cls: 'text-yellow-400'  },
-              ] as { label: string; value: string; cls: string }[]).map(({ label, value, cls }) => (
-                <div key={label} className="bg-white/4 rounded-lg p-3 border border-white/6">
-                  <div className="text-slate-500 text-[10px] uppercase mb-1">{label}</div>
-                  <div className={`font-bold text-sm ${cls}`}>{value}</div>
-                </div>
+
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
+              <span className="text-white block">
+                <WordReveal text={t.hero.headlinePrefix} baseDelay={0} />
+              </span>
+              <span className="block mt-1 min-h-[1.2em]">
+                <TypingWord words={t.hero.typingWords} />
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
+              <strong className="text-slate-200">ARIA</strong> {t.hero.subheadline}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              <Link href="#pricing">
+                <Button size="lg">{t.hero.ctaPrimary}</Button>
+              </Link>
+              <Link href="#how-it-works">
+                <Button size="lg" variant="secondary">
+                  <Play className="w-4 h-4"/>
+                  {t.hero.ctaSecondary}
+                </Button>
+              </Link>
+            </div>
+
+            <p className="text-[10px] text-[#3d4f6e] text-center lg:text-left">
+              El trading de criptomonedas implica riesgo. No inviertas más de lo que puedas permitirte perder.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+              {[
+                { icon: ShieldCheck, text: t.hero.trustNoCard, color: 'text-green-500' },
+                { icon: TrendingUp,  text: t.hero.trustCancel, color: 'text-green-500' },
+                { icon: Sparkles,    text: t.hero.trustPaper,  color: 'text-amber-400' },
+              ].map(({ icon: Icon, text, color }) => (
+                <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-sm text-[#6b768b] hover:text-[#dbe6fe] transition-colors">
+                  <Icon className={`w-3.5 h-3.5 ${color} flex-shrink-0`}/>
+                  {text}
+                </span>
               ))}
             </div>
-            {/* Active position */}
-            <div className="bg-white/4 rounded-lg p-3 border border-white/6 text-xs">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-bold">BTC/USDT</span>
-                <span className="px-2 py-0.5 rounded text-[9px] bg-red-500/15 text-red-300 border border-red-500/25">SHORT</span>
-              </div>
-              <div className="flex justify-between text-[10px] text-slate-500 mb-2">
-                <span>{t.hero.dashEntry} <span className="text-slate-300">$97,432</span></span>
-                <span className="text-emerald-400 font-bold">+$47.20</span>
-              </div>
-              <div className="text-[10px] text-slate-500 mb-1">{t.hero.dashAriaConf}</div>
-              <div className="h-1.5 bg-white/8 rounded-full overflow-hidden">
-                <div className="h-full w-[85%] bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full" />
-              </div>
-            </div>
-            {/* ARIA snippet */}
-            <div className="bg-white/3 rounded-lg p-3 border border-white/6 text-[10px] text-slate-400 leading-relaxed">
-              <span className="text-blue-300 block mb-1">🤖 ARIA — 17:13:48</span>
-              {t.hero.dashAriaSnippetMobile}{' '}
-              <span className="text-emerald-300">{t.hero.dashAriaOpening}</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* ── Desktop mockup ── */}
-      <div className="hidden md:block mt-20 w-full max-w-6xl mx-auto relative">
-        <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 bg-[#040b1c]">
-          {/* Window chrome */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/8 bg-white/2">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500/70" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-              <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-3 text-xs text-slate-500 font-mono">Riskeep — {t.hero.dashTitle}</span>
-            </div>
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <span className="flex items-center gap-1.5 text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                {t.hero.dashConnected}
+            <div className="flex items-center gap-2 pt-1">
+              <span className="flex items-center gap-2 px-3 py-1 rounded-lg border border-white/8 bg-white/3 text-xs text-[#6b768b]">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"/>
+                Compatible con <span className="text-[#dbe6fe] font-medium">Bitget</span>
               </span>
-              <span className="text-slate-600">17:14:03</span>
             </div>
-          </div>
+          </AnimateIn>
 
-          {/* Nav tabs */}
-          <div className="flex items-center gap-1 px-4 pt-2 border-b border-white/6 bg-[#040b1c]">
-            {[t.hero.dashTabDash, t.hero.dashTabCandles, t.hero.dashTabMemory, t.hero.dashTabPerf].map((tab, i) => (
-              <div
-                key={tab}
-                className={`px-4 py-2 text-xs font-mono rounded-t-lg transition-colors ${
-                  i === 0
-                    ? 'bg-blue-500/15 text-blue-300 border-b-2 border-blue-400'
-                    : 'text-slate-500 hover:text-slate-400'
-                }`}
-              >
-                {tab}
-              </div>
-            ))}
-          </div>
+          {/* ── Right: Dashboard preview ── */}
+          <AnimateIn animation="fade-left" delay={150} className="hidden lg:block">
+            <Tilt3D>
+              <DashboardPreview t={t} />
+            </Tilt3D>
+          </AnimateIn>
 
-          {/* Dashboard grid */}
-          <div className="grid grid-cols-12 gap-px bg-white/5 text-xs font-mono">
-
-            {/* Portfolio */}
-            <div className="col-span-3 bg-[#040b1c] p-4 space-y-3">
-              <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashPortfolio}</div>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashCapital}</div>
-                  <div className="text-white font-bold text-sm mt-0.5">$2,450</div>
-                </div>
-                <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashPnlToday}</div>
-                  <div className="text-emerald-400 font-bold text-sm mt-0.5">+$84.20</div>
-                </div>
-                <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashDrawdown}</div>
-                  <div className="text-yellow-400 font-bold text-sm mt-0.5">1.2%</div>
-                </div>
-                <div className="bg-white/4 rounded-lg p-2.5 border border-white/6">
-                  <div className="text-slate-500 text-[9px] uppercase">{t.hero.dashPositions}</div>
-                  <div className="text-white font-bold text-sm mt-0.5">2 / 3</div>
-                </div>
-              </div>
-              <div className="bg-white/4 rounded-lg p-2.5 border border-white/6 space-y-1.5">
-                <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">{t.hero.dashWinRate}</span>
-                  <span className="text-emerald-400">64.2%</span>
-                </div>
-                <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">{t.hero.dashEpisodes}</span>
-                  <span className="text-slate-300">312</span>
-                </div>
-                <div className="flex justify-between text-[9px]">
-                  <span className="text-slate-500">{t.hero.dashPnlTotal}</span>
-                  <span className="text-emerald-400">+$1,284</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Analysis */}
-            <div className="col-span-5 bg-[#040b1c] p-4 space-y-3">
-              <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashMarketAnalysis}</div>
-              <div className="flex gap-1">
-                {['BTC/USDT', 'ETH/USDT', 'SOL/USDT'].map((sym, i) => (
-                  <div key={sym} className={`px-2.5 py-1 rounded-lg text-[9px] ${
-                    i === 0 ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-white/4 text-slate-500 border border-white/6'
-                  }`}>{sym}</div>
-                ))}
-              </div>
-              <div className="bg-white/4 rounded-xl border border-white/6 p-3 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-white font-bold text-base">$97,432.50</div>
-                    <div className="text-emerald-400 text-[9px]">+2.34% · BTC/USDT</div>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-red-500/15 border border-red-500/30 rounded-lg">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                    <span className="text-red-300 text-[9px] font-bold">SHORT</span>
-                  </div>
-                </div>
-                <div className="h-14 w-full">
-                  <MiniChart />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="bg-white/4 rounded-lg p-2 border border-white/6">
-                  <div className="text-slate-500 text-[9px]">RSI (14)</div>
-                  <div className="text-yellow-400 font-bold text-sm">68.4</div>
-                  <div className="text-[8px] text-yellow-400/70">{t.hero.dashOverbought}</div>
-                </div>
-                <div className="bg-white/4 rounded-lg p-2 border border-white/6">
-                  <div className="text-slate-500 text-[9px]">{t.hero.dashTrend}</div>
-                  <div className="text-red-400 font-bold text-sm">{t.hero.dashBearish}</div>
-                  <div className="text-[8px] text-slate-500">EMA 9/21</div>
-                </div>
-                <div className="bg-white/4 rounded-lg p-2 border border-white/6">
-                  <div className="text-slate-500 text-[9px]">{t.hero.dashPattern}</div>
-                  <div className="text-white font-bold text-[10px] leading-tight">Three Black Crows</div>
-                  <div className="text-[8px] text-emerald-400">{t.hero.dashConfidence}: 85%</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: reasoning + positions */}
-            <div className="col-span-4 bg-[#040b1c] flex flex-col divide-y divide-white/5">
-              <div className="p-4 space-y-2 flex-1">
-                <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashReasoning}</div>
-                <div className="text-slate-400 text-[9px] leading-relaxed bg-white/3 rounded-lg p-2.5 border border-white/6">
-                  <span className="text-blue-300">17:13:48 — BTC/USDT</span>
-                  <br />
-                  {t.hero.dashAriaSnippet}
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-[9px]">
-                    <span className="text-slate-500">{t.hero.dashConfidence}</span>
-                    <span className="text-emerald-400">85%</span>
-                  </div>
-                  <div className="h-1 bg-white/8 rounded-full overflow-hidden">
-                    <div className="h-full w-[85%] bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full" />
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 space-y-2">
-                <div className="text-slate-500 uppercase tracking-widest text-[10px]">{t.hero.dashOpenPos}</div>
-                {[
-                  { pair: 'BTC/USDT', side: 'SHORT', entry: '$97,432', sl: '$99,100', tp: '$94,100', pnl: '+$47.20' },
-                  { pair: 'ETH/USDT', side: 'SHORT', entry: '$2,680',  sl: '$2,750',  tp: '$2,540',  pnl: '+$37.00' },
-                ].map((pos) => (
-                  <div key={pos.pair} className="bg-white/4 rounded-lg p-2 border border-white/6 flex items-center justify-between">
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-white text-[10px] font-bold">{pos.pair}</span>
-                        <span className="px-1.5 py-0.5 rounded text-[8px] bg-red-500/15 text-red-300 border border-red-500/25">{pos.side}</span>
-                      </div>
-                      <div className="text-[8px] text-slate-500 mt-0.5">
-                        E: {pos.entry} · SL: <span className="text-red-400">{pos.sl}</span> · TP: <span className="text-emerald-400">{pos.tp}</span>
-                      </div>
-                    </div>
-                    <div className="text-[10px] font-bold text-emerald-400">{pos.pnl}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
+          {/* Mobile preview (simpler) */}
+          <AnimateIn animation="zoom-in" delay={100} className="lg:hidden w-full max-w-sm mx-auto">
+            <DashboardPreview t={t} />
+          </AnimateIn>
         </div>
-
-        {/* Glow */}
-        <div className="absolute left-1/2 -translate-x-1/2 w-3/4 h-12 bg-blue-500/10 blur-3xl rounded-full -bottom-6 pointer-events-none" />
       </div>
     </section>
   )
