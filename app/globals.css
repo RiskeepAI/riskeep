@@ -1,42 +1,77 @@
 @import "tailwindcss";
 
+/* ─── Custom font utilities ──────────────────────────────── */
+@layer utilities {
+  .font-heading { font-family: var(--font-heading, 'Space Grotesk', system-ui, sans-serif); }
+  .font-body    { font-family: var(--font-body, 'IBM Plex Sans', system-ui, sans-serif); }
+}
+
+/* ─── Design Tokens ──────────────────────────────────────── */
 :root {
-  --background: #020810;
+  /* Backgrounds — navy progresivo */
+  --background:       #000000;
+  --surface:          #040e1f;
+  --surface-elevated: #0d1526;
+  --surface-hover:    #15263f;
+  --border:           rgba(255, 255, 255, 0.06);
+
+  /* Brand */
+  --primary:    #F59E0B;
+  --primary-hi: #FBBF24;
+  --secondary:  #C084FC;
+  --accent:     #7DE9FF;
+  --blue:       #34B5FA;
+  --success:    #22C55E;
+  --danger:     #EF4444;
+  --orange:     #FB923C;
+
+  /* Texto — azul glacial */
+  --text:       #dbe6fe;
+  --text-muted: #6b768b;
+  --text-dim:   #3d4f6e;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ─── Base ───────────────────────────────────────────────── */
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--background);
-  color: #cbd5e1;
+  color: var(--text-muted);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar { width: 6px; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.3); }
 
 /* ─── Ticker ─────────────────────────────────────────────── */
 @keyframes ticker {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-
 .animate-ticker {
   animation: ticker 35s linear infinite;
   will-change: transform;
 }
-
-.animate-ticker:hover {
-  animation-play-state: paused;
-}
+.animate-ticker:hover { animation-play-state: paused; }
 
 /* ─── Scroll reveal ──────────────────────────────────────── */
 @keyframes fade-up {
@@ -57,10 +92,195 @@ body {
 .anim-fade-in   { animation: fade-in   0.65s ease forwards; }
 .anim-fade-left { animation: fade-left 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* ─── Gradient section label ─────────────────────────────── */
+/* ─── Gradient text utilities ────────────────────────────── */
 .label-gradient {
-  background: linear-gradient(90deg, #60a5fa, #22d3ee);
+  background: linear-gradient(90deg, #F59E0B, #FBBF24);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #F59E0B, #FBBF24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-heading {
+  background: linear-gradient(135deg, #F59E0B 0%, #8B5CF6 60%, #22D3EE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glass card ─────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Glow effects ───────────────────────────────────────── */
+.glow-gold   { box-shadow: 0 0 40px rgba(245, 158, 11, 0.15); }
+.glow-purple { box-shadow: 0 0 40px rgba(139, 92, 246, 0.15); }
+.glow-cyan   { box-shadow: 0 0 40px rgba(34, 211, 238, 0.15); }
+
+/* ─── Dashboard animations ───────────────────────────────── */
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(400%); opacity: 0; }
+}
+.animate-scan {
+  animation: scan-line 4s ease-in-out infinite;
+}
+
+@keyframes draw-path {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+.animate-float { animation: float-y 4s ease-in-out infinite; }
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(34, 211, 238, 0.5); }
+}
+.animate-glow-pulse { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes signal-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.animate-signal { animation: signal-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ─── Section dividers ───────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.06) 70%, transparent 100%);
+}
+
+/* ─── Scroll progress bar ────────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 200;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, #F59E0B 0%, #8B5CF6 50%, #22D3EE 100%);
+  animation: scroll-grow linear both;
+  animation-timeline: scroll(root block);
+}
+@keyframes scroll-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ─── Additional reveal animations ──────────────────────── */
+@keyframes fade-right {
+  from { opacity: 0; transform: translateX(-36px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes zoom-in {
+  from { opacity: 0; transform: scale(0.80) translateY(28px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+.anim-fade-right { animation: fade-right 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.anim-scale-up   { animation: scale-up   0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.anim-zoom-in    { animation: zoom-in    0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ─── Animated gradient border ───────────────────────────── */
+@property --ba {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes border-spin {
+  to { --ba: 360deg; }
+}
+.animated-border-card {
+  position: relative;
+}
+.animated-border-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--ba),
+    transparent 60%,
+    rgba(139, 92, 246, 0.6) 75%,
+    rgba(34,  211, 238, 0.4) 85%,
+    transparent 100%
+  );
+  animation: border-spin 6s linear infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.animated-border-card:hover::before {
+  opacity: 1;
+}
+
+/* ─── Pricing ambient glow ───────────────────────────────── */
+@keyframes pricing-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.pricing-ambient {
+  animation: pricing-glow 3s ease-in-out infinite;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker,
+  .anim-fade-up,
+  .anim-fade-in,
+  .anim-fade-left,
+  .anim-fade-right,
+  .anim-scale-up,
+  .anim-zoom-in,
+  .animate-scan,
+  .animate-float,
+  .animate-glow-pulse,
+  .animate-shimmer,
+  .animate-signal,
+  .scroll-progress,
+  .pricing-ambient,
+  .animated-border-card::before {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

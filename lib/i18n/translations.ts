@@ -22,6 +22,8 @@ const es = {
   /* ── HERO ───────────────────────────────────────────────────────────────── */
   hero: {
     badge:        'Trading con Inteligencia Artificial',
+    headlinePrefix: 'ARIA opera',
+    typingWords:  ['Mientras Duermes', 'Las 24 Horas', 'Sin Emociones', 'Con Precisión'],
     headline1:    'Tu agente de trading',
     headline2:    'autónomo e inteligente',
     subheadline:  'analiza el mercado, gestiona el riesgo y ejecuta operaciones por ti. Sin emociones, sin errores humanos. Solo estrategia.',
@@ -51,6 +53,10 @@ const es = {
     dashConfidence:   'Confianza',
     dashEntry:        'Entrada:',
     dashAriaConf:     'Confianza ARIA — 85%',
+    dashTab1:         'Dashboard',
+    dashTab2:         'Velas',
+    dashTab3:         'Memoria',
+    dashTab4:         'Rendimiento',
     dashTabDash:      '⚡ Dashboard',
     dashTabCandles:   '🕯️ Velas',
     dashTabMemory:    '🧠 Memoria',
@@ -98,6 +104,10 @@ const es = {
     step3title:  'ARIA opera por ti',
     step3desc:   'El agente analiza el mercado continuamente, identifica oportunidades con alta confianza y ejecuta las operaciones automáticamente.',
     step3badge:  'IA en tiempo real · Stop loss automático',
+    step1tag:    'Bitget API',
+    step2tag:    'Config. riesgo',
+    step3tag:    'Piloto automático',
+    bottomNote:  'ARIA opera de forma autónoma una vez configurado — sin intervención manual requerida',
   },
 
   /* ── FEATURES ───────────────────────────────────────────────────────────── */
@@ -113,6 +123,15 @@ const es = {
       { title: 'Alertas por Telegram',            description: 'Recibe notificaciones instantáneas de cada operación, alerta de riesgo y resumen diario directamente en tu móvil.' },
       { title: 'Mejora continua',                 description: 'ARIA aprende del mercado. Cada ciclo de análisis actualiza su memoria de patrones y estrategias efectivas.' },
     ],
+    tagSL:        'SL auto',
+    tagTP:        'TP calc',
+    tagDD:        'Max DD',
+    latencyLabel: 'Latencia media',
+    statTraders:  'Traders',
+    statWinRate:  'Win Rate',
+    statActive:   'Activo',
+    statLatency:  'Latencia',
+    alertActive:  'Alerta activa',
   },
 
   /* ── COMPARISON ─────────────────────────────────────────────────────────── */
@@ -205,13 +224,16 @@ const es = {
 
   /* ── FOOTER ─────────────────────────────────────────────────────────────── */
   footer: {
-    features:   'Funciones',
-    pricing:    'Precios',
-    faq:        'FAQ',
-    legal:      'Legal',
-    myAccount:  'Mi cuenta',
-    rights:     'Todos los derechos reservados.',
-    disclaimer: 'El trading de criptomonedas implica riesgo significativo. Riskeep no ofrece asesoramiento financiero. Las rentabilidades pasadas no garantizan resultados futuros.',
+    features:    'Funciones',
+    pricing:     'Precios',
+    faq:         'FAQ',
+    legal:       'Legal',
+    myAccount:   'Mi cuenta',
+    rights:      'Todos los derechos reservados.',
+    disclaimer:  'El trading de criptomonedas implica riesgo significativo. Riskeep no ofrece asesoramiento financiero. Las rentabilidades pasadas no garantizan resultados futuros.',
+    description: 'ARIA — agente de trading autónomo con IA. Opera 24/7 sin emociones.',
+    navLabel:    'Navegación',
+    contact:     'Contacto',
   },
 
   /* ── AUTH ───────────────────────────────────────────────────────────────── */
@@ -564,6 +586,8 @@ const en: typeof es = {
 
   hero: {
     badge:        'Trading with Artificial Intelligence',
+    headlinePrefix: 'Let ARIA Trade',
+    typingWords:  ['While You Sleep', 'Around the Clock', 'Without Emotion', 'With Precision'],
     headline1:    'Your autonomous trading',
     headline2:    'agent — intelligent',
     subheadline:  'analyzes the market, manages risk and executes trades for you. No emotions, no human errors. Pure strategy.',
@@ -592,6 +616,10 @@ const en: typeof es = {
     dashConfidence:   'Confidence',
     dashEntry:        'Entry:',
     dashAriaConf:     'ARIA Confidence — 85%',
+    dashTab1:         'Dashboard',
+    dashTab2:         'Candles',
+    dashTab3:         'Memory',
+    dashTab4:         'Performance',
     dashTabDash:      '⚡ Dashboard',
     dashTabCandles:   '🕯️ Candles',
     dashTabMemory:    '🧠 Memory',
@@ -636,6 +664,10 @@ const en: typeof es = {
     step3title:  'ARIA trades for you',
     step3desc:   'The agent continuously analyzes the market, identifies high-confidence opportunities and executes trades automatically.',
     step3badge:  'Real-time AI · Automatic stop loss',
+    step1tag:    'Bitget API',
+    step2tag:    'Risk Config',
+    step3tag:    'Auto-pilot',
+    bottomNote:  'ARIA operates autonomously once configured — no manual intervention required',
   },
 
   features: {
@@ -650,6 +682,15 @@ const en: typeof es = {
       { title: 'Telegram alerts',               description: 'Receive instant notifications for each trade, risk alert and daily summary directly on your phone.' },
       { title: 'Continuous improvement',        description: 'ARIA learns from the market. Each analysis cycle updates its memory of effective patterns and strategies.' },
     ],
+    tagSL:        'SL auto',
+    tagTP:        'TP calc',
+    tagDD:        'Max DD',
+    latencyLabel: 'Avg latency',
+    statTraders:  'Traders',
+    statWinRate:  'Win Rate',
+    statActive:   'Active',
+    statLatency:  'Latency',
+    alertActive:  'Alert active',
   },
 
   comparison: {
@@ -738,13 +779,16 @@ const en: typeof es = {
   },
 
   footer: {
-    features:   'Features',
-    pricing:    'Pricing',
-    faq:        'FAQ',
-    legal:      'Legal',
-    myAccount:  'My account',
-    rights:     'All rights reserved.',
-    disclaimer: 'Cryptocurrency trading involves significant risk. Riskeep does not offer financial advice. Past returns do not guarantee future results.',
+    features:    'Features',
+    pricing:     'Pricing',
+    faq:         'FAQ',
+    legal:       'Legal',
+    myAccount:   'My account',
+    rights:      'All rights reserved.',
+    disclaimer:  'Cryptocurrency trading involves significant risk. Riskeep does not offer financial advice. Past returns do not guarantee future results.',
+    description: 'ARIA — autonomous AI trading agent. Operates 24/7 without emotions.',
+    navLabel:    'Navigation',
+    contact:     'Contact',
   },
 
   auth: {

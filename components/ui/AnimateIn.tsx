@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode
   className?: string
   delay?: number
-  animation?: 'fade-up' | 'fade-in' | 'fade-left'
+  animation?: 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'scale-up' | 'zoom-in'
   threshold?: number
 }
 

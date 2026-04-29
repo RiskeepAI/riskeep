@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
+import { CheckCircle } from 'lucide-react'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function RegisterForm() {
@@ -58,8 +59,8 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {sessionId && (
-        <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm">
-          <span>✓</span>
+        <div className="flex items-center gap-3 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-500 text-sm">
+          <CheckCircle className="w-4 h-4 flex-shrink-0"/>
           <span>{t.auth.registerPaymentOk}</span>
         </div>
       )}

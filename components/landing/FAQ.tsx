@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import AnimateIn from '@/components/ui/AnimateIn'
+import SectionChip from '@/components/ui/SectionChip'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function FAQ() {
@@ -9,12 +11,12 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="py-28 px-6">
+    <section id="faq" className="py-14 px-6">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-16 space-y-4">
-          <div className="text-sm font-mono text-blue-400 uppercase tracking-widest">{t.faq.chip}</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white">{t.faq.title}</h2>
-        </div>
+        <AnimateIn className="text-center mb-10 space-y-3">
+          <SectionChip color="cyan">{t.faq.chip}</SectionChip>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">{t.faq.title}</h2>
+        </AnimateIn>
 
         <div className="space-y-3">
           {t.faq.items.map((faq, i) => (

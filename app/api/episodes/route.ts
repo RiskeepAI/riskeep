@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
 
-// Admin client bypasses RLS — same pattern as stripe webhook and license endpoint
 function getAdminClient() {
   return createSupabaseAdmin(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,8 +9,38 @@ function getAdminClient() {
   )
 }
 
-// Only ARIA desktop uses this endpoint (Bearer JWT auth).
-// Web dashboard does NOT need to call this directly.
+/* ── GET — web dashboard fetches user's own episodes ──────── */
+export async function GET() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+  }
+
+  const { data: episodes, error } = await supabase
+    .from('trading_episodes')
+    .select('symbol, action, status, pnl_pct, closed_at, mode, confidence')
+    .eq('user_id', user.id)
+    .order('closed_at', { ascending: false })
+    .limit(5)
+
+  if (error) {
+    return NextResponse.json({ error: 'Error al obtener episodios' }, { status: 500 })
+  }
+
+  const all     = episodes ?? []
+  const winners = all.filter(e => e.status === 'winner').length
+  const winRate = all.length > 0 ? Math.round((winners / all.length) * 100) : null
+  const pnl7d   = all.reduce((sum, e) => sum + (e.pnl_pct ?? 0), 0)
+
+  return NextResponse.json({
+    episodes: all,
+    stats: { winRate, total: all.length, pnl7d: +pnl7d.toFixed(2) },
+  })
+}
+
+/* ── POST — ARIA desktop uploads closed episodes ──────────── */
 export async function POST(req: NextRequest) {
   // ── Auth: Bearer token only (ARIA desktop) ────────────────────────────
   const authHeader = req.headers.get('authorization')

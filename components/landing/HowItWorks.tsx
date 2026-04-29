@@ -1,77 +1,207 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+import { KeyRound, SlidersHorizontal, BotMessageSquare, ArrowRight } from 'lucide-react'
 import AnimateIn from '@/components/ui/AnimateIn'
+import SectionChip from '@/components/ui/SectionChip'
 import { useT } from '@/lib/i18n/LanguageContext'
+
+const STEPS = [
+  {
+    Icon:    KeyRound,
+    num:     '01',
+    accent:  '#F59E0B',
+    border:  'border-amber-500/25',
+    bg:      'bg-amber-500/8',
+    iconBg:  'bg-amber-500/12 border-amber-500/20',
+    text:    'text-amber-400',
+    glow:    'hover:shadow-[0_8px_40px_rgba(245,158,11,0.12)]',
+  },
+  {
+    Icon:    SlidersHorizontal,
+    num:     '02',
+    accent:  '#8B5CF6',
+    border:  'border-violet-500/25',
+    bg:      'bg-violet-500/8',
+    iconBg:  'bg-violet-500/12 border-violet-500/20',
+    text:    'text-violet-400',
+    glow:    'hover:shadow-[0_8px_40px_rgba(139,92,246,0.12)]',
+  },
+  {
+    Icon:    BotMessageSquare,
+    num:     '03',
+    accent:  '#22D3EE',
+    border:  'border-cyan-500/25',
+    bg:      'bg-cyan-500/8',
+    iconBg:  'bg-cyan-500/12 border-cyan-500/20',
+    text:    'text-cyan-400',
+    glow:    'hover:shadow-[0_8px_40px_rgba(34,211,238,0.12)]',
+  },
+]
+
+/* ── Step card with IntersectionObserver reveal ──────────── */
+function StepCard({
+  s,
+  m,
+  index,
+}: {
+  s: { title: string; desc: string; detail: string; tag: string }
+  m: typeof STEPS[number]
+  index: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    // Set initial hidden state
+    el.style.opacity = '0'
+    el.style.transform = 'scale(0.8) rotate(-2deg) translateY(24px)'
+    el.style.transition = 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)'
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            if (el) {
+              el.style.opacity = '1'
+              el.style.transform = 'scale(1) rotate(0deg) translateY(0px)'
+            }
+          }, index * 120)
+          obs.unobserve(el)
+        }
+      },
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [index])
+
+  return (
+    <div ref={ref}>
+      <div
+        className={`h-full p-6 rounded-2xl border ${m.border} ${m.bg} ${m.glow}
+          transition-all duration-300 cursor-default group relative overflow-hidden`}
+      >
+        {/* Number watermark */}
+        <span
+          className={`absolute top-3 right-4 font-heading font-bold text-5xl ${m.text} opacity-10 group-hover:opacity-20 transition-opacity select-none`}
+        >
+          {m.num}
+        </span>
+
+        <div
+          className={`inline-flex p-3 rounded-xl border ${m.iconBg} mb-5 group-hover:scale-110 transition-transform duration-300`}
+        >
+          <m.Icon className={`w-5 h-5 ${m.text}`} />
+        </div>
+
+        <h3 className="font-heading text-white font-bold text-lg mb-2 group-hover:opacity-90">
+          {s.title}
+        </h3>
+        <p className="text-slate-400 text-sm leading-relaxed mb-4">{s.desc}</p>
+
+        <span
+          className={`inline-block px-2.5 py-1 rounded-lg border ${m.iconBg} ${m.text} text-[10px] font-mono`}
+        >
+          {s.tag}
+        </span>
+      </div>
+    </div>
+  )
+}
 
 export default function HowItWorks() {
   const t = useT()
 
   const steps = [
-    {
-      step:        '01',
-      title:       t.how.step1title,
-      description: t.how.step1desc,
-      detail:      t.how.step1badge,
-      icon:        '🔐',
-      color:       'from-blue-500 to-blue-600',
-      glow:        'shadow-blue-500/20',
-    },
-    {
-      step:        '02',
-      title:       t.how.step2title,
-      description: t.how.step2desc,
-      detail:      t.how.step2badge,
-      icon:        '⚙️',
-      color:       'from-cyan-500 to-cyan-600',
-      glow:        'shadow-cyan-500/20',
-    },
-    {
-      step:        '03',
-      title:       t.how.step3title,
-      description: t.how.step3desc,
-      detail:      t.how.step3badge,
-      icon:        '🤖',
-      color:       'from-violet-500 to-violet-600',
-      glow:        'shadow-violet-500/20',
-    },
+    { title: t.how.step1title, desc: t.how.step1desc, detail: t.how.step1badge, tag: t.how.step1tag },
+    { title: t.how.step2title, desc: t.how.step2desc, detail: t.how.step2badge, tag: t.how.step2tag },
+    { title: t.how.step3title, desc: t.how.step3desc, detail: t.how.step3badge, tag: t.how.step3tag },
   ]
 
   return (
-    <section id="how-it-works" className="py-28 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="how-it-works" className="py-14 px-6 relative overflow-hidden">
+      {/* Background accent */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-amber-500/4 rounded-full blur-[100px]"/>
+      </div>
 
-        <AnimateIn className="text-center mb-16 space-y-4">
-          <div className="text-sm font-mono uppercase tracking-widest label-gradient">{t.how.chip}</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white">{t.how.title}</h2>
-          <p className="max-w-xl mx-auto text-slate-400 text-lg">
-            {t.how.subtitle}
-          </p>
-        </AnimateIn>
+      {/* Header — unificado móvil y desktop */}
+      <AnimateIn className="text-center mb-10 space-y-3 max-w-6xl mx-auto">
+        <SectionChip color="amber">{t.how.chip}</SectionChip>
+        <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">{t.how.title}</h2>
+        <p className="max-w-xl mx-auto text-slate-400 text-lg">{t.how.subtitle}</p>
+      </AnimateIn>
 
-        <div className="relative">
-          {/* Connector line */}
-          <div className="hidden md:block absolute top-10 left-[16.6%] right-[16.6%] h-px bg-gradient-to-r from-blue-500/30 via-cyan-500/30 to-violet-500/30" />
+      {/* ── Cards ── */}
+      <div className="max-w-6xl mx-auto px-6 pb-10 relative">
+        {/* Desktop: step cards with IntersectionObserver */}
+        <div className="hidden md:flex relative flex-row gap-0">
+          {steps.map((s, i) => {
+            const m = STEPS[i]
+            return (
+              <div key={s.title} className="flex flex-1 flex-row items-stretch">
+                <div className="flex-1">
+                  <StepCard s={s} m={m} index={i} />
+                </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {steps.map((s, i) => (
-              <AnimateIn key={s.step} delay={i * 120}>
-                <div className="relative flex flex-col items-center text-center group">
-                  <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${s.color}
-                    flex items-center justify-center shadow-lg ${s.glow} mb-6
-                    group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
-                    <span className="text-3xl">{s.icon}</span>
-                    <div className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-[#020810] border border-white/15 flex items-center justify-center">
-                      <span className="text-[9px] font-bold text-slate-400 font-mono">{s.step}</span>
-                    </div>
+                {/* Arrow connector */}
+                {i < steps.length - 1 && (
+                  <div className="flex items-center justify-center px-3 flex-shrink-0">
+                    <ArrowRight className="w-5 h-5 text-slate-700"/>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors duration-300">{s.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-3">{s.description}</p>
-                  <span className="text-xs text-slate-600 font-mono">{s.detail}</span>
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Mobile: normal AnimateIn */}
+        <div className="md:hidden flex flex-col gap-4">
+          {steps.map((s, i) => {
+            const m = STEPS[i]
+            return (
+              <AnimateIn
+                key={s.title}
+                delay={i * 120}
+                animation={i === 0 ? 'fade-right' : i === 1 ? 'zoom-in' : 'fade-left'}
+              >
+                <div
+                  className={`h-full p-6 rounded-2xl border ${m.border} ${m.bg} ${m.glow}
+                    transition-all duration-300 cursor-default group relative overflow-hidden`}
+                >
+                  <span
+                    className={`absolute top-3 right-4 font-heading font-bold text-5xl ${m.text} opacity-10 group-hover:opacity-20 transition-opacity select-none`}
+                  >
+                    {m.num}
+                  </span>
+                  <div
+                    className={`inline-flex p-3 rounded-xl border ${m.iconBg} mb-5 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <m.Icon className={`w-5 h-5 ${m.text}`} />
+                  </div>
+                  <h3 className="font-heading text-white font-bold text-lg mb-2 group-hover:opacity-90">{s.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4">{s.desc}</p>
+                  <span className={`inline-block px-2.5 py-1 rounded-lg border ${m.iconBg} ${m.text} text-[10px] font-mono`}>
+                    {s.tag}
+                  </span>
                 </div>
               </AnimateIn>
-            ))}
-          </div>
+            )
+          })}
         </div>
+
+        {/* Bottom strip */}
+        <AnimateIn delay={400} className="mt-10">
+          <div className="flex items-center justify-center gap-2 p-4 rounded-2xl border border-white/6 bg-white/[0.02]">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0"/>
+            <p className="text-sm text-slate-400 text-center">
+              {t.how.bottomNote}
+            </p>
+          </div>
+        </AnimateIn>
       </div>
     </section>
   )
