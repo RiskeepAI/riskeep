@@ -138,10 +138,21 @@ const RAIL_ITEMS = [
 ]
 
 const MINI_TICKER = [
-  { s: 'BTC', v: '97,432', c: 'text-red-400',   d: '−2.34%' },
-  { s: 'ETH', v: '3,612',  c: 'text-green-500', d: '+0.22%' },
-  { s: 'XRP', v: '1.40',   c: 'text-green-500', d: '+0.26%' },
-  { s: 'LTC', v: '55.84',  c: 'text-red-400',   d: '−0.30%' },
+  { s: 'BTC',  v: '97,432', c: 'text-red-400',   d: '−2.34%' },
+  { s: 'ETH',  v: '3,612',  c: 'text-green-500', d: '+0.22%' },
+  { s: 'XRP',  v: '1.40',   c: 'text-green-500', d: '+0.26%' },
+  { s: 'LTC',  v: '55.84',  c: 'text-red-400',   d: '−0.30%' },
+  { s: 'BNB',  v: '743.43', c: 'text-green-500', d: '+0.13%' },
+  { s: 'DOGE', v: '0.09',   c: 'text-red-400',   d: '−1.02%' },
+  { s: 'ADA',  v: '0.22',   c: 'text-green-500', d: '+0.78%' },
+  { s: 'LINK', v: '13.29',  c: 'text-red-400',   d: '−0.31%' },
+  { s: 'BCH',  v: '256.01', c: 'text-green-500', d: '+0.24%' },
+  { s: 'SOL',  v: '142.35', c: 'text-red-400',   d: '−0.55%' },
+]
+
+const OPEN_POSITIONS = [
+  { symbol: 'BTC/USDT', side: 'SHORT' as const, entry: '$97,432' },
+  { symbol: 'ETH/USDT', side: 'LONG'  as const, entry: '$3,594'  },
 ]
 
 /* Título de panel — punto verde + texto, idéntico en todos los paneles reales de ARIA */
@@ -169,69 +180,71 @@ function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; 
 
         {/* ── Sidebar — la navegación real vive solo aquí ── */}
         {showRail && (
-          <div className="flex flex-col items-center py-2 border-r border-white/6 bg-black/25 flex-shrink-0" style={{ width: '42px' }}>
-            <div className="w-5 h-5 rounded-md bg-green-500/15 border border-green-500/30 flex items-center justify-center mb-2.5 flex-shrink-0">
-              <span className="font-heading font-bold text-[8px]" style={{ color: '#22C55E' }}>A</span>
+          <div className="flex flex-col items-center py-4 border-r border-white/6 bg-black/25 flex-shrink-0" style={{ width: '48px' }}>
+            <div className="w-6 h-6 rounded-md bg-green-500/15 border border-green-500/30 flex items-center justify-center mb-4 flex-shrink-0">
+              <span className="font-heading font-bold text-[9px]" style={{ color: '#22C55E' }}>A</span>
             </div>
-            <div className="flex flex-col items-center gap-2 flex-1">
+            <div className="flex flex-col items-center gap-4 flex-1">
               {RAIL_ITEMS.map(({ Icon, label }, i) => (
                 <div key={label} className={`flex flex-col items-center gap-0.5 ${i === 0 ? 'text-green-400' : 'text-slate-700'}`}>
-                  <Icon className="w-3 h-3" strokeWidth={2} />
-                  <span className="text-[4.5px] font-bold uppercase tracking-wide leading-none">{label}</span>
+                  <Icon className="w-3.5 h-3.5" strokeWidth={2} />
+                  <span className="text-[5px] font-bold uppercase tracking-wide leading-none">{label}</span>
                 </div>
               ))}
             </div>
-            <Settings className="w-3 h-3 text-slate-700 mb-2" strokeWidth={2} />
-            <span className="text-[6px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25 mb-1">PAPER</span>
+            <Settings className="w-3.5 h-3.5 text-slate-700 mb-3" strokeWidth={2} />
+            <span className="text-[6.5px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25 mb-1">PAPER</span>
           </div>
         )}
 
         <div className="flex-1 min-w-0">
-          {/* ── Topbar real — logo, subtítulo, ticker y estado LIVE ── */}
-          <div className="flex items-center gap-3 px-3 py-1.5 border-b border-white/6 bg-white/[0.015]">
+          {/* ── Topbar real — logo, subtítulo, ticker (marquee, todos los pares) y estado LIVE ── */}
+          <div className="flex items-center gap-3 px-3.5 py-3 border-b border-white/6 bg-white/[0.015]">
             <div className="flex items-baseline gap-1.5 flex-shrink-0">
-              <span className="text-white font-heading font-bold text-[10px] tracking-tight">ARIA</span>
+              <span className="text-white font-heading font-bold text-[11px] tracking-tight">ARIA</span>
               <span className="hidden sm:inline text-slate-700 text-[5px] font-bold uppercase tracking-wider">
                 Autonomous Risk Intelligence Agent
               </span>
             </div>
             {showRail && (
-              <div className="flex-1 flex items-center gap-3 overflow-hidden text-[6.5px] font-mono">
-                {MINI_TICKER.map(({ s, v, c, d }) => (
-                  <span key={s} className="flex items-center gap-1 flex-shrink-0">
-                    <span className="text-slate-600">{s}</span>
-                    <span className="text-slate-300 font-semibold">{v}</span>
-                    <span className={c}>{d}</span>
-                  </span>
-                ))}
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <div className="flex items-center gap-4 text-[6.5px] font-mono whitespace-nowrap animate-ticker-fast" style={{ width: 'max-content' }}>
+                  {[...MINI_TICKER, ...MINI_TICKER].map(({ s, v, c, d }, i) => (
+                    <span key={i} className="flex items-center gap-1 flex-shrink-0">
+                      <span className="text-slate-600">{s}</span>
+                      <span className="text-slate-300 font-semibold">{v}</span>
+                      <span className={c}>{d}</span>
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
-            <span className="flex items-center gap-1 text-[7px] font-bold font-mono ml-auto flex-shrink-0" style={{ color: '#22C55E' }}>
+            <span className="flex items-center gap-1 text-[7.5px] font-bold font-mono ml-auto flex-shrink-0" style={{ color: '#22C55E' }}>
               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#22C55E' }}/>
               LIVE
             </span>
           </div>
 
           {/* ── Body: Portfolio · Análisis + Razonamiento · Posiciones ── */}
-          <div className="p-2 grid grid-cols-12 gap-1.5 font-mono">
+          <div className="p-4 grid grid-cols-12 gap-3 font-mono">
 
-            {/* ── Col 1: Portfolio ── */}
-            <div className="col-span-3 space-y-1.5">
-              <div className="rounded-lg p-1.5 border border-green-500/15 bg-green-500/[0.05]">
-                <div className="flex items-center justify-between mb-1">
+            {/* ── Col 1: Portfolio + Control ── */}
+            <div className="col-span-3 space-y-3">
+              <div className="rounded-lg p-3 border border-green-500/15 bg-green-500/[0.05]">
+                <div className="flex items-center justify-between mb-2">
                   <PanelLabel text={t.hero.dashPortfolio} />
                 </div>
-                <span className="flex items-center gap-1 text-[5.5px] font-bold mb-1" style={{ color: '#22C55E' }}>
+                <span className="flex items-center gap-1 text-[5.5px] font-bold mb-1.5" style={{ color: '#22C55E' }}>
                   <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse"/>{t.hero.dashActive}
                 </span>
-                <div className="font-bold text-white text-[13px] leading-none">$2,450</div>
-                <div className="flex flex-col gap-0.5 mt-1.5 text-[6px]">
+                <div className="font-bold text-white text-[14px] leading-none">$2,450</div>
+                <div className="flex flex-col gap-1 mt-2.5 text-[6px]">
                   <span className="text-green-500 font-semibold">▲ +$84.20</span>
                   <span className="text-slate-600">{t.hero.dashDrawdown} −1.2%</span>
                 </div>
               </div>
 
-              <div className="rounded-lg p-1.5 border border-white/5 bg-white/[0.025] text-[6px] space-y-1">
+              <div className="rounded-lg p-3 border border-white/5 bg-white/[0.025] text-[6px] space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-600">Exchange</span>
                   <span className="text-slate-300 font-semibold">Bitget</span>
@@ -245,41 +258,55 @@ function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; 
                   <span className="text-slate-300 font-semibold">312</span>
                 </div>
               </div>
+
+              {/* Control — mismos botones del panel real */}
+              <div className="rounded-lg p-3 border border-white/5 bg-white/[0.025] space-y-1.5">
+                <div className="w-full text-center text-[6px] font-bold uppercase tracking-wide py-1.5 rounded-md bg-red-500/15 text-red-400 border border-red-500/30">
+                  ■ Detener Sistema
+                </div>
+                <div className="w-full text-center text-[6px] font-bold uppercase tracking-wide py-1.5 rounded-md bg-blue-500/15 text-blue-300 border border-blue-500/30">
+                  Ciclo Manual
+                </div>
+                <div className="flex items-center gap-1 pt-0.5">
+                  <span className="flex-1 text-center text-[5px] font-bold py-1 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25">PAPER</span>
+                  <span className="flex-1 text-center text-[5px] font-bold py-1 rounded bg-green-500/15 text-green-400 border border-green-500/25">AUTO</span>
+                </div>
+              </div>
             </div>
 
             {/* ── Col 2: Análisis de Mercado + Razonamiento (pestaña Dashboard real — sin gráfico, eso vive en "Velas") ── */}
-            <div className="col-span-6 space-y-1.5">
-              <div className="rounded-lg border border-white/6 bg-white/[0.02] p-1.5">
+            <div className="col-span-6 space-y-3">
+              <div className="rounded-lg border border-white/6 bg-white/[0.02] p-3">
                 <PanelLabel text={t.hero.dashMarketAnalysis} />
 
-                <div className="flex items-center justify-between mt-1.5">
-                  <span className="text-white font-bold text-[11px]">BTC/USDT</span>
-                  <span className="text-[6px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
+                <div className="flex items-center justify-between mt-3">
+                  <span className="text-white font-bold text-[12px]">BTC/USDT</span>
+                  <span className="text-[6.5px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
                 </div>
-                <div className="text-[6px] text-slate-600 mt-0.5">{t.hero.dashPrice} <span className="text-slate-300">$97,432</span></div>
+                <div className="text-[6.5px] text-slate-600 mt-1">{t.hero.dashPrice} <span className="text-slate-300">$97,432</span></div>
 
                 {/* Indicadores: RSI / Tendencia / Patrón — como en el dashboard real */}
-                <div className="grid grid-cols-3 gap-1 mt-1.5">
-                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
-                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">RSI</div>
-                    <div className="text-white font-bold text-[9px]">68.4</div>
-                    <div className="text-amber-400 text-[5px] mt-0.5 truncate">{t.hero.dashOverbought}</div>
+                <div className="grid grid-cols-3 gap-1.5 mt-3">
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">RSI</div>
+                    <div className="text-white font-bold text-[10px]">68.4</div>
+                    <div className="text-amber-400 text-[5px] mt-1 truncate">{t.hero.dashOverbought}</div>
                   </div>
-                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
-                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">{t.hero.dashTrend}</div>
-                    <div className="text-red-400 font-bold text-[8px] mt-1">{t.hero.dashBearish}</div>
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">{t.hero.dashTrend}</div>
+                    <div className="text-red-400 font-bold text-[8.5px] mt-1.5">{t.hero.dashBearish}</div>
                   </div>
-                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
-                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">{t.hero.dashPattern}</div>
-                    <div className="text-white font-bold text-[6.5px] mt-1 leading-tight">3 Black Crows</div>
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">{t.hero.dashPattern}</div>
+                    <div className="text-white font-bold text-[7px] mt-1.5 leading-tight">3 Black Crows</div>
                   </div>
                 </div>
 
                 {/* Confianza — barra ámbar, como en la app real */}
-                <div className="mt-1.5">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-slate-500 text-[6px]">{t.hero.dashConfidence}</span>
-                    <span className="text-amber-400 text-[7px] font-bold">85%</span>
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-slate-500 text-[6.5px]">{t.hero.dashConfidence}</span>
+                    <span className="text-amber-400 text-[7.5px] font-bold">85%</span>
                   </div>
                   <div className="h-1 bg-white/6 rounded-full overflow-hidden">
                     <div className="h-full w-[85%] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 rounded-full animate-shimmer"/>
@@ -287,27 +314,39 @@ function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; 
                 </div>
               </div>
 
-              <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-1.5">
-                <div className="flex items-center justify-between mb-1">
+              <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-3">
+                <div className="flex items-center justify-between mb-1.5">
                   <PanelLabel text={t.hero.dashReasoning} />
                   <span className="text-[6px] px-1.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-300">17:13:48</span>
                 </div>
-                <div className="text-slate-500 text-[6px] leading-relaxed line-clamp-2">
+                <div className="text-slate-500 text-[6.5px] leading-relaxed line-clamp-2">
                   {t.hero.dashAriaSnippetMobile}
                 </div>
               </div>
             </div>
 
-            {/* ── Col 3: Posiciones Abiertas ── */}
+            {/* ── Col 3: Posiciones Abiertas (varias) ── */}
             <div className="col-span-3">
-              <div className="rounded-lg p-1.5 border border-red-500/20 bg-red-500/5 h-full">
-                <div className="mb-1.5"><PanelLabel text={t.hero.dashOpenPos} /></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[8px] text-white font-bold">BTC/USDT</span>
-                </div>
-                <span className="inline-block mt-1 text-[6px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
-                <div className="text-[6px] text-slate-600 mt-1.5">{t.hero.dashEntry}</div>
-                <div className="text-slate-400 text-[7px]">$97,432</div>
+              <div className="mb-2"><PanelLabel text={t.hero.dashOpenPos} /></div>
+              <div className="space-y-2.5">
+                {OPEN_POSITIONS.map(({ symbol, side, entry }) => {
+                  const isShort = side === 'SHORT'
+                  return (
+                    <div
+                      key={symbol}
+                      className={`rounded-lg p-3 border ${isShort ? 'border-red-500/20 bg-red-500/5' : 'border-green-500/20 bg-green-500/5'}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[8.5px] text-white font-bold">{symbol}</span>
+                      </div>
+                      <span className={`inline-block mt-1.5 text-[6px] px-1.5 py-0.5 rounded border ${isShort ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-green-500/20 text-green-400 border-green-500/30'}`}>
+                        {side}
+                      </span>
+                      <div className="text-[6px] text-slate-600 mt-2">{t.hero.dashEntry}</div>
+                      <div className="text-slate-400 text-[7.5px]">{entry}</div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
