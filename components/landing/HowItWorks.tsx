@@ -72,7 +72,7 @@ function StepCard({
           obs.unobserve(el)
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.01, rootMargin: '0px 0px 150px 0px' }
     )
     obs.observe(el)
     return () => obs.disconnect()
