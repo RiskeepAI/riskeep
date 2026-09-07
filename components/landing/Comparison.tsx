@@ -24,7 +24,7 @@ export default function Comparison() {
           </p>
         </AnimateIn>
 
-        <AnimateIn delay={100} animation="scale-up">
+        <AnimateIn delay={60} animation="scale-up">
           <div className="rounded-2xl border border-white/8 overflow-hidden bg-white/[0.02]">
 
             {/* Header */}
@@ -75,7 +75,7 @@ export default function Comparison() {
           </div>
         </AnimateIn>
 
-        <AnimateIn delay={200} className="mt-10 text-center">
+        <AnimateIn delay={120} className="mt-10 text-center">
           <a
             href="#pricing"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-[#0A0F1E] font-semibold text-base shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:from-amber-400 hover:to-yellow-300 transition-all duration-300 cursor-pointer"

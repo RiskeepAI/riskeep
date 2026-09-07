@@ -11,8 +11,10 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="py-14 px-6">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="py-14 px-6 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-cyan-500/4 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto relative">
         <AnimateIn className="text-center mb-10 space-y-3">
           <SectionChip color="cyan">{t.faq.chip}</SectionChip>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">{t.faq.title}</h2>

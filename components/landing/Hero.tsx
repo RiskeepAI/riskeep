@@ -2,7 +2,11 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
-import { ShieldCheck, TrendingUp, Sparkles, Play } from 'lucide-react'
+import {
+  ShieldCheck, TrendingUp, Sparkles, Play,
+  LayoutDashboard, Brain, Activity, Newspaper, Terminal, Settings,
+  CandlestickChart as CandlestickChartIcon,
+} from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import AnimateIn from '@/components/ui/AnimateIn'
@@ -116,176 +120,195 @@ function TypingWord({ words }: { words: string[] }) {
   )
 }
 
-/* ── Candlestick chart with volume + EMA ──── */
-function CandlestickChart() {
-  // [x, open_y, close_y, high_y, low_y] — SVG y-space, lower y = higher price
-  const candles = [
-    [2,  44, 38, 42, 46], [10, 38, 32, 36, 40], [18, 32, 36, 30, 38],
-    [26, 36, 28, 34, 38], [34, 28, 22, 26, 30], [42, 22, 26, 20, 28],
-    [50, 26, 18, 24, 28], [58, 18, 14, 16, 20], [66, 14, 18, 12, 20],
-    [74, 18, 12, 16, 20], [82, 12,  8, 10, 14], [90,  8, 12,  6, 14],
-    [98, 12, 16, 10, 18],[106, 16, 12, 14, 18],[114, 12,  8, 10, 14],
-    [122, 8,  4,  6, 10],
-  ]
-  const vols = [4,6,5,8,5,7,9,11,6,10,13,7,6,8,10,14]
-  const maxV = 14
-  // EMA line points
-  const ema = '2,42 10,37 18,34 26,31 34,27 42,23 50,20 58,17 66,15 74,14 82,11 90,9 98,11 106,13 114,10 122,7'
+/* ── ARIA Dashboard preview ───────────────────────────────────────────────
+   Réplica estilizada del dashboard real de ARIA — sin cromo de ventana de
+   navegador (la app real no vive en una pestaña de browser con semáforo),
+   con el topbar real (logo + subtítulo + ticker + LIVE), el sidebar real
+   de iconos con etiqueta (la navegación vive SOLO ahí, no hay una segunda
+   barra de tabs), y los tres paneles reales de la pestaña Dashboard:
+   Portfolio, Análisis de Mercado (RSI/Tendencia/Patrón — el gráfico vive
+   en la pestaña Velas, no aquí) y Posiciones Abiertas. */
+const RAIL_ITEMS = [
+  { Icon: LayoutDashboard,     label: 'Panel' },
+  { Icon: CandlestickChartIcon, label: 'Velas' },
+  { Icon: Brain,               label: 'Memoria' },
+  { Icon: Activity,            label: 'Stats' },
+  { Icon: Newspaper,           label: 'Noticias' },
+  { Icon: Terminal,            label: 'Logs' },
+]
 
+const MINI_TICKER = [
+  { s: 'BTC', v: '97,432', c: 'text-red-400',   d: '−2.34%' },
+  { s: 'ETH', v: '3,612',  c: 'text-green-500', d: '+0.22%' },
+  { s: 'XRP', v: '1.40',   c: 'text-green-500', d: '+0.26%' },
+  { s: 'LTC', v: '55.84',  c: 'text-red-400',   d: '−0.30%' },
+]
+
+/* Título de panel — punto verde + texto, idéntico en todos los paneles reales de ARIA */
+function PanelLabel({ text }: { text: string }) {
   return (
-    <svg viewBox="0 0 132 68" className="w-full h-full" preserveAspectRatio="none">
-      <defs>
-        <pattern id="cgrid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5"/>
-        </pattern>
-        <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.15"/>
-          <stop offset="100%" stopColor="#22d3ee" stopOpacity="0"/>
-        </linearGradient>
-      </defs>
-
-      {/* Grid */}
-      <rect width="132" height="52" fill="url(#cgrid)"/>
-
-      {/* EMA dashed line */}
-      <polyline points={ema} fill="none" stroke="#F59E0B" strokeWidth="0.7" strokeDasharray="2 2" opacity="0.6"/>
-
-      {/* Candles */}
-      {candles.map(([x, o, c, h, l], i) => {
-        const bull = c <= o
-        const col  = bull ? '#22C55E' : '#EF4444'
-        const top  = Math.min(o, c)
-        const bh   = Math.max(Math.abs(o - c), 1)
-        return (
-          <g key={i}>
-            <line x1={x+4} y1={h} x2={x+4} y2={l} stroke={col} strokeWidth="0.7" opacity="0.7"/>
-            <rect x={x+1} y={top} width={6} height={bh} fill={col} opacity="0.9" rx="0.4"/>
-          </g>
-        )
-      })}
-
-      {/* Scan line */}
-      <rect width="132" height="4" fill="url(#scanGrad)" className="animate-scan"/>
-
-      {/* Volume bars */}
-      {vols.map((v, i) => (
-        <rect
-          key={i} x={i*8+2} y={52 + (16 - (v/maxV)*14)}
-          width={6} height={(v/maxV)*14}
-          fill={i % 3 !== 1 ? 'rgba(239,68,68,0.35)' : 'rgba(16,185,129,0.35)'}
-          rx="0.4"
-        />
-      ))}
-    </svg>
+    <span className="flex items-center gap-1.5 text-slate-500 text-[7px] uppercase tracking-wider">
+      <span className="w-1 h-1 rounded-full bg-green-500 flex-shrink-0"/>
+      {text}
+    </span>
   )
 }
 
-/* ── ARIA Dashboard preview ───────────────────────────────── */
-function DashboardPreview({ t }: { t: ReturnType<typeof useT> }) {
+function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; showRail?: boolean }) {
   return (
     <div className="relative w-full">
-      {/* Glows */}
-      <div className="absolute -inset-6 bg-violet-600/15 rounded-3xl blur-3xl pointer-events-none" />
-      <div className="absolute -inset-6 bg-amber-500/8  rounded-3xl blur-3xl pointer-events-none" />
+      {/* Glows — verde como acento principal de ARIA, violeta de apoyo */}
+      <div className="absolute -inset-6 bg-green-500/12 rounded-3xl blur-3xl pointer-events-none" />
+      <div className="absolute -inset-6 bg-violet-600/8  rounded-3xl blur-3xl pointer-events-none" />
 
-      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/80 bg-[#040e1f]"
-        style={{ border: '1px solid rgba(245,158,11,0.18)' }}>
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/80 bg-[#040e1f] flex"
+        style={{ border: '1px solid rgba(34,197,94,0.18)' }}>
 
         {/* Ambient glow top */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent"/>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-green-500/60 to-transparent"/>
 
-        {/* Chrome bar */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-white/6 bg-white/[0.015]">
-          <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-red-500/60"/>
-            <div className="w-2 h-2 rounded-full bg-amber-500/60"/>
-            <div className="w-2 h-2 rounded-full bg-green-500/60"/>
-            <span className="ml-2 text-[9px] text-slate-600 font-mono tracking-wider">RISKEEP · ARIA</span>
-          </div>
-          <span className="flex items-center gap-1.5 text-[9px] font-mono" style={{ color: '#22C55E' }}>
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#22C55E' }}/>
-            LIVE · PAPER
-          </span>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex items-center gap-0.5 px-3 pt-1 pb-0 border-b border-white/6 bg-[#060C18]">
-          {[t.hero.dashTab1, t.hero.dashTab2, t.hero.dashTab3, t.hero.dashTab4].map((tab, i) => (
-            <div key={tab} className={`px-2.5 py-1.5 text-[9px] font-mono rounded-t-md transition-colors ${
-              i === 0
-                ? 'bg-amber-500/10 text-amber-300 border-b border-amber-500/50'
-                : 'text-slate-700 hover:text-slate-500'
-            }`}>{tab}</div>
-          ))}
-        </div>
-
-        {/* Body */}
-        <div className="p-2.5 grid grid-cols-12 gap-2 font-mono">
-
-          {/* ── Left stats col ── */}
-          <div className="col-span-4 space-y-1.5">
-            {[
-              { l: t.hero.dashCapital,  v: '$2,450',  c: 'text-white',        t: '' },
-              { l: t.hero.dashPnlToday, v: '+$84.20', c: 'text-green-500',  t: '▲' },
-              { l: t.hero.dashWinRate,  v: '64.2%',   c: 'text-amber-400',    t: '' },
-              { l: t.hero.dashDrawdown, v: '−1.2%',   c: 'text-slate-400',    t: '' },
-            ].map(({ l, v, c, t: trend }) => (
-              <div key={l} className="rounded-lg p-1.5 border border-white/5 bg-white/[0.025]">
-                <div className="text-slate-600 text-[7px] uppercase tracking-wider mb-0.5">{l}</div>
-                <div className={`font-bold text-[11px] ${c} flex items-center gap-1`}>
-                  {trend && <span className="text-[8px]">{trend}</span>}
-                  {v}
-                </div>
-              </div>
-            ))}
-
-            {/* Position info */}
-            <div className="rounded-lg p-1.5 border border-red-500/20 bg-red-500/5 mt-1">
-              <div className="text-[7px] text-slate-600 uppercase tracking-wider mb-1">Posición activa</div>
-              <div className="flex items-center justify-between">
-                <span className="text-[9px] text-white font-bold">BTC/USDT</span>
-                <span className="text-[7px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
-              </div>
-              <div className="text-[7px] text-slate-600 mt-0.5">{t.hero.dashEntry} <span className="text-slate-400">$97,432</span></div>
+        {/* ── Sidebar — la navegación real vive solo aquí ── */}
+        {showRail && (
+          <div className="flex flex-col items-center py-2 border-r border-white/6 bg-black/25 flex-shrink-0" style={{ width: '42px' }}>
+            <div className="w-5 h-5 rounded-md bg-green-500/15 border border-green-500/30 flex items-center justify-center mb-2.5 flex-shrink-0">
+              <span className="font-heading font-bold text-[8px]" style={{ color: '#22C55E' }}>A</span>
             </div>
+            <div className="flex flex-col items-center gap-2 flex-1">
+              {RAIL_ITEMS.map(({ Icon, label }, i) => (
+                <div key={label} className={`flex flex-col items-center gap-0.5 ${i === 0 ? 'text-green-400' : 'text-slate-700'}`}>
+                  <Icon className="w-3 h-3" strokeWidth={2} />
+                  <span className="text-[4.5px] font-bold uppercase tracking-wide leading-none">{label}</span>
+                </div>
+              ))}
+            </div>
+            <Settings className="w-3 h-3 text-slate-700 mb-2" strokeWidth={2} />
+            <span className="text-[6px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25 mb-1">PAPER</span>
+          </div>
+        )}
+
+        <div className="flex-1 min-w-0">
+          {/* ── Topbar real — logo, subtítulo, ticker y estado LIVE ── */}
+          <div className="flex items-center gap-3 px-3 py-1.5 border-b border-white/6 bg-white/[0.015]">
+            <div className="flex items-baseline gap-1.5 flex-shrink-0">
+              <span className="text-white font-heading font-bold text-[10px] tracking-tight">ARIA</span>
+              <span className="hidden sm:inline text-slate-700 text-[5px] font-bold uppercase tracking-wider">
+                Autonomous Risk Intelligence Agent
+              </span>
+            </div>
+            {showRail && (
+              <div className="flex-1 flex items-center gap-3 overflow-hidden text-[6.5px] font-mono">
+                {MINI_TICKER.map(({ s, v, c, d }) => (
+                  <span key={s} className="flex items-center gap-1 flex-shrink-0">
+                    <span className="text-slate-600">{s}</span>
+                    <span className="text-slate-300 font-semibold">{v}</span>
+                    <span className={c}>{d}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+            <span className="flex items-center gap-1 text-[7px] font-bold font-mono ml-auto flex-shrink-0" style={{ color: '#22C55E' }}>
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: '#22C55E' }}/>
+              LIVE
+            </span>
           </div>
 
-          {/* ── Right chart col ── */}
-          <div className="col-span-8 space-y-1.5">
+          {/* ── Body: Portfolio · Análisis + Razonamiento · Posiciones ── */}
+          <div className="p-2 grid grid-cols-12 gap-1.5 font-mono">
 
-            {/* Price header */}
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-white font-bold text-sm">$97,432</span>
-                <span className="text-red-400 text-[9px]">−2.34%</span>
-              </div>
-              <div className="flex items-center gap-1 text-[7px] text-slate-600">
-                <span className="w-3 h-0.5 bg-amber-500/60 inline-block rounded"/>EMA 20
-              </div>
-            </div>
-
-            {/* Chart */}
-            <div className="relative rounded-lg border border-white/6 bg-[#04080F] overflow-hidden" style={{ height: '80px' }}>
-              <CandlestickChart />
-            </div>
-
-            {/* ARIA reasoning */}
-            <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-2">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-amber-400 text-[8px] font-bold">ARIA · 17:13:48</span>
-                <span className="text-[7px] px-1.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-300">IA activa</span>
-              </div>
-              <div className="text-slate-500 text-[7px] leading-relaxed line-clamp-2 mb-1.5">
-                {t.hero.dashAriaSnippetMobile}
-              </div>
-              {/* Confidence bar */}
-              <div className="flex items-center gap-1.5">
-                <div className="flex-1 h-1 bg-white/6 rounded-full overflow-hidden">
-                  <div className="h-full w-[85%] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 rounded-full animate-shimmer"/>
+            {/* ── Col 1: Portfolio ── */}
+            <div className="col-span-3 space-y-1.5">
+              <div className="rounded-lg p-1.5 border border-green-500/15 bg-green-500/[0.05]">
+                <div className="flex items-center justify-between mb-1">
+                  <PanelLabel text={t.hero.dashPortfolio} />
                 </div>
-                <span className="text-amber-400 text-[8px] font-bold">85%</span>
+                <span className="flex items-center gap-1 text-[5.5px] font-bold mb-1" style={{ color: '#22C55E' }}>
+                  <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse"/>{t.hero.dashActive}
+                </span>
+                <div className="font-bold text-white text-[13px] leading-none">$2,450</div>
+                <div className="flex flex-col gap-0.5 mt-1.5 text-[6px]">
+                  <span className="text-green-500 font-semibold">▲ +$84.20</span>
+                  <span className="text-slate-600">{t.hero.dashDrawdown} −1.2%</span>
+                </div>
               </div>
-              <div className="text-[6px] text-slate-700 mt-0.5">{t.hero.dashConfidence}</div>
+
+              <div className="rounded-lg p-1.5 border border-white/5 bg-white/[0.025] text-[6px] space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600">Exchange</span>
+                  <span className="text-slate-300 font-semibold">Bitget</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600">{t.hero.dashWinRate}</span>
+                  <span className="text-amber-400 font-semibold">64.2%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600">{t.hero.dashEpisodes}</span>
+                  <span className="text-slate-300 font-semibold">312</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Col 2: Análisis de Mercado + Razonamiento (pestaña Dashboard real — sin gráfico, eso vive en "Velas") ── */}
+            <div className="col-span-6 space-y-1.5">
+              <div className="rounded-lg border border-white/6 bg-white/[0.02] p-1.5">
+                <PanelLabel text={t.hero.dashMarketAnalysis} />
+
+                <div className="flex items-center justify-between mt-1.5">
+                  <span className="text-white font-bold text-[11px]">BTC/USDT</span>
+                  <span className="text-[6px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
+                </div>
+                <div className="text-[6px] text-slate-600 mt-0.5">{t.hero.dashPrice} <span className="text-slate-300">$97,432</span></div>
+
+                {/* Indicadores: RSI / Tendencia / Patrón — como en el dashboard real */}
+                <div className="grid grid-cols-3 gap-1 mt-1.5">
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">RSI</div>
+                    <div className="text-white font-bold text-[9px]">68.4</div>
+                    <div className="text-amber-400 text-[5px] mt-0.5 truncate">{t.hero.dashOverbought}</div>
+                  </div>
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">{t.hero.dashTrend}</div>
+                    <div className="text-red-400 font-bold text-[8px] mt-1">{t.hero.dashBearish}</div>
+                  </div>
+                  <div className="rounded-md border border-white/6 bg-black/20 p-1 text-center">
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-0.5">{t.hero.dashPattern}</div>
+                    <div className="text-white font-bold text-[6.5px] mt-1 leading-tight">3 Black Crows</div>
+                  </div>
+                </div>
+
+                {/* Confianza — barra ámbar, como en la app real */}
+                <div className="mt-1.5">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-slate-500 text-[6px]">{t.hero.dashConfidence}</span>
+                    <span className="text-amber-400 text-[7px] font-bold">85%</span>
+                  </div>
+                  <div className="h-1 bg-white/6 rounded-full overflow-hidden">
+                    <div className="h-full w-[85%] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 rounded-full animate-shimmer"/>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-1.5">
+                <div className="flex items-center justify-between mb-1">
+                  <PanelLabel text={t.hero.dashReasoning} />
+                  <span className="text-[6px] px-1.5 py-0.5 rounded-full bg-violet-500/15 border border-violet-500/25 text-violet-300">17:13:48</span>
+                </div>
+                <div className="text-slate-500 text-[6px] leading-relaxed line-clamp-2">
+                  {t.hero.dashAriaSnippetMobile}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Col 3: Posiciones Abiertas ── */}
+            <div className="col-span-3">
+              <div className="rounded-lg p-1.5 border border-red-500/20 bg-red-500/5 h-full">
+                <div className="mb-1.5"><PanelLabel text={t.hero.dashOpenPos} /></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[8px] text-white font-bold">BTC/USDT</span>
+                </div>
+                <span className="inline-block mt-1 text-[6px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">SHORT</span>
+                <div className="text-[6px] text-slate-600 mt-1.5">{t.hero.dashEntry}</div>
+                <div className="text-slate-400 text-[7px]">$97,432</div>
+              </div>
             </div>
           </div>
         </div>
@@ -398,7 +421,7 @@ export default function Hero() {
 
           {/* Mobile preview (simpler) */}
           <AnimateIn animation="zoom-in" delay={100} className="lg:hidden w-full max-w-sm mx-auto">
-            <DashboardPreview t={t} />
+            <DashboardPreview t={t} showRail={false} />
           </AnimateIn>
         </div>
       </div>

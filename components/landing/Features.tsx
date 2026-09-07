@@ -27,8 +27,10 @@ export default function Features() {
   const items = t.features.items
 
   return (
-    <section id="features" className="py-14 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section id="features" className="py-14 px-6 relative overflow-hidden">
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-violet-500/4 rounded-full blur-[130px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative">
 
         <AnimateIn className="text-center mb-10 space-y-3">
           <SectionChip color="violet">{t.features.chip}</SectionChip>
@@ -104,10 +106,10 @@ export default function Features() {
               <div className="inline-flex p-2.5 rounded-xl bg-cyan-500/12 border border-cyan-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
                 <BarChart3 className="w-5 h-5 text-cyan-400"/>
               </div>
-              <h3 className="font-heading text-white font-bold text-sm mb-1">{items[3]?.title}</h3>
-              <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">{items[3]?.description}</p>
+              <h3 className="font-heading text-white font-bold text-sm mb-1.5">{items[3]?.title}</h3>
+              <p className="text-slate-400 text-[13px] leading-relaxed line-clamp-3">{items[3]?.description}</p>
               {/* Mini bar chart decorativo */}
-              <div className="flex items-end gap-0.5 mt-3 h-6">
+              <div className="flex items-end gap-0.5 mt-4 h-6">
                 {[3,5,4,7,5,8,6,9,7,10,8,11].map((h, i) => (
                   <div key={i} className="flex-1 rounded-sm bg-cyan-500/30 group-hover:bg-cyan-500/50 transition-colors"
                     style={{ height: `${h * 8}%` }}/>
@@ -120,10 +122,10 @@ export default function Features() {
               <div className="inline-flex p-2.5 rounded-xl bg-blue-500/12 border border-blue-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
                 <Bell className="w-5 h-5 text-blue-400"/>
               </div>
-              <h3 className="font-heading text-white font-bold text-sm mb-1">{items[4]?.title}</h3>
-              <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">{items[4]?.description}</p>
+              <h3 className="font-heading text-white font-bold text-sm mb-1.5">{items[4]?.title}</h3>
+              <p className="text-slate-400 text-[13px] leading-relaxed line-clamp-3">{items[4]?.description}</p>
               {/* Notification pulse */}
-              <div className="flex items-center gap-2 mt-3">
+              <div className="flex items-center gap-2 mt-4">
                 <div className="relative">
                   <div className="w-2 h-2 rounded-full bg-blue-400"/>
                   <div className="absolute inset-0 w-2 h-2 rounded-full bg-blue-400 animate-ping opacity-50"/>
@@ -138,9 +140,9 @@ export default function Features() {
         {/* Bottom row: last feature + stat strip */}
         <AnimateIn delay={160} className="mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="group relative p-5 rounded-2xl border border-rose-500/20 bg-rose-500/6 overflow-hidden cursor-default hover:border-rose-500/35 hover:shadow-[0_4px_30px_rgba(244,63,94,0.10)] transition-all duration-300">
-              <div className="inline-flex p-2.5 rounded-xl bg-rose-500/12 border border-rose-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
-                <RefreshCw className="w-5 h-5 text-rose-400"/>
+            <div className="group relative p-5 rounded-2xl border border-violet-500/20 bg-violet-500/6 overflow-hidden cursor-default hover:border-violet-500/35 hover:shadow-[0_4px_30px_rgba(139,92,246,0.10)] transition-all duration-300">
+              <div className="inline-flex p-2.5 rounded-xl bg-violet-500/12 border border-violet-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
+                <RefreshCw className="w-5 h-5 text-violet-400"/>
               </div>
               <h3 className="font-heading text-white font-bold text-sm mb-1">{items[5]?.title}</h3>
               <p className="text-slate-400 text-xs leading-relaxed">{items[5]?.description}</p>

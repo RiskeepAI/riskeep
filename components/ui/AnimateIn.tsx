@@ -15,7 +15,7 @@ export default function AnimateIn({
   className = '',
   delay = 0,
   animation = 'fade-up',
-  threshold = 0.12,
+  threshold = 0.01,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
@@ -31,7 +31,7 @@ export default function AnimateIn({
           observer.unobserve(el)
         }
       },
-      { threshold, rootMargin: '0px 0px -40px 0px' }
+      { threshold, rootMargin: '0px 0px 150px 0px' }
     )
 
     observer.observe(el)

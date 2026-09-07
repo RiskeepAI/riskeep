@@ -77,7 +77,7 @@ export default function Pricing() {
         }}
       />
 
-      <div className="max-w-2xl mx-auto relative">
+      <div className="max-w-4xl mx-auto relative">
         <AnimateIn className="text-center mb-10 space-y-3">
           <SectionChip color="amber">{t.pricing.chip}</SectionChip>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">{t.pricing.title}</h2>
@@ -120,39 +120,48 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* Plan card */}
-        <div className="relative p-8 rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/6 to-transparent backdrop-blur-sm overflow-hidden">
+        {/* Plan card — dos columnas: precio+CTA / lo que incluye */}
+        <div className="relative rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/6 to-transparent backdrop-blur-sm overflow-hidden grid lg:grid-cols-2">
           {/* Glow */}
           <div className="absolute -top-20 -right-20 w-60 h-60 bg-amber-500/8 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-violet-500/8 rounded-full blur-3xl pointer-events-none" />
+          {/* Divider — vertical en desktop */}
+          <div className="hidden lg:block absolute top-8 bottom-8 left-1/2 w-px bg-white/8 pointer-events-none" />
 
-          <div className="relative flex items-end gap-2 mb-2">
-            <span className="font-heading text-5xl font-bold text-white">{price}€</span>
-            <span className="text-slate-400 mb-2 text-lg">{period}</span>
+          <div className="relative p-8 lg:py-10 flex flex-col justify-center">
+            <div className="flex items-end gap-2 mb-2">
+              <span className="font-heading text-5xl font-bold text-white">{price}€</span>
+              <span className="text-slate-400 mb-2 text-lg">{period}</span>
+            </div>
+
+            {savings && (
+              <p className="text-green-500 text-sm font-medium mb-6">{savings}</p>
+            )}
+            {!savings && <div className="mb-6" />}
+
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={handleSubscribe}
+              loading={loading}
+            >
+              {t.pricing.ctaButton}
+            </Button>
           </div>
 
-          {savings && (
-            <p className="relative text-green-500 text-sm font-medium mb-6">{savings}</p>
-          )}
-          {!savings && <div className="mb-6" />}
-
-          <Button
-            size="lg"
-            className="w-full mb-8 relative"
-            onClick={handleSubscribe}
-            loading={loading}
-          >
-            {t.pricing.ctaButton}
-          </Button>
-
-          <ul className="relative space-y-3">
-            {features.map((f) => (
-              <li key={f} className="flex items-start gap-3 text-sm text-slate-300">
-                <Check className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
-                {f}
-              </li>
-            ))}
-          </ul>
+          <div className="relative px-8 pb-8 lg:p-8 lg:py-10 flex flex-col justify-center border-t border-white/8 lg:border-t-0">
+            <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-slate-500 mb-4 mt-6 lg:mt-0">
+              {t.pricing.includesLabel}
+            </p>
+            <ul className="space-y-3">
+              {features.map((f) => (
+                <li key={f} className="flex items-start gap-3 text-sm text-slate-300">
+                  <Check className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <p className="text-center text-xs text-slate-500 mt-6">
