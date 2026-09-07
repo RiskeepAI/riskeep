@@ -72,6 +72,10 @@ code, pre, .font-mono {
   will-change: transform;
 }
 .animate-ticker:hover { animation-play-state: paused; }
+.animate-ticker-fast {
+  animation: ticker 16s linear infinite;
+  will-change: transform;
+}
 
 /* ─── Scroll reveal ──────────────────────────────────────── */
 @keyframes fade-up {
@@ -264,6 +268,7 @@ code, pre, .font-mono {
 /* ─── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .animate-ticker,
+  .animate-ticker-fast,
   .anim-fade-up,
   .anim-fade-in,
   .anim-fade-left,
