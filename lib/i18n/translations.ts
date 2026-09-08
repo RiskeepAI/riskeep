@@ -170,6 +170,13 @@ const es = {
     includesLabel:'Incluye',
     footerNote:   'Pago seguro con Stripe. Cancela en cualquier momento desde tu cuenta.',
     savingsYearly:'Ahorras 99€',
+    comingSoon: {
+      badge:    'Próximamente',
+      title:    'Las suscripciones abren en noviembre',
+      body:     'Estamos terminando de pulir ARIA antes de abrir los pagos. Mientras tanto puedes probarlo gratis en modo demo, sin tarjeta. En cuanto el producto esté listo activaremos las suscripciones.',
+      ctaTry:   'Probar gratis en modo demo →',
+      ctaClose: 'Entendido',
+    },
     featuresMonthly: [
       'ARIA — Agente de trading autónomo',
       'Análisis técnico con IA en tiempo real',
@@ -735,6 +742,13 @@ const en: typeof es = {
     includesLabel:'Includes',
     footerNote:   'Secure payment with Stripe. Cancel anytime from your account.',
     savingsYearly:'Save €99',
+    comingSoon: {
+      badge:    'Coming soon',
+      title:    'Subscriptions open in November',
+      body:     'We\'re putting the finishing touches on ARIA before opening paid plans. In the meantime you can try it for free in demo mode, no card required. We\'ll activate subscriptions as soon as it\'s ready.',
+      ctaTry:   'Try it free in demo mode →',
+      ctaClose: 'Got it',
+    },
     featuresMonthly: [
       'ARIA — Autonomous trading agent',
       'Real-time AI technical analysis',

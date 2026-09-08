@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Check, Zap } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import Modal from '@/components/ui/Modal'
 import AnimateIn from '@/components/ui/AnimateIn'
 import SectionChip from '@/components/ui/SectionChip'
 import { createClient } from '@/lib/supabase/client'
@@ -16,6 +18,7 @@ export default function Pricing() {
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
   const [inView, setInView] = useState(false)
+  const [showComingSoon, setShowComingSoon] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -29,6 +32,10 @@ export default function Pricing() {
     return () => obs.disconnect()
   }, [])
 
+  // Checkout real de Stripe — pausado hasta el lanzamiento (ver comentario
+  // junto al botón CTA más abajo, que ahora mismo llama a
+  // setShowComingSoon en vez de a esta función). Se deja intacta para
+  // reactivar el botón con un solo cambio cuando el producto esté listo.
   async function handleSubscribe() {
     setLoading(true)
     try {
@@ -142,8 +149,7 @@ export default function Pricing() {
             <Button
               size="lg"
               className="w-full"
-              onClick={handleSubscribe}
-              loading={loading}
+              onClick={() => setShowComingSoon(true)}
             >
               {t.pricing.ctaButton}
             </Button>
@@ -168,6 +174,29 @@ export default function Pricing() {
           {t.pricing.footerNote}
         </p>
       </div>
+
+      <Modal open={showComingSoon} onClose={() => setShowComingSoon(false)}>
+        <Badge variant="gold" className="mb-4">
+          <Zap className="w-3 h-3" />
+          {t.pricing.comingSoon.badge}
+        </Badge>
+        <h3 className="font-heading text-2xl font-bold text-white mb-3">
+          {t.pricing.comingSoon.title}
+        </h3>
+        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+          {t.pricing.comingSoon.body}
+        </p>
+        <div className="flex flex-col gap-2.5">
+          <Link href="/register" onClick={() => setShowComingSoon(false)}>
+            <Button size="lg" className="w-full">
+              {t.pricing.comingSoon.ctaTry}
+            </Button>
+          </Link>
+          <Button variant="ghost" size="lg" className="w-full" onClick={() => setShowComingSoon(false)}>
+            {t.pricing.comingSoon.ctaClose}
+          </Button>
+        </div>
+      </Modal>
     </section>
   )
 }
