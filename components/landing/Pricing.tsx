@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Check, Zap } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
+import Modal from '@/components/ui/Modal'
 import AnimateIn from '@/components/ui/AnimateIn'
 import SectionChip from '@/components/ui/SectionChip'
 import { createClient } from '@/lib/supabase/client'
@@ -16,6 +18,7 @@ export default function Pricing() {
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly')
   const [loading, setLoading] = useState(false)
   const [inView, setInView] = useState(false)
+  const [showComingSoon, setShowComingSoon] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -29,6 +32,10 @@ export default function Pricing() {
     return () => obs.disconnect()
   }, [])
 
+  // Checkout real de Stripe — pausado hasta el lanzamiento (ver comentario
+  // junto al botón CTA más abajo, que ahora mismo llama a
+  // setShowComingSoon en vez de a esta función). Se deja intacta para
+  // reactivar el botón con un solo cambio cuando el producto esté listo.
   async function handleSubscribe() {
     setLoading(true)
     try {
@@ -54,11 +61,17 @@ export default function Pricing() {
     }
   }
 
-  const isMonthly = billing === 'monthly'
-  const price     = isMonthly ? 29 : 249
-  const period    = isMonthly ? t.pricing.monthly : t.pricing.yearly
-  const savings   = isMonthly ? null : t.pricing.savingsYearly
-  const features  = isMonthly ? t.pricing.featuresMonthly : t.pricing.featuresYearly
+  // Precio de lanzamiento — temporal, para los primeros en registrarse
+  // mientras las suscripciones están en pausa (ver ComingSoon modal más
+  // abajo). El precio "normal" (regularPrice) es al que se sube cuando
+  // el producto salga de beta en noviembre.
+  const isMonthly    = billing === 'monthly'
+  const regularPrice = isMonthly ? 29 : 249
+  const price        = isMonthly ? 19 : 149
+  const period        = isMonthly ? t.pricing.monthly : t.pricing.yearly
+  const savings       = isMonthly ? null : t.pricing.savingsYearly
+  const features      = isMonthly ? t.pricing.featuresMonthly : t.pricing.featuresYearly
+  const launchNote    = t.pricing.launchNote.replace('{regular}', String(regularPrice))
 
   return (
     <section
@@ -98,7 +111,7 @@ export default function Pricing() {
             >
               {b === 'monthly' ? t.pricing.monthly : t.pricing.yearly}
               {b === 'yearly' && billing !== 'yearly' && (
-                <Badge variant="green" className="text-[10px] py-0.5 px-2">-28%</Badge>
+                <Badge variant="green" className="text-[10px] py-0.5 px-2">-35%</Badge>
               )}
             </button>
           ))}
@@ -110,15 +123,18 @@ export default function Pricing() {
           <span>{t.pricing.freeNote}</span>
         </div>
 
-        {/* Badge fuera del overflow-hidden para que no se corte */}
-        {billing === 'yearly' && (
-          <div className="flex justify-center mb-3">
+        {/* Badges fuera del overflow-hidden para que no se corten */}
+        <div className="flex justify-center gap-2 mb-3">
+          <Badge variant="purple">
+            <Zap className="w-3 h-3" />
+            {t.pricing.launchBadge}
+          </Badge>
+          {billing === 'yearly' && (
             <Badge variant="gold">
-              <Zap className="w-3 h-3" />
               {t.pricing.mostPopular}
             </Badge>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Plan card — dos columnas: precio+CTA / lo que incluye */}
         <div className="relative rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/6 to-transparent backdrop-blur-sm overflow-hidden grid lg:grid-cols-2">
@@ -129,21 +145,22 @@ export default function Pricing() {
           <div className="hidden lg:block absolute top-8 bottom-8 left-1/2 w-px bg-white/8 pointer-events-none" />
 
           <div className="relative p-8 lg:py-10 flex flex-col justify-center">
-            <div className="flex items-end gap-2 mb-2">
+            <div className="flex items-end gap-2 mb-1">
               <span className="font-heading text-5xl font-bold text-white">{price}€</span>
               <span className="text-slate-400 mb-2 text-lg">{period}</span>
+              <span className="text-slate-500 text-lg line-through mb-2">{regularPrice}€</span>
             </div>
 
             {savings && (
-              <p className="text-green-500 text-sm font-medium mb-6">{savings}</p>
+              <p className="text-green-500 text-sm font-medium mb-2">{savings}</p>
             )}
-            {!savings && <div className="mb-6" />}
+            {!savings && <div className="mb-2" />}
+            <p className="text-slate-500 text-xs leading-relaxed mb-6">{launchNote}</p>
 
             <Button
               size="lg"
               className="w-full"
-              onClick={handleSubscribe}
-              loading={loading}
+              onClick={() => setShowComingSoon(true)}
             >
               {t.pricing.ctaButton}
             </Button>
@@ -168,6 +185,29 @@ export default function Pricing() {
           {t.pricing.footerNote}
         </p>
       </div>
+
+      <Modal open={showComingSoon} onClose={() => setShowComingSoon(false)}>
+        <Badge variant="gold" className="mb-4">
+          <Zap className="w-3 h-3" />
+          {t.pricing.comingSoon.badge}
+        </Badge>
+        <h3 className="font-heading text-2xl font-bold text-white mb-3">
+          {t.pricing.comingSoon.title}
+        </h3>
+        <p className="text-slate-400 text-sm leading-relaxed mb-6">
+          {t.pricing.comingSoon.body}
+        </p>
+        <div className="flex flex-col gap-2.5">
+          <Link href="/register" onClick={() => setShowComingSoon(false)}>
+            <Button size="lg" className="w-full">
+              {t.pricing.comingSoon.ctaTry}
+            </Button>
+          </Link>
+          <Button variant="ghost" size="lg" className="w-full" onClick={() => setShowComingSoon(false)}>
+            {t.pricing.comingSoon.ctaClose}
+          </Button>
+        </div>
+      </Modal>
     </section>
   )
 }
