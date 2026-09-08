@@ -61,11 +61,17 @@ export default function Pricing() {
     }
   }
 
-  const isMonthly = billing === 'monthly'
-  const price     = isMonthly ? 29 : 249
-  const period    = isMonthly ? t.pricing.monthly : t.pricing.yearly
-  const savings   = isMonthly ? null : t.pricing.savingsYearly
-  const features  = isMonthly ? t.pricing.featuresMonthly : t.pricing.featuresYearly
+  // Precio de lanzamiento — temporal, para los primeros en registrarse
+  // mientras las suscripciones están en pausa (ver ComingSoon modal más
+  // abajo). El precio "normal" (regularPrice) es al que se sube cuando
+  // el producto salga de beta en noviembre.
+  const isMonthly    = billing === 'monthly'
+  const regularPrice = isMonthly ? 29 : 249
+  const price        = isMonthly ? 19 : 149
+  const period        = isMonthly ? t.pricing.monthly : t.pricing.yearly
+  const savings       = isMonthly ? null : t.pricing.savingsYearly
+  const features      = isMonthly ? t.pricing.featuresMonthly : t.pricing.featuresYearly
+  const launchNote    = t.pricing.launchNote.replace('{regular}', String(regularPrice))
 
   return (
     <section
@@ -105,7 +111,7 @@ export default function Pricing() {
             >
               {b === 'monthly' ? t.pricing.monthly : t.pricing.yearly}
               {b === 'yearly' && billing !== 'yearly' && (
-                <Badge variant="green" className="text-[10px] py-0.5 px-2">-28%</Badge>
+                <Badge variant="green" className="text-[10px] py-0.5 px-2">-35%</Badge>
               )}
             </button>
           ))}
@@ -117,15 +123,18 @@ export default function Pricing() {
           <span>{t.pricing.freeNote}</span>
         </div>
 
-        {/* Badge fuera del overflow-hidden para que no se corte */}
-        {billing === 'yearly' && (
-          <div className="flex justify-center mb-3">
+        {/* Badges fuera del overflow-hidden para que no se corten */}
+        <div className="flex justify-center gap-2 mb-3">
+          <Badge variant="purple">
+            <Zap className="w-3 h-3" />
+            {t.pricing.launchBadge}
+          </Badge>
+          {billing === 'yearly' && (
             <Badge variant="gold">
-              <Zap className="w-3 h-3" />
               {t.pricing.mostPopular}
             </Badge>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Plan card — dos columnas: precio+CTA / lo que incluye */}
         <div className="relative rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/6 to-transparent backdrop-blur-sm overflow-hidden grid lg:grid-cols-2">
@@ -136,15 +145,17 @@ export default function Pricing() {
           <div className="hidden lg:block absolute top-8 bottom-8 left-1/2 w-px bg-white/8 pointer-events-none" />
 
           <div className="relative p-8 lg:py-10 flex flex-col justify-center">
-            <div className="flex items-end gap-2 mb-2">
+            <div className="flex items-end gap-2 mb-1">
               <span className="font-heading text-5xl font-bold text-white">{price}€</span>
               <span className="text-slate-400 mb-2 text-lg">{period}</span>
+              <span className="text-slate-500 text-lg line-through mb-2">{regularPrice}€</span>
             </div>
 
             {savings && (
-              <p className="text-green-500 text-sm font-medium mb-6">{savings}</p>
+              <p className="text-green-500 text-sm font-medium mb-2">{savings}</p>
             )}
-            {!savings && <div className="mb-6" />}
+            {!savings && <div className="mb-2" />}
+            <p className="text-slate-500 text-xs leading-relaxed mb-6">{launchNote}</p>
 
             <Button
               size="lg"
