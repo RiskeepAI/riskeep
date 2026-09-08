@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
+import { getClientIp, isRateLimited } from '@/lib/rate-limit'
+
+// Límites de longitud — no son inyectables (Supabase parametriza todo),
+// pero sin esto un token Bearer válido podía guardar strings arbitrariamente
+// largos o un episode_json de cualquier tamaño.
+const MAX_SHORT_FIELD = 64
+const MAX_EPISODE_JSON_BYTES = 50_000 // ~50KB, de sobra para un episodio real
 
 function getAdminClient() {
   return createSupabaseAdmin(
@@ -59,6 +66,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Token inválido o expirado' }, { status: 401 })
   }
 
+  if (isRateLimited(`episodes:${user.id}`, 60, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones, inténtalo en un minuto' }, { status: 429 })
+  }
+
   // ── Parse body ────────────────────────────────────────────────────────
   let body: Record<string, unknown>
   try {
@@ -83,6 +94,32 @@ export async function POST(req: NextRequest) {
   if (!['winner', 'loser'].includes(status)) {
     return NextResponse.json(
       { error: `status debe ser winner o loser (recibido: ${status})` },
+      { status: 422 }
+    )
+  }
+
+  const action = String(body.action)
+  if (!['LONG', 'SHORT'].includes(action)) {
+    return NextResponse.json(
+      { error: `action debe ser LONG o SHORT (recibido: ${action})` },
+      { status: 422 }
+    )
+  }
+
+  for (const field of ['episode_id', 'symbol', 'mode', 'aria_version']) {
+    const value = body[field]
+    if (value != null && String(value).length > MAX_SHORT_FIELD) {
+      return NextResponse.json(
+        { error: `${field} supera el máximo de ${MAX_SHORT_FIELD} caracteres` },
+        { status: 422 }
+      )
+    }
+  }
+
+  const episodeJsonSize = Buffer.byteLength(JSON.stringify(body.episode_json ?? {}), 'utf8')
+  if (episodeJsonSize > MAX_EPISODE_JSON_BYTES) {
+    return NextResponse.json(
+      { error: `episode_json supera el máximo de ${MAX_EPISODE_JSON_BYTES} bytes` },
       { status: 422 }
     )
   }

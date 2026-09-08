@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
 import { stripe } from '@/lib/stripe'
+import { isSameOrigin } from '@/lib/csrf'
+import { getClientIp, isRateLimited } from '@/lib/rate-limit'
 
 function getAdminClient() {
   return createSupabaseAdmin(
@@ -10,7 +12,14 @@ function getAdminClient() {
   )
 }
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ error: 'Origen no válido' }, { status: 403 })
+  }
+  if (isRateLimited(`cancel:${getClientIp(req)}`, 5, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones, inténtalo en un minuto' }, { status: 429 })
+  }
+
   // Verify session
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
