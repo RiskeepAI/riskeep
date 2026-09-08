@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
+// Solo se permite una ruta interna relativa: un solo "/" inicial, sin "//"
+// (protocol-relative), sin ":" ni "@" — evita el open redirect clásico vía
+// userinfo (ej. next=@evil.com -> `${origin}${next}` = "https://riskeep.com@evil.com",
+// que el navegador interpreta como usuario "riskeep.com" en el host "evil.com").
+function safeNext(value: string | null): string {
+  if (value && /^\/(?!\/)[A-Za-z0-9\-_/]*$/.test(value)) return value
+  return '/dashboard'
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams, origin } = new URL(req.url)
   const code = searchParams.get('code')
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type') as 'recovery' | 'email' | 'signup' | null
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = safeNext(searchParams.get('next'))
 
   const supabase = await createClient()
 

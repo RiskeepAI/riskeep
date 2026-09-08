@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createSupabaseAdmin } from '@supabase/supabase-js'
+import { getClientIp, isRateLimited } from '@/lib/rate-limit'
 
 // Admin client bypasses RLS — same pattern as stripe webhook
 function getAdminClient() {
@@ -11,6 +12,10 @@ function getAdminClient() {
 }
 
 export async function GET(req: NextRequest) {
+  if (isRateLimited(`license:${getClientIp(req)}`, 30, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones, inténtalo en un minuto' }, { status: 429 })
+  }
+
   let userId:      string | null = null
   let displayName: string        = ''
   let email:       string        = ''

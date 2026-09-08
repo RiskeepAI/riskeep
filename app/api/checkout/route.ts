@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe, PLANS } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
+import { isSameOrigin } from '@/lib/csrf'
+import { getClientIp, isRateLimited } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ error: 'Origen no válido' }, { status: 403 })
+  }
+  if (isRateLimited(`checkout:${getClientIp(req)}`, 10, 60_000)) {
+    return NextResponse.json({ error: 'Demasiadas peticiones, inténtalo en un minuto' }, { status: 429 })
+  }
+
   const { plan } = await req.json()
 
   if (!plan || !(plan in PLANS)) {
