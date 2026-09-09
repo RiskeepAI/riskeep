@@ -25,6 +25,7 @@ export default function ParticleCanvas({ className = '' }: { className?: string 
     let animId: number
     let particles: Particle[] = []
     let W = 0, H = 0
+    let running = false
 
     function init() {
       W = canvas!.width  = canvas!.offsetWidth
@@ -42,6 +43,7 @@ export default function ParticleCanvas({ className = '' }: { className?: string 
     }
 
     function tick() {
+      if (!running) return
       ctx!.clearRect(0, 0, W, H)
 
       for (let i = 0; i < particles.length; i++) {
@@ -80,13 +82,32 @@ export default function ParticleCanvas({ className = '' }: { className?: string 
     }
 
     init()
-    tick()
+
+    // Pause the rAF loop while the canvas is scrolled out of view instead
+    // of running this O(n²) connection-line pass forever in the
+    // background — it only needs to run while the hero is visible.
+    function start() {
+      if (running) return
+      running = true
+      tick()
+    }
+    function stop() {
+      running = false
+      cancelAnimationFrame(animId)
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0 }
+    )
+    io.observe(canvas)
 
     const ro = new ResizeObserver(init)
     ro.observe(canvas)
 
     return () => {
-      cancelAnimationFrame(animId)
+      stop()
+      io.disconnect()
       ro.disconnect()
     }
   }, [])

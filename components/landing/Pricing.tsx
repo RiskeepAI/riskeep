@@ -9,7 +9,6 @@ import Badge from '@/components/ui/Badge'
 import Modal from '@/components/ui/Modal'
 import AnimateIn from '@/components/ui/AnimateIn'
 import SectionChip from '@/components/ui/SectionChip'
-import { createClient } from '@/lib/supabase/client'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function Pricing() {
@@ -39,6 +38,10 @@ export default function Pricing() {
   async function handleSubscribe() {
     setLoading(true)
     try {
+      // Dynamic import: the Supabase client SDK (~200KB) has no reason to
+      // ship in the initial landing-page bundle — it's only needed once a
+      // visitor actually clicks the paid CTA.
+      const { createClient } = await import('@/lib/supabase/client')
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
 

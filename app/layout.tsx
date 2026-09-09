@@ -14,7 +14,9 @@ const spaceGrotesk = Space_Grotesk({
 
 const publicSans = Public_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  // 300 (light) is not used anywhere in the codebase — confirmed via
+  // grep for `font-light` / inline `fontWeight: 300` before removing it.
+  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 })
@@ -51,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

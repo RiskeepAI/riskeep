@@ -25,10 +25,14 @@
   --danger:     #EF4444;
   --orange:     #FB923C;
 
-  /* Texto — azul glacial */
+  /* Texto — azul glacial. --text-muted/--text-dim bumped slightly from
+     their original #6b768b/#3d4f6e — those failed WCAG AA contrast
+     (2.5:1–4.45:1) against the dark background at the small sizes they're
+     actually used at (10-14px body/footer/disclaimer text); these pass
+     4.5:1+ while keeping the same muted blue-gray character. */
   --text:       #dbe6fe;
-  --text-muted: #6b768b;
-  --text-dim:   #3d4f6e;
+  --text-muted: #7d87a3;
+  --text-dim:   #6b7ba6;
 }
 
 /* ─── Base ───────────────────────────────────────────────── */
@@ -95,6 +99,22 @@ code, pre, .font-mono {
 .anim-fade-up   { animation: fade-up   0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .anim-fade-in   { animation: fade-in   0.65s ease forwards; }
 .anim-fade-left { animation: fade-left 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ─── Hero headline word-stagger + trust badge (pure CSS, no JS gate) ──
+   Runs from paint time via animation-delay, not from hydration/observer
+   timing — see components/landing/Hero.tsx. ─────────────────────────── */
+@keyframes word-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wr-word {
+  opacity: 0;
+  animation: word-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.badge-reveal {
+  opacity: 0;
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
 /* ─── Gradient text utilities ────────────────────────────── */
 .label-gradient {
@@ -166,14 +186,28 @@ code, pre, .font-mono {
 }
 .animate-glow-pulse { animation: glow-pulse 2.5s ease-in-out infinite; }
 
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
+/* Was: animating `background-position` directly on the element's own
+   background — a non-composited property that repaints every frame
+   (flagged by Lighthouse). Now: the sweep lives on a `::after` overlay
+   animated with `transform: translateX()` (compositor-only), so the
+   element's own background (e.g. the amber fill in the hero confidence
+   bar) is untouched and the highlight sweeps across it identically. */
 .animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%);
-  background-size: 200% 100%;
+  transform: translateX(-100%);
   animation: shimmer 2.5s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+@keyframes shimmer {
+  to { transform: translateX(100%); }
 }
 
 @keyframes signal-in {
@@ -223,14 +257,17 @@ code, pre, .font-mono {
 .anim-scale-up   { animation: scale-up   0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .anim-zoom-in    { animation: zoom-in    0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* ─── Animated gradient border ───────────────────────────── */
-@property --ba {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
+/* ─── Animated gradient border ───────────────────────────────────────
+   Was: animating the `--ba` angle custom property that feeds a
+   conic-gradient — every frame recomputes and repaints the gradient
+   (non-composited, flagged by Lighthouse as a non-composited animation).
+   Now: the gradient itself is static; a compositor-only `transform:
+   rotate()` spins it instead. The pseudo-element is oversized (200%) and
+   centered so its own corners never enter the visible area — the card's
+   existing `overflow-hidden` + `rounded-2xl` clips it to the identical
+   ring shape as before, so the visible effect is unchanged. ───────── */
 @keyframes border-spin {
-  to { --ba: 360deg; }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 .animated-border-card {
   position: relative;
@@ -238,10 +275,13 @@ code, pre, .font-mono {
 .animated-border-card::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  border-radius: inherit;
+  left: 50%;
+  top: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%) rotate(0deg);
   background: conic-gradient(
-    from var(--ba),
+    from 0deg,
     transparent 60%,
     rgba(139, 92, 246, 0.6) 75%,
     rgba(34,  211, 238, 0.4) 85%,
@@ -251,6 +291,7 @@ code, pre, .font-mono {
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s;
+  will-change: transform;
 }
 .animated-border-card:hover::before {
   opacity: 1;
@@ -282,6 +323,8 @@ code, pre, .font-mono {
   .animate-signal,
   .scroll-progress,
   .pricing-ambient,
+  .wr-word,
+  .badge-reveal,
   .animated-border-card::before {
     animation: none !important;
     transition: none !important;
