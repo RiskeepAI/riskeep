@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Send, ExternalLink } from 'lucide-react'
+import { Instagram } from 'lucide-react'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function Footer() {
@@ -56,15 +56,10 @@ export default function Footer() {
               support@riskeep.com
             </a>
             <div className="flex items-center gap-3 pt-1">
-              <a href="https://t.me/riskeep" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/riskeep.app" target="_blank" rel="noopener noreferrer"
                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/8 bg-white/3 text-xs text-[#7d87a3] hover:text-[#dbe6fe] hover:border-white/16 transition-all">
-                <Send className="w-3 h-3"/>
-                Telegram
-              </a>
-              <a href="https://x.com/riskeep" target="_blank" rel="noopener noreferrer"
-                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/8 bg-white/3 text-xs text-[#7d87a3] hover:text-[#dbe6fe] hover:border-white/16 transition-all">
-                <ExternalLink className="w-3 h-3"/>
-                X / Twitter
+                <Instagram className="w-3 h-3"/>
+                Instagram
               </a>
             </div>
           </div>
