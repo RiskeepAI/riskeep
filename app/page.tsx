@@ -1,14 +1,20 @@
+import dynamic from 'next/dynamic'
 import Navbar from '@/components/landing/Navbar'
 import Hero from '@/components/landing/Hero'
-import Ticker from '@/components/landing/Ticker'
-import Stats from '@/components/landing/Stats'
-import HowItWorks from '@/components/landing/HowItWorks'
-import Features from '@/components/landing/Features'
-import Comparison from '@/components/landing/Comparison'
-import Pricing from '@/components/landing/Pricing'
-import FAQ from '@/components/landing/FAQ'
-import Footer from '@/components/landing/Footer'
 import GlobalBackground from '@/components/ui/GlobalBackground'
+
+// Below-the-fold sections: server-rendered exactly as before (so content,
+// SEO, and no-JS visibility are unchanged) but split into separate chunks
+// that load off the critical initial-bundle path instead of being bundled
+// with the hero. See RENDIMIENTO.md for the before/after measurements.
+const Ticker      = dynamic(() => import('@/components/landing/Ticker'))
+const Stats       = dynamic(() => import('@/components/landing/Stats'))
+const HowItWorks  = dynamic(() => import('@/components/landing/HowItWorks'))
+const Features    = dynamic(() => import('@/components/landing/Features'))
+const Comparison  = dynamic(() => import('@/components/landing/Comparison'))
+const Pricing     = dynamic(() => import('@/components/landing/Pricing'))
+const FAQ         = dynamic(() => import('@/components/landing/FAQ'))
+const Footer      = dynamic(() => import('@/components/landing/Footer'))
 
 export default function LandingPage() {
   return (

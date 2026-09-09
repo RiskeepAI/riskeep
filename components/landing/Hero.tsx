@@ -13,38 +13,20 @@ import AnimateIn from '@/components/ui/AnimateIn'
 import ParticleCanvas from '@/components/ui/ParticleCanvas'
 import { useT } from '@/lib/i18n/LanguageContext'
 
-/* ── Word reveal ──────────────────────────────────────────── */
+/* ── Word reveal ──────────────────────────────────────────────────────
+   Pure-CSS stagger: each word gets its final animation-delay inline, so
+   the reveal starts at paint time (no hydration / IntersectionObserver /
+   setTimeout gate). This is the hero headline — it's always in the
+   initial viewport, so "reveal on scroll" adds nothing but LCP delay;
+   see .wr-word / @keyframes word-in in globals.css. ─────────────────── */
 function WordReveal({ text, baseDelay = 0 }: { text: string; baseDelay?: number }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const words = el.querySelectorAll('.wr-word')
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        words.forEach((w, i) => {
-          setTimeout(() => {
-            (w as HTMLElement).style.cssText =
-              'opacity:1;transform:translateY(0)'
-          }, baseDelay + i * 80)
-        })
-        obs.unobserve(el)
-      }
-    }, { threshold: 0.1 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [baseDelay])
   return (
-    <span ref={ref}>
+    <span>
       {text.split(' ').map((word, i) => (
         <span
           key={i}
           className="wr-word inline-block mr-[0.25em]"
-          style={{
-            opacity: 0,
-            transform: 'translateY(30px)',
-            transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1)',
-          }}
+          style={{ animationDelay: `${baseDelay + i * 80}ms` }}
         >
           {word}
         </span>
@@ -371,7 +353,7 @@ export default function Hero() {
         {/* Hero image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35"
-          style={{ backgroundImage: "url('/images/hero-bg-v3.jpg')" }}
+          style={{ backgroundImage: "url('/images/hero-bg-v3.webp')" }}
         />
         {/* Overlay to keep text readable */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0F1E]/60 via-[#0A0F1E]/40 to-[#0A0F1E]/80" />
@@ -386,13 +368,9 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* ── Left: Copy ── */}
-          <AnimateIn animation="fade-right" className="space-y-8 text-center lg:text-left">
+          <AnimateIn immediate animation="fade-right" className="space-y-8 text-center lg:text-left">
             <div
-              style={{
-                opacity: 0,
-                transform: 'translateY(20px)',
-                transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${badgeDelay}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${badgeDelay}ms`,
-              }}
+              style={{ animationDelay: `${badgeDelay}ms` }}
               className="badge-reveal inline-block"
             >
               <Badge variant="gold">
@@ -426,7 +404,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            <p className="text-[10px] text-[#3d4f6e] text-center lg:text-left">
+            <p className="text-[10px] text-[#6b7ba6] text-center lg:text-left">
               El trading de criptomonedas implica riesgo. No inviertas más de lo que puedas permitirte perder.
             </p>
 
@@ -436,7 +414,7 @@ export default function Hero() {
                 { icon: TrendingUp,  text: t.hero.trustCancel, color: 'text-green-500' },
                 { icon: Sparkles,    text: t.hero.trustPaper,  color: 'text-amber-400' },
               ].map(({ icon: Icon, text, color }) => (
-                <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-sm text-[#6b768b] hover:text-[#dbe6fe] transition-colors">
+                <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-sm text-[#7d87a3] hover:text-[#dbe6fe] transition-colors">
                   <Icon className={`w-3.5 h-3.5 ${color} flex-shrink-0`}/>
                   {text}
                 </span>
@@ -444,7 +422,7 @@ export default function Hero() {
             </div>
 
             <div className="flex items-center gap-2 pt-1">
-              <span className="flex items-center gap-2 px-3 py-1 rounded-lg border border-white/8 bg-white/3 text-xs text-[#6b768b]">
+              <span className="flex items-center gap-2 px-3 py-1 rounded-lg border border-white/8 bg-white/3 text-xs text-[#7d87a3]">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"/>
                 Compatible con <span className="text-[#dbe6fe] font-medium">Bitget</span>
               </span>
@@ -452,14 +430,14 @@ export default function Hero() {
           </AnimateIn>
 
           {/* ── Right: Dashboard preview ── */}
-          <AnimateIn animation="fade-left" delay={150} className="hidden lg:block">
+          <AnimateIn immediate animation="fade-left" delay={150} className="hidden lg:block">
             <Tilt3D>
               <DashboardPreview t={t} />
             </Tilt3D>
           </AnimateIn>
 
           {/* Mobile preview (simpler) */}
-          <AnimateIn animation="zoom-in" delay={100} className="lg:hidden w-full max-w-sm mx-auto">
+          <AnimateIn immediate animation="zoom-in" delay={100} className="lg:hidden w-full max-w-sm mx-auto">
             <DashboardPreview t={t} showRail={false} />
           </AnimateIn>
         </div>
