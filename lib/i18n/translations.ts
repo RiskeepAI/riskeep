@@ -335,7 +335,7 @@ const es = {
   legal: {
     /* navbar */
     backToHome: 'Volver al inicio',
-    docBadge:   'Documentación oficial · v5.0',
+    docBadge:   'Documentación oficial',
     heroTitle1: 'ARIA —',
     heroTitle2: 'Autonomous Risk',
     heroTitle3: 'Intelligence Agent',
@@ -897,7 +897,7 @@ const en: typeof es = {
 
   legal: {
     backToHome: 'Back to home',
-    docBadge:   'Official documentation · v5.0',
+    docBadge:   'Official documentation',
     heroTitle1: 'ARIA —',
     heroTitle2: 'Autonomous Risk',
     heroTitle3: 'Intelligence Agent',

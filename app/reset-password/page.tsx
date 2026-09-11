@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 
 export default function ResetPasswordPage() {
@@ -42,10 +43,8 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen bg-[#020810] flex items-center justify-center px-6">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">R</span>
-            </div>
+          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
+            <Image src="/images/logo-r.png" alt="Riskeep" width={32} height={32} className="rounded-lg group-hover:scale-105 transition-transform shadow-lg shadow-blue-500/20" />
             <span className="text-white font-bold text-lg">Riskeep</span>
           </Link>
           <h1 className="text-2xl font-bold text-white">Nueva contraseña</h1>
