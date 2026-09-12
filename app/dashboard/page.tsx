@@ -46,7 +46,7 @@ export default async function DashboardPage({
       downloadWin={process.env.NEXT_PUBLIC_DOWNLOAD_WIN ?? '#'}
       downloadMac={process.env.NEXT_PUBLIC_DOWNLOAD_MAC ?? '#'}
       downloadGuide={process.env.NEXT_PUBLIC_ARIA_GUIDE_URL ?? ''}
-      ariaVersion={process.env.NEXT_PUBLIC_ARIA_VERSION ?? '5.0'}
+      ariaVersion={process.env.NEXT_PUBLIC_ARIA_VERSION ?? '7.3.0'}
     />
   )
 }

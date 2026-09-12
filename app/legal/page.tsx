@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   AlertTriangle, Shield, Monitor, Brain, Puzzle,
   Gamepad2, BarChart3, Wrench, MessageSquare,
@@ -811,10 +812,8 @@ export default function LegalPage() {
       {/* ── NAVBAR ── */}
       <header className="fixed top-0 inset-x-0 z-50 border-b border-white/6 bg-[#020810]/80 backdrop-blur-md animate-[fadeIn_.5s_ease_both]">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,.3)]">
-              <span className="text-white font-bold text-sm">R</span>
-            </div>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <Image src="/images/logo-r.png" alt="Riskeep" width={32} height={32} className="rounded-lg group-hover:scale-105 transition-transform shadow-lg shadow-blue-500/20" />
             <span className="text-white font-bold text-lg tracking-tight">Riskeep</span>
           </Link>
           <Link href="/" className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors">
@@ -828,7 +827,7 @@ export default function LegalPage() {
       <section className="pt-36 pb-14 px-6 text-center relative">
         <div className="animate-[fadeUp_.7s_cubic-bezier(.16,1,.3,1)_.1s_both] inline-flex items-center gap-2 text-[11px] font-mono tracking-widest uppercase text-cyan-400 bg-cyan-500/8 border border-cyan-500/22 rounded-full px-4 py-1.5 mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-[pulse_2s_infinite]" />
-          {t.legal.docBadge}
+          {t.legal.docBadge} · v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '7.3.0'}
         </div>
 
         <h1 className="animate-[fadeUp_.75s_cubic-bezier(.16,1,.3,1)_.25s_both] font-bold text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.08] tracking-tight text-white mb-5">
@@ -878,10 +877,8 @@ export default function LegalPage() {
       {/* ── FOOTER ── */}
       <footer className="border-t border-white/8 py-10 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-              <span className="text-white font-bold text-xs">R</span>
-            </div>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <Image src="/images/logo-r.png" alt="Riskeep" width={28} height={28} className="rounded-lg group-hover:scale-105 transition-transform" />
             <span className="text-white font-bold">Riskeep</span>
           </Link>
           <nav className="flex gap-6 text-sm text-slate-500">
