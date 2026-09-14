@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect logged-in users away from login/register
-  if ((request.nextUrl.pathname === '/login') && user) {
+  if ((request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register') && user) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

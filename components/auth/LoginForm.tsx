@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
 import { useT } from '@/lib/i18n/LanguageContext'
 
@@ -23,12 +22,19 @@ export default function LoginForm() {
     setError('')
     setLoading(true)
 
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const res  = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    const data = await res.json().catch(() => ({}))
 
-    if (error) {
-      if (error.message.toLowerCase().includes('email not confirmed')) {
+    if (!res.ok) {
+      const message = String(data?.error ?? '')
+      if (message.toLowerCase().includes('email not confirmed')) {
         setError(t.auth.loginErrConfirm)
+      } else if (res.status === 429) {
+        setError(message)
       } else {
         setError(t.auth.loginErrWrong)
       }

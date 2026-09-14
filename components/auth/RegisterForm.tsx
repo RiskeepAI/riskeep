@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
 import Button from '@/components/ui/Button'
 import { CheckCircle } from 'lucide-react'
 import { useT } from '@/lib/i18n/LanguageContext'
@@ -35,17 +34,15 @@ export default function RegisterForm() {
     }
 
     setLoading(true)
-    const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: name },
-      },
+    const res  = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, fullName: name }),
     })
+    const data = await res.json().catch(() => ({}))
 
-    if (error) {
-      setError(error.message)
+    if (!res.ok) {
+      setError(String(data?.error ?? 'No se pudo completar el registro'))
       setLoading(false)
       return
     }

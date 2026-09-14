@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/client'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function ForgotPasswordPage() {
@@ -11,15 +10,25 @@ export default function ForgotPasswordPage() {
   const [email, setEmail]     = useState('')
   const [sent, setSent]       = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError]     = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setError('')
     setLoading(true)
 
-    const supabase = createClient()
-    await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/reset-password`,
+    const res  = await fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
     })
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setError(String(data?.error ?? 'No se pudo enviar el email'))
+      setLoading(false)
+      return
+    }
 
     setSent(true)
     setLoading(false)
@@ -55,6 +64,12 @@ export default function ForgotPasswordPage() {
                 className="w-full px-4 py-3 rounded-xl bg-white/6 border border-white/12 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500/60 transition-all text-sm"
               />
             </div>
+
+            {error && (
+              <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+                {error}
+              </p>
+            )}
 
             <button
               type="submit"
