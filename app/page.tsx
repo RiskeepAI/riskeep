@@ -10,15 +10,40 @@ import GlobalBackground from '@/components/ui/GlobalBackground'
 const Ticker      = dynamic(() => import('@/components/landing/Ticker'))
 const Stats       = dynamic(() => import('@/components/landing/Stats'))
 const HowItWorks  = dynamic(() => import('@/components/landing/HowItWorks'))
+const Proof       = dynamic(() => import('@/components/landing/Proof'))
 const Features    = dynamic(() => import('@/components/landing/Features'))
 const Comparison  = dynamic(() => import('@/components/landing/Comparison'))
 const Pricing     = dynamic(() => import('@/components/landing/Pricing'))
 const FAQ         = dynamic(() => import('@/components/landing/FAQ'))
 const Footer      = dynamic(() => import('@/components/landing/Footer'))
 
+// Datos estructurados (schema.org) para buscadores: qué es ARIA, en qué
+// sistemas funciona y sus precios. Solo hechos verificables.
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'ARIA',
+  alternateName: 'Riskeep ARIA',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Windows 10, Windows 11, macOS 12+',
+  url: 'https://riskeep.com',
+  description:
+    'Agente de trading autónomo para Bitget Futures: estrategia de tendencia en velas de 4 horas validada con backtest, stop nativo en el exchange, modo demo gratuito.',
+  publisher: { '@type': 'Organization', name: 'Riskeep', url: 'https://riskeep.com', email: 'support@riskeep.com' },
+  offers: [
+    { '@type': 'Offer', name: 'Modo demo', price: '0', priceCurrency: 'EUR' },
+    { '@type': 'Offer', name: 'Plan mensual', price: '19', priceCurrency: 'EUR' },
+    { '@type': 'Offer', name: 'Plan anual', price: '149', priceCurrency: 'EUR' },
+  ],
+}
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replace(/</g, '\\u003c') }}
+      />
       <GlobalBackground />
       <Navbar />
       <main>
@@ -28,6 +53,8 @@ export default function LandingPage() {
         <Stats />
         <div className="section-divider" />
         <HowItWorks />
+        <div className="section-divider" />
+        <Proof />
         <div className="section-divider" />
         <Features />
         <div className="section-divider" />

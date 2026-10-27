@@ -80,8 +80,9 @@ export default function Navbar() {
   }, [])
 
   const NAV_LINKS = [
-    { href: '#features', label: t.nav.features },
-    { href: '#pricing',  label: t.nav.pricing   },
+    { href: '#features',     label: t.nav.features },
+    { href: '#transparency', label: t.nav.results  },
+    { href: '#pricing',      label: t.nav.pricing  },
     { href: '#faq',      label: t.nav.faq        },
     { href: '/legal',    label: t.nav.legal      },
   ]
@@ -102,13 +103,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-2">
           <LangSelector />
           <Link href="/login"><Button variant="ghost" size="sm">{t.nav.signIn}</Button></Link>
-          <Link href="#pricing"><Button size="sm">{t.nav.startFree}</Button></Link>
+          <Link href="/register"><Button size="sm">{t.nav.startFree}</Button></Link>
         </div>
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
           <LangSelector />
-          <Link href="#pricing"><Button size="sm">{t.nav.start}</Button></Link>
+          <Link href="/register"><Button size="sm">{t.nav.start}</Button></Link>
           <button
             onClick={() => setOpen(o => !o)}
             className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer"

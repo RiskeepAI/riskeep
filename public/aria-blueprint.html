@@ -323,7 +323,7 @@
         <ul class="clist">
           <li><div class="ico ico-ok">✓</div><div><strong>Si usas una IA en la nube</strong> (Gemini, Groq, OpenAI, Claude): cualquier ordenador de los últimos años sirve.</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>Si prefieres IA 100% local:</strong> 16 GB de RAM mínimo (32 GB recomendado) y ~15 GB libres para los modelos.</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ o Windows 11.</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 12+ o Windows 10/11 (64 bits). Linux en desarrollo.</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> para la descarga inicial y la conexión con Bitget.</div></li>
         </ul>
       </div>
@@ -396,11 +396,11 @@
   <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">1</div>
-      <p style="font-size:9.5px;"><strong>Analiza</strong> — indicadores técnicos (RSI, medias móviles, patrones de velas, volumen) en varios marcos temporales a la vez, para varios pares simultáneamente.</p>
+      <p style="font-size:9.5px;"><strong>Mide la tendencia</strong> — en velas de 4 horas, el momentum de cada mercado en 6 horizontes (de unos 5 a 30 días), para 10 pares de Bitget a la vez.</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">2</div>
-      <p style="font-size:9.5px;"><strong>Decide</strong> — un modelo de IA (el que elijas: Gemini, Groq, OpenAI, Claude, o uno local sin depender de ningún servicio externo) traduce ese análisis en una decisión con un nivel de confianza.</p>
+      <p style="font-size:9.5px;"><strong>Decide con reglas</strong> — en la estrategia por defecto (Tendencia 4h, validada con backtest) solo entra cuando la dirección cambia y va a favor del régimen de BTC; no necesita IA. En los modos técnico y fundamental decide la IA que elijas (Gemini, Groq, OpenAI, Claude o un modelo local).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">3</div>
@@ -408,11 +408,11 @@
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">4</div>
-      <p style="font-size:9.5px;"><strong>Ejecuta con protección</strong> — coloca la orden intentando la comisión más barata, fija stop loss y take profit automáticos según la volatilidad real del momento, y añade una red de seguridad del propio exchange por si el bot se cayera.</p>
+      <p style="font-size:9.5px;"><strong>Ejecuta con protección</strong> — coloca la orden intentando la comisión más barata y fija un stop nativo en el propio exchange según la volatilidad real (2×ATR), que sigue protegiendo la posición aunque el bot se cayera.</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">5</div>
-      <p style="font-size:9.5px;"><strong>Vigila y aprende</strong> — revisa las posiciones abiertas constantemente (protege beneficio, cierra si no llega a su objetivo a tiempo), y cada operación cerrada queda guardada como referencia para análisis futuros similares.</p>
+      <p style="font-size:9.5px;"><strong>Vigila y aprende</strong> — revisa las posiciones abiertas cada pocos segundos: en la estrategia de tendencia no hay take profit fijo, el stop sigue al precio a 4×ATR y solo se mueve a favor. Cada operación cerrada queda guardada como referencia.</p>
     </div>
   </div>
 
@@ -890,7 +890,7 @@
         <ul class="clist">
           <li><div class="ico ico-ok">✓</div><div><strong>If you use a cloud AI</strong> (Gemini, Groq, OpenAI, Claude): any computer from the last few years works fine.</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>If you prefer 100% local AI:</strong> 16 GB RAM minimum (32 GB recommended) and ~15 GB free disk for the models.</div></li>
-          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 13+ or Windows 11.</div></li>
+          <li><div class="ico ico-ok">✓</div><div><strong>OS:</strong> macOS 12+ or Windows 10/11 (64-bit). Linux in development.</div></li>
           <li><div class="ico ico-ok">✓</div><div><strong>Internet:</strong> for the initial download and the connection to Bitget.</div></li>
         </ul>
       </div>
@@ -959,11 +959,11 @@
   <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">1</div>
-      <p style="font-size:9.5px;"><strong>Analyzes</strong> — technical indicators (RSI, moving averages, candlestick patterns, volume) across several timeframes at once, for several pairs simultaneously.</p>
+      <p style="font-size:9.5px;"><strong>Measures the trend</strong> — on 4-hour candles, each market's momentum over 6 horizons (about 5 to 30 days), for 10 Bitget pairs at once.</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">2</div>
-      <p style="font-size:9.5px;"><strong>Decides</strong> — an AI model (your choice: Gemini, Groq, OpenAI, Claude, or a local one with no dependency on any external service) turns that analysis into a decision with a confidence level.</p>
+      <p style="font-size:9.5px;"><strong>Decides by rules</strong> — in the default strategy (4h Trend, validated with a backtest) it only enters when the direction changes and agrees with the BTC regime; no AI needed. In technical and fundamental modes, the AI of your choice decides (Gemini, Groq, OpenAI, Claude or a local model).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">3</div>
@@ -971,11 +971,11 @@
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">4</div>
-      <p style="font-size:9.5px;"><strong>Executes with protection</strong> — places the order trying for the cheapest fee, sets automatic stop loss and take profit based on real-time volatility, and adds a safety net from the exchange itself in case the bot goes down.</p>
+      <p style="font-size:9.5px;"><strong>Executes with protection</strong> — places the order trying for the cheapest fee and sets a native stop on the exchange itself based on real volatility (2×ATR), which keeps protecting the position even if the bot goes down.</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">5</div>
-      <p style="font-size:9.5px;"><strong>Watches and learns</strong> — constantly reviews open positions (locks in profit, closes if it doesn't reach its target in time), and every closed trade is kept as reference for similar future analysis.</p>
+      <p style="font-size:9.5px;"><strong>Watches and learns</strong> — checks open positions every few seconds: in the trend strategy there is no fixed take profit, the stop follows price at 4×ATR and only moves in your favour. Every closed trade is kept as reference.</p>
     </div>
   </div>
 
