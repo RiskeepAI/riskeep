@@ -27,7 +27,7 @@ export default function Footer() {
             {/* Bitget badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/8 bg-white/3">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500"/>
-              <span className="text-xs text-[#7d87a3]">Compatible con <span className="text-[#dbe6fe]">Bitget</span></span>
+              <span className="text-xs text-[#7d87a3]">{t.hero.compatible} <span className="text-[#dbe6fe]">Bitget</span></span>
             </div>
           </div>
 

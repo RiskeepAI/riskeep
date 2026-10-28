@@ -2,7 +2,8 @@
 
 import { useT } from '@/lib/i18n/LanguageContext'
 
-const ICONS = ['⚡', '🛡️', '📄', '🔗', '📱', '🧠', '📈', '⚡', '🔒', '🤖', '📉', '🔀']
+// Un icono por frase de t.ticker (mismo orden)
+const ICONS = ['🛰️', '📈', '🧪', '🛡️', '🎯', '⚡', '📄', '🔒', '📱', '🧠', '🔀']
 
 function TickerItem({ icon, text }: { icon: string; text: string }) {
   return (

@@ -271,27 +271,31 @@ function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; 
                 <div className="grid grid-cols-3 gap-1.5 mt-3">
                   <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
                     <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">RSI</div>
-                    <div className="text-white font-bold text-[10px]">68.4</div>
-                    <div className="text-amber-400 text-[5px] mt-1 truncate">{t.hero.dashOverbought}</div>
+                    <div className="text-white font-bold text-[10px]">44.1</div>
+                    <div className="text-slate-500 text-[5px] mt-1 truncate">4h</div>
                   </div>
                   <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
                     <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">{t.hero.dashTrend}</div>
                     <div className="text-red-400 font-bold text-[8.5px] mt-1.5">{t.hero.dashBearish}</div>
                   </div>
                   <div className="rounded-md border border-white/6 bg-black/20 p-1.5 text-center">
-                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">{t.hero.dashPattern}</div>
-                    <div className="text-white font-bold text-[7px] mt-1.5 leading-tight">3 Black Crows</div>
+                    <div className="text-slate-600 text-[5px] uppercase tracking-wider mb-1">{t.hero.dashStrategy}</div>
+                    <div className="text-white font-bold text-[7px] mt-1.5 leading-tight">{t.hero.dashStrategyValue}</div>
                   </div>
                 </div>
 
                 {/* Confianza — barra ámbar, como en la app real */}
                 <div className="mt-3">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-slate-500 text-[6.5px]">{t.hero.dashConfidence}</span>
-                    <span className="text-amber-400 text-[7.5px] font-bold">85%</span>
+                    <span className="text-slate-500 text-[6.5px]">{t.hero.dashMomentum} · {t.hero.dashVotes}</span>
+                    <span className="text-red-400 text-[7.5px] font-bold">−6/6</span>
                   </div>
                   <div className="h-1 bg-white/6 rounded-full overflow-hidden">
-                    <div className="h-full w-[85%] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-300 rounded-full animate-shimmer"/>
+                    <div className="h-full w-full bg-gradient-to-r from-red-500 via-red-400 to-rose-300 rounded-full animate-shimmer"/>
+                  </div>
+                  <div className="flex items-center justify-between mt-2 text-[6px]">
+                    <span className="text-slate-600">{t.hero.dashRegime}</span>
+                    <span className="text-red-400 font-semibold">{t.hero.dashBearish}</span>
                   </div>
                 </div>
               </div>
@@ -326,6 +330,7 @@ function DashboardPreview({ t, showRail = true }: { t: ReturnType<typeof useT>; 
                       </span>
                       <div className="text-[6px] text-slate-600 mt-2">{t.hero.dashEntry}</div>
                       <div className="text-slate-400 text-[7.5px]">{entry}</div>
+                      <div className="text-[5.5px] text-slate-600 mt-1.5">{t.hero.dashTrailing}</div>
                     </div>
                   )
                 })}
@@ -393,7 +398,7 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-              <Link href="#pricing">
+              <Link href="/register">
                 <Button size="lg">{t.hero.ctaPrimary}</Button>
               </Link>
               <Link href="#how-it-works">
@@ -405,7 +410,7 @@ export default function Hero() {
             </div>
 
             <p className="text-[10px] text-[#6b7ba6] text-center lg:text-left">
-              El trading de criptomonedas implica riesgo. No inviertas más de lo que puedas permitirte perder.
+              {t.hero.riskNote}
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
@@ -421,10 +426,10 @@ export default function Hero() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center justify-center lg:justify-start gap-2 pt-1">
               <span className="flex items-center gap-2 px-3 py-1 rounded-lg border border-white/8 bg-white/3 text-xs text-[#7d87a3]">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"/>
-                Compatible con <span className="text-[#dbe6fe] font-medium">Bitget</span>
+                {t.hero.compatible} <span className="text-[#dbe6fe] font-medium">Bitget</span>
               </span>
             </div>
           </AnimateIn>

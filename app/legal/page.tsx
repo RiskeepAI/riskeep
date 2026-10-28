@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  AlertTriangle, Shield, Monitor, Brain, Puzzle,
+  AlertTriangle, Shield, Monitor, Brain, Compass,
   Gamepad2, BarChart3, Wrench, MessageSquare,
   ArrowLeft, Apple, AppWindow, Terminal,
   Lock, Info, ChevronRight, FileText, Download,
@@ -168,7 +168,7 @@ function Tag({ color = 'blue', children }: { color?: 'blue' | 'green' | 'purple'
     purple: 'bg-purple-500/10 text-purple-400  border-purple-500/25',
     yellow: 'bg-amber-500/10  text-amber-400   border-amber-500/25',
   }
-  return <span className={`inline-block font-mono text-[10px] px-2 py-0.5 rounded border ${s[color]}`}>{children}</span>
+  return <span className={`inline-block whitespace-nowrap font-mono text-[10px] px-2 py-0.5 rounded border ${s[color]}`}>{children}</span>
 }
 
 function ModeCard({ emoji, label, name, desc, nameColor }: {
@@ -638,16 +638,18 @@ function TabRequisitos() {
 
       <div>
         <Reveal><Chip color="text-cyan-400 bg-cyan-500/8 border-cyan-500/20">{t.legal.reqLoraChip}</Chip></Reveal>
-        <Reveal delay={70}><div className="mt-4"><SectionHeader icon={<Puzzle className="w-5 h-5 text-cyan-400" />} iconBg="bg-cyan-500/10 border border-cyan-500/20" title={t.legal.reqLoraTitle} sub={t.legal.reqLoraSub} /></div></Reveal>
+        <Reveal delay={70}><div className="mt-4"><SectionHeader icon={<Compass className="w-5 h-5 text-cyan-400" />} iconBg="bg-cyan-500/10 border border-cyan-500/20" title={t.legal.reqLoraTitle} sub={t.legal.reqLoraSub} /></div></Reveal>
         <Reveal delay={130}>
           <Card>
             <DocTable
               headers={t.legal.reqLoraHeaders}
               rows={[
-                [<strong key="1" className="text-white font-mono text-xs">aria-btc-patterns</strong>, t.legal.reqLoraRows[0].size, t.legal.reqLoraRows[0].spec, <Tag key="t1" color="green">{t.legal.reqLoraAuto}</Tag>],
-                [<strong key="2" className="text-white font-mono text-xs">aria-news-sentiment</strong>, t.legal.reqLoraRows[1].size, t.legal.reqLoraRows[1].spec, <Tag key="t2" color="green">{t.legal.reqLoraAuto}</Tag>],
-                [<strong key="3" className="text-white font-mono text-xs">aria-risk-adaptive</strong>, t.legal.reqLoraRows[2].size, t.legal.reqLoraRows[2].spec, <Tag key="t3" color="green">{t.legal.reqLoraAuto}</Tag>],
-                [<strong key="4" className="text-white font-mono text-xs">{t.legal.reqLoraRows[3].lora}</strong>, t.legal.reqLoraRows[3].size, <span key="d">{t.legal.reqLoraRows[3].spec.split('~/ARIA_data/loras/')[0]}<Code>~/ARIA_data/loras/</Code></span>, <Tag key="t4" color="yellow">{t.legal.reqLoraCustom}</Tag>],
+                ...t.legal.reqLoraRows.map((row, i) => [
+                  <strong key={`n${i}`} className="text-white text-xs">{row.lora}</strong>,
+                  <span key={`tf${i}`} className="font-mono text-xs">{row.size}</span>,
+                  row.spec,
+                  <Tag key={`t${i}`} color={row.ai ? 'purple' : 'green'}>{row.ai ? t.legal.reqLoraCustom : t.legal.reqLoraAuto}</Tag>,
+                ]),
               ]}
             />
           </Card>
@@ -827,7 +829,7 @@ export default function LegalPage() {
       <section className="pt-36 pb-14 px-6 text-center relative">
         <div className="animate-[fadeUp_.7s_cubic-bezier(.16,1,.3,1)_.1s_both] inline-flex items-center gap-2 text-[11px] font-mono tracking-widest uppercase text-cyan-400 bg-cyan-500/8 border border-cyan-500/22 rounded-full px-4 py-1.5 mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-[pulse_2s_infinite]" />
-          {t.legal.docBadge} · v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '7.3.0'}
+          {t.legal.docBadge} · v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '8.1.0'}
         </div>
 
         <h1 className="animate-[fadeUp_.75s_cubic-bezier(.16,1,.3,1)_.25s_both] font-bold text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.08] tracking-tight text-white mb-5">

@@ -34,9 +34,7 @@ function AnimatedNumber({ stat, started, index }: { stat: Stat; started: boolean
   const count = useCountUp(stat.target, stat.duration, started, stat.decimals)
 
   const display =
-    stat.target === 15000
-      ? count.toLocaleString('es-ES')
-      : stat.decimals
+    stat.decimals
       ? count.toFixed(stat.decimals)
       : count.toString()
 
@@ -63,7 +61,8 @@ export default function Stats() {
   const ref = useRef<HTMLDivElement>(null)
 
   const STATS: Stat[] = [
-    { prefix: '',   target: 15000, suffix: '+',  label: t.stats.label1, duration: 1800 },
+    // 10 mercados × 96 ciclos de 15 min (configuración por defecto)
+    { prefix: '',   target: 960,   suffix: '',   label: t.stats.label1, duration: 1800 },
     { prefix: '',   target: 64,    suffix: '%',  label: t.stats.label2, duration: 1400 },
     { prefix: '< ', target: 0.5,   suffix: 's',  label: t.stats.label3, duration: 1000, decimals: 1 },
     { prefix: '',   target: 24,    suffix: '/7', label: t.stats.label4, duration: 900  },

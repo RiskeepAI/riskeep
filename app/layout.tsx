@@ -28,22 +28,36 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
+const SITE_DESCRIPTION =
+  'ARIA vigila 10 mercados de Bitget Futures las 24 horas, entra cuando la tendencia gira a su favor y protege cada operación con un stop. Estrategia medida con backtest. Prueba gratis en demo.'
+
 export const metadata: Metadata = {
-  title: 'Riskeep — Tu agente de trading autónomo',
-  description: 'ARIA analiza el mercado, gestiona el riesgo y ejecuta operaciones automáticamente. Trading con inteligencia artificial para Bitget.',
-  keywords: ['trading bot', 'inteligencia artificial', 'bitget', 'criptomonedas', 'gestión de riesgo'],
+  metadataBase: new URL('https://riskeep.com'),
+  title: {
+    default:  'Riskeep — ARIA, agente de trading autónomo para Bitget',
+    template: '%s · Riskeep',
+  },
+  description: SITE_DESCRIPTION,
+  keywords: ['bot de trading', 'trading automático', 'bitget', 'futuros cripto', 'gestión de riesgo', 'backtest', 'trading algorítmico'],
+  alternates: { canonical: '/' },
   icons: {
     icon: '/images/logo-r.png',
     apple: '/images/logo-r.png',
   },
   openGraph: {
-    title: 'Riskeep — Tu agente de trading autónomo',
-    description: 'ARIA analiza el mercado, gestiona el riesgo y ejecuta operaciones automáticamente.',
+    title: 'Riskeep — ARIA, agente de trading autónomo para Bitget',
+    description: SITE_DESCRIPTION,
     url: 'https://riskeep.com',
     siteName: 'Riskeep',
     locale: 'es_ES',
+    alternateLocale: ['en_GB'],
     type: 'website',
-    images: [{ url: '/images/logo-r.png', width: 512, height: 512 }],
+    // La imagen la genera app/opengraph-image.tsx (1200×630)
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Riskeep — ARIA, agente de trading autónomo para Bitget',
+    description: SITE_DESCRIPTION,
   },
 }
 

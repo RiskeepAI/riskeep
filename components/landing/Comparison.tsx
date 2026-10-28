@@ -77,7 +77,7 @@ export default function Comparison() {
 
         <AnimateIn delay={120} className="mt-10 text-center">
           <a
-            href="#pricing"
+            href="/register"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-400 text-[#0A0F1E] font-semibold text-base shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:from-amber-400 hover:to-yellow-300 transition-all duration-300 cursor-pointer"
           >
             {t.comparison.ctaButton}

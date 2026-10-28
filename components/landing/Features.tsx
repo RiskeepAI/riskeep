@@ -1,9 +1,29 @@
 'use client'
 
-import { Brain, ShieldCheck, Zap, BarChart3, Bell, RefreshCw } from 'lucide-react'
+import { Brain, ShieldCheck, TrendingUp, FlaskConical, Bell, KeyRound } from 'lucide-react'
 import AnimateIn from '@/components/ui/AnimateIn'
 import SectionChip from '@/components/ui/SectionChip'
 import { useT } from '@/lib/i18n/LanguageContext'
+import { BACKTEST, BACKTEST_CURVE } from '@/lib/data/backtest'
+
+/* Mini curva REAL del backtest (R acumulado) para la tarjeta de estrategia */
+function BacktestMiniCurve() {
+  const vals = BACKTEST_CURVE.map(([, r]) => r)
+  const min = Math.min(0, ...vals), max = Math.max(...vals), n = vals.length
+  const pts = vals.map((r, i) => `${((i / (n - 1)) * 160).toFixed(1)},${(46 - ((r - min) / (max - min)) * 42).toFixed(1)}`)
+  return (
+    <svg viewBox="0 0 160 50" className="w-full h-14" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="bt-mini" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#22D3EE" stopOpacity="0.3"/>
+          <stop offset="100%" stopColor="#22D3EE" stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      <polygon points={`${pts.join(' ')} 160,50 0,50`} fill="url(#bt-mini)"/>
+      <polyline points={pts.join(' ')} fill="none" stroke="#22D3EE" strokeWidth="1.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke"/>
+    </svg>
+  )
+}
 
 /* Mini sparkline for the large card */
 function Sparkline({ color }: { color: string }) {
@@ -25,6 +45,8 @@ function Sparkline({ color }: { color: string }) {
 export default function Features() {
   const t = useT()
   const items = t.features.items
+  const winPct  = BACKTEST.avgWinPct
+  const lossPct = Math.abs(BACKTEST.avgLossPct)
 
   return (
     <section id="features" className="py-14 px-6 relative overflow-hidden">
@@ -44,10 +66,10 @@ export default function Features() {
 
         {/* ── Bento Grid ── */}
         <AnimateIn delay={80} animation="scale-up">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[180px] gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[180px_180px_180px] auto-rows-[minmax(180px,auto)] gap-4">
 
             {/* Card 0 — large 2×2: AI Analysis */}
-            <div className="animated-border-card lg:col-span-2 lg:row-span-2 group relative p-6 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-violet-500/3 overflow-hidden cursor-default hover:border-violet-500/40 hover:shadow-[0_8px_60px_rgba(139,92,246,0.15)] transition-all duration-300">
+            <div className="animated-border-card sm:col-span-2 lg:col-start-1 lg:row-start-1 lg:row-span-2 group relative p-6 rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-violet-500/3 overflow-hidden cursor-default hover:border-violet-500/40 hover:shadow-[0_8px_60px_rgba(139,92,246,0.15)] transition-all duration-300">
               <div className="absolute -top-8 -right-8 w-40 h-40 bg-violet-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-violet-500/18 transition-colors"/>
               <div className="relative h-full flex flex-col">
                 <div className="inline-flex p-3 rounded-xl bg-violet-500/15 border border-violet-500/25 w-fit mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -64,7 +86,7 @@ export default function Features() {
             </div>
 
             {/* Card 1 — wide 2×1: Risk Management */}
-            <div className="lg:col-span-2 group relative p-5 rounded-2xl border border-green-500/20 bg-gradient-to-r from-green-500/8 to-green-500/3 overflow-hidden cursor-default hover:border-green-500/35 hover:shadow-[0_8px_40px_rgba(16,185,129,0.12)] transition-all duration-300">
+            <div className="sm:col-span-2 lg:col-start-3 lg:row-start-1 group relative p-5 rounded-2xl border border-green-500/20 bg-gradient-to-r from-green-500/8 to-green-500/3 overflow-hidden cursor-default hover:border-green-500/35 hover:shadow-[0_8px_40px_rgba(16,185,129,0.12)] transition-all duration-300">
               <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-green-500/8 rounded-full blur-2xl pointer-events-none"/>
               <div className="relative flex items-start gap-4 h-full">
                 <div className="inline-flex p-3 rounded-xl bg-green-500/12 border border-green-500/20 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
@@ -82,43 +104,50 @@ export default function Features() {
               </div>
             </div>
 
-            {/* Card 2 — tall 1×2: Real-time Execution */}
-            <div className="lg:row-span-2 group relative p-5 rounded-2xl border border-amber-500/20 bg-gradient-to-b from-amber-500/10 to-amber-500/3 overflow-hidden cursor-default hover:border-amber-500/35 hover:shadow-[0_8px_40px_rgba(245,158,11,0.12)] transition-all duration-300">
+            {/* Card 2 — tall 1×2: Deja correr las ganadoras (datos reales del backtest) */}
+            <div className="lg:col-start-3 lg:row-start-2 lg:row-span-2 group relative p-5 rounded-2xl border border-amber-500/20 bg-gradient-to-b from-amber-500/10 to-amber-500/3 overflow-hidden cursor-default hover:border-amber-500/35 hover:shadow-[0_8px_40px_rgba(245,158,11,0.12)] transition-all duration-300">
               <div className="absolute -top-6 -left-6 w-28 h-28 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"/>
               <div className="relative h-full flex flex-col">
                 <div className="inline-flex p-3 rounded-xl bg-amber-500/12 border border-amber-500/20 w-fit mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Zap className="w-5 h-5 text-amber-400"/>
+                  <TrendingUp className="w-5 h-5 text-amber-400"/>
                 </div>
                 <h3 className="font-heading text-white font-bold text-base mb-2">{items[2]?.title}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed flex-1">{items[2]?.description}</p>
-                <div className="mt-4 space-y-2">
+                <div className="mt-4 space-y-2.5">
                   <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{t.features.latencyLabel}</div>
-                  <div className="font-heading text-3xl font-bold text-amber-400">&lt;0.5s</div>
-                  <div className="h-1.5 bg-white/8 rounded-full overflow-hidden">
-                    <div className="h-full w-[92%] bg-gradient-to-r from-amber-500 to-amber-300 rounded-full"/>
-                  </div>
+                  {[
+                    { l: t.features.winLabel,  v: `+${winPct.toFixed(1)}%`,  w: 100, c: 'from-green-500 to-green-300', tc: 'text-green-400' },
+                    { l: t.features.lossLabel, v: `−${lossPct.toFixed(1)}%`, w: (lossPct / winPct) * 100, c: 'from-red-500 to-red-400', tc: 'text-red-400' },
+                  ].map(b => (
+                    <div key={b.l}>
+                      <div className="flex justify-between text-[11px] mb-1">
+                        <span className="text-slate-500">{b.l}</span>
+                        <span className={`font-mono font-semibold ${b.tc}`}>{b.v}</span>
+                      </div>
+                      <div className="h-1.5 bg-white/8 rounded-full overflow-hidden">
+                        <div className={`h-full bg-gradient-to-r ${b.c} rounded-full`} style={{ width: `${b.w}%` }}/>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Card 3 — 1×1: Memory Engine */}
-            <div className="group relative p-5 rounded-2xl border border-cyan-500/20 bg-cyan-500/6 overflow-hidden cursor-default hover:border-cyan-500/35 hover:shadow-[0_4px_30px_rgba(34,211,238,0.10)] transition-all duration-300">
-              <div className="inline-flex p-2.5 rounded-xl bg-cyan-500/12 border border-cyan-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
-                <BarChart3 className="w-5 h-5 text-cyan-400"/>
+            {/* Card 3 — tall 1×2: Estrategia medida (curva real del backtest) */}
+            <div className="lg:col-start-4 lg:row-start-2 lg:row-span-2 flex flex-col group relative p-5 rounded-2xl border border-cyan-500/20 bg-cyan-500/6 overflow-hidden cursor-default hover:border-cyan-500/35 hover:shadow-[0_4px_30px_rgba(34,211,238,0.10)] transition-all duration-300">
+              <div className="inline-flex w-fit p-2.5 rounded-xl bg-cyan-500/12 border border-cyan-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
+                <FlaskConical className="w-5 h-5 text-cyan-400"/>
               </div>
               <h3 className="font-heading text-white font-bold text-sm mb-1.5">{items[3]?.title}</h3>
-              <p className="text-slate-400 text-[13px] leading-relaxed line-clamp-3">{items[3]?.description}</p>
-              {/* Mini bar chart decorativo */}
-              <div className="flex items-end gap-0.5 mt-4 h-6">
-                {[3,5,4,7,5,8,6,9,7,10,8,11].map((h, i) => (
-                  <div key={i} className="flex-1 rounded-sm bg-cyan-500/30 group-hover:bg-cyan-500/50 transition-colors"
-                    style={{ height: `${h * 8}%` }}/>
-                ))}
-              </div>
+              <p className="text-slate-400 text-[13px] leading-relaxed flex-1">{items[3]?.description}</p>
+              <BacktestMiniCurve />
+              <a href="#transparency" className="mt-1 text-[10px] font-mono text-cyan-400/80 hover:text-cyan-300 transition-colors">
+                {t.features.curveCaption.replace('{trades}', String(BACKTEST.trades))} →
+              </a>
             </div>
 
-            {/* Card 4 — 1×1: Live Alerts */}
-            <div className="group relative p-5 rounded-2xl border border-blue-500/20 bg-blue-500/6 overflow-hidden cursor-default hover:border-blue-500/35 hover:shadow-[0_4px_30px_rgba(59,130,246,0.10)] transition-all duration-300">
+            {/* Card 4 — 1×1: Alertas */}
+            <div className="lg:col-start-1 lg:row-start-3 group relative p-5 rounded-2xl border border-blue-500/20 bg-blue-500/6 overflow-hidden cursor-default hover:border-blue-500/35 hover:shadow-[0_4px_30px_rgba(59,130,246,0.10)] transition-all duration-300">
               <div className="inline-flex p-2.5 rounded-xl bg-blue-500/12 border border-blue-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
                 <Bell className="w-5 h-5 text-blue-400"/>
               </div>
@@ -134,22 +163,24 @@ export default function Features() {
               </div>
             </div>
 
+            {/* Card 5 — 1×1: Tus claves */}
+            <div className="lg:col-start-2 lg:row-start-3 group relative p-5 rounded-2xl border border-violet-500/20 bg-violet-500/6 overflow-hidden cursor-default hover:border-violet-500/35 hover:shadow-[0_4px_30px_rgba(139,92,246,0.10)] transition-all duration-300">
+              <div className="inline-flex p-2.5 rounded-xl bg-violet-500/12 border border-violet-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
+                <KeyRound className="w-5 h-5 text-violet-400"/>
+              </div>
+              <h3 className="font-heading text-white font-bold text-sm mb-1.5">{items[5]?.title}</h3>
+              <p className="text-slate-400 text-[13px] leading-relaxed line-clamp-3">{items[5]?.description}</p>
+            </div>
+
           </div>
         </AnimateIn>
 
-        {/* Bottom row: last feature + stat strip */}
+        {/* Franja de cifras */}
         <AnimateIn delay={160} className="mt-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="group relative p-5 rounded-2xl border border-violet-500/20 bg-violet-500/6 overflow-hidden cursor-default hover:border-violet-500/35 hover:shadow-[0_4px_30px_rgba(139,92,246,0.10)] transition-all duration-300">
-              <div className="inline-flex p-2.5 rounded-xl bg-violet-500/12 border border-violet-500/20 mb-3 group-hover:scale-110 transition-transform duration-300">
-                <RefreshCw className="w-5 h-5 text-violet-400"/>
-              </div>
-              <h3 className="font-heading text-white font-bold text-sm mb-1">{items[5]?.title}</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">{items[5]?.description}</p>
-            </div>
-            <div className="sm:col-span-2 flex items-center justify-around p-5 rounded-2xl border border-white/6 bg-white/[0.02]">
+          <div className="grid grid-cols-1">
+            <div className="flex items-center justify-around p-5 rounded-2xl border border-white/6 bg-white/[0.02]">
               {[
-                { v: '15K+',  l: t.features.statTraders  },
+                { v: '0 €',   l: t.features.statTraders  },
                 { v: '64%',   l: t.features.statWinRate  },
                 { v: '24/7',  l: t.features.statActive   },
                 { v: '0.5s',  l: t.features.statLatency  },
