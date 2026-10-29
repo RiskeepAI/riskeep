@@ -8,6 +8,7 @@ export type Lang = 'es' | 'en'
 const es = {
   /* ── NAVBAR ────────────────────────────────────────────────────────────── */
   nav: {
+    aria:       'Cómo funciona',
     features:   'Funciones',
     results:    'Resultados',
     pricing:    'Precios',
@@ -22,20 +23,21 @@ const es = {
 
   /* ── HERO ───────────────────────────────────────────────────────────────── */
   hero: {
-    badge:        'ARIA 8.1 · Estrategia validada fuera de muestra',
+    badge:        'ARIA 9.0 · Cripto, oro, petróleo y acciones',
     headlinePrefix: 'ARIA opera',
     typingWords:  ['Mientras Duermes', 'Las 24 Horas', 'Sin Emociones', 'Con Reglas Medidas'],
     headline1:    'Tu agente de trading',
     headline2:    'autónomo e inteligente',
-    subheadline:  'vigila 10 mercados de Bitget día y noche, entra solo cuando la tendencia gira a su favor y protege cada operación con un stop desde el primer segundo. Una estrategia medida antes de operar, no corazonadas.',
+    subheadline:  'vigila los mercados de Bitget día y noche —cripto y, si quieres, oro, petróleo, índices y acciones—, entra solo cuando la tendencia gira a su favor, se frena antes de la Fed o de unos resultados y protege cada operación con un stop desde el primer segundo. Reglas medidas, no corazonadas.',
     ctaPrimary:   'Probar gratis en demo →',
     ctaSecondary: 'Ver cómo funciona',
+    realShots:    'Ver capturas reales de la app',
     trustNoCard:  'Sin tarjeta para empezar',
     trustCancel:  'Cancela cuando quieras',
     trustPaper:   'Modo demo gratuito',
-    riskNote:     'El trading de criptomonedas implica riesgo. No inviertas más de lo que puedas permitirte perder.',
+    riskNote:     'El trading de futuros (cripto, materias primas, índices o acciones) implica riesgo. No inviertas más de lo que puedas permitirte perder.',
     compatible:   'Compatible con',
-    /* dashboard mockup — réplica de la app real (ARIA 8.1, modo Tendencia) */
+    /* dashboard mockup — réplica de la app real (ARIA 9.0, modo Tendencia) */
     dashTitle:        'ARIA Dashboard',
     dashConnected:    'Conectado · PAPER',
     dashCapital:      'Capital',
@@ -80,8 +82,11 @@ const es = {
 
   /* ── TICKER ─────────────────────────────────────────────────────────────── */
   ticker: [
-    '10 mercados vigilados 24/7',
+    'Cripto, oro, petróleo y acciones',
     'Estrategia Tendencia 4h validada',
+    'Calendario: Fed, IPC y resultados',
+    'Resumen de cada mercado con IA',
+    'Modos en sombra sin riesgo',
     'Backtest con comisiones y deslizamiento',
     'Stop nativo en Bitget desde la entrada',
     'Win rate 64%+',
@@ -119,7 +124,7 @@ const es = {
     rExplain:    'R es lo que arriesgas en cada operación (la distancia al stop). Con un riesgo del 0,3 % del capital por operación, +0,31R equivale a +0,09 % de media por operación.',
     honestTitle: 'Lo que debes saber',
     honest: [
-      'Hubo una caída máxima de {dd}R en el periodo: hay que estar preparado para rachas negativas.',
+      'La peor caída, contando las pérdidas por fechas como se viven, fue de {dd}R, con hasta {streak} pérdidas seguidas: hay que estar preparado para rachas negativas.',
       'Elegimos la configuración con el 60 % inicial de las operaciones y la juzgamos con el 40 % final, que no había visto.',
       'Los patrones de velas de 15 minutos de versiones anteriores no superaron esta prueba, así que dejaron de ser el modo por defecto.',
     ],
@@ -139,12 +144,14 @@ const es = {
     step2desc:   'El asistente te guía paso a paso: claves API de Bitget Simulated Trading (demo) o reales, siempre sin permiso de retirada. Se guardan solo en tu equipo.',
     step2badge:  'Windows · macOS · Demo y real',
     step3title:  'ARIA vigila y opera',
-    step3desc:   'Revisa 10 mercados cada 15 minutos, entra cuando la tendencia de 4h gira a favor del régimen de BTC y gestiona el stop hasta salir. Tú eliges: solo observar, aprobar cada operación o automático.',
+    step3desc:   'Revisa cada mercado cada 15 minutos con la estrategia de su clase, entra cuando la tendencia gira a su favor, se frena alrededor de los eventos que le afectan y gestiona el stop hasta salir. Tú eliges: solo observar, aprobar cada operación o automático.',
     step3badge:  'Observar · Manual · Automático',
     step1tag:    'Sin tarjeta',
     step2tag:    'API sin retiradas',
     step3tag:    'Observar · Manual · Auto',
     bottomNote:  'Empieza en demo, compara con el backtest y pasa a real solo cuando estés convencido.',
+    deepTitle:   'Cómo funciona por dentro',
+    deepDesc:    'El ciclo completo, la estrategia con todas sus cifras, el riesgo capa a capa, la IA por tarea y capturas reales de ARIA 9.0.',
   },
 
   /* ── FEATURES ───────────────────────────────────────────────────────────── */
@@ -153,16 +160,16 @@ const es = {
     title:    'Todo lo que necesita un trader serio',
     subtitle: 'ARIA no es un bot de señales. Es un agente que mide, decide y gestiona el riesgo de cada operación de principio a fin.',
     items: [
-      { title: 'IA opcional, a tu elección',      description: 'Gemini, Claude, OpenAI, Groq o 100 % local. Úsala en los modos técnico y fundamental, o como revisor que solo puede vetar señales.' },
-      { title: 'Riesgo bajo control',             description: 'Cada operación arriesga un % fijo de tu capital, con stop nativo en Bitget desde la entrada. Límite de pérdida diaria, drawdown máximo y pausa automática.' },
+      { title: 'Varios mercados a la vez',        description: 'Cripto y, por clase, oro, petróleo, índices y acciones de Bitget: cada clase con su estrategia, su tope de posiciones, sus noticias y su calendario. Lo nuevo empieza en sombra o demo y pasa a real cuando demuestra su ventaja.' },
+      { title: 'Riesgo bajo control',             description: 'Cada operación arriesga un % fijo de tu capital, con stop nativo en Bitget desde la entrada. Límites de pérdida diaria y caída, freno alrededor de la Fed, el IPC o unos resultados, y corte por clase.' },
       { title: 'Deja correr las ganadoras',       description: 'Sin take profit fijo: el stop sigue al precio a 4×ATR y solo se mueve a tu favor. Así las ganadoras pueden compensar varias pérdidas pequeñas.' },
       { title: 'Una estrategia medida antes de operar', description: 'Tendencia 4h se eligió con un backtest que reproduce las reglas reales del bot y se validó con datos que no había visto. El backtest viene incluido.' },
-      { title: 'Alertas por Telegram',            description: 'Aperturas, cierres, alertas de riesgo y resumen diario en tu móvil. El bot solo obedece a tu chat.' },
-      { title: 'Tus claves, tu equipo',           description: 'ARIA corre en tu ordenador. Las claves API se guardan solo en tu equipo, con permisos restringidos, y nunca pasan por los servidores de Riskeep.' },
+      { title: 'IA por tarea, la que elijas',     description: 'Uno bueno para decidir y uno pequeño para noticias y sombra: Gemini, OpenAI, Claude, Groq o local.' },
+      { title: 'Tus claves, tu equipo',           description: 'ARIA corre en tu ordenador: las claves API se quedan en tu equipo y nunca pasan por Riskeep.' },
     ],
     tagSL:        'Stop nativo',
     tagTP:        'Riesgo fijo',
-    tagDD:        'Pausa auto',
+    tagDD:        'Freno por eventos',
     latencyLabel: 'Ganadora vs perdedora media (backtest)',
     winLabel:     'Ganadora media',
     lossLabel:    'Perdedora media',
@@ -171,7 +178,9 @@ const es = {
     statWinRate:  'Win Rate',
     statActive:   'Activo',
     statLatency:  'Latencia',
-    alertActive:  'Alerta activa',
+    alertActive:  'Resumen IA cada 6 h',
+    classes:      [['Cripto', 'Validada'], ['Oro', 'En medición'], ['Petróleo', 'Sombra'], ['Índices', 'Sombra'], ['Acciones', 'Sombra']] as ReadonlyArray<readonly [string, string]>,
+    classesNote:  'Fuera de cripto nada está validado: se mide en demo o sombra',
   },
 
   /* ── COMPARISON ─────────────────────────────────────────────────────────── */
@@ -190,7 +199,8 @@ const es = {
       { feature: 'Validación',              aria: 'Backtest fiel + prueba fuera de muestra', manual: 'Intuición y experiencia' },
       { feature: 'Stop loss',               aria: 'Nativo en Bitget desde la entrada',   manual: 'A menudo tarde o inexistente' },
       { feature: 'Operaciones ganadoras',   aria: 'Trailing que deja correr la tendencia', manual: 'Cerrar pronto por miedo' },
-      { feature: 'Mercados',                aria: '10 vigilados en paralelo',            manual: '1–2 a la vez' },
+      { feature: 'Mercados',                aria: 'Cripto, oro, petróleo, índices y acciones', manual: '1–2 a la vez' },
+      { feature: 'Eventos (Fed, resultados)', aria: 'Calendario y freno automático',     manual: 'Te enteras tarde' },
       { feature: 'Tiempo requerido',        aria: 'Configurar y supervisar',             manual: 'Horas diarias de pantalla' },
     ],
   },
@@ -218,15 +228,16 @@ const es = {
       ctaClose: 'Entendido',
     },
     featuresMonthly: [
-      'ARIA 8.1 con la estrategia Tendencia 4h validada',
-      'Modos técnico y fundamental con IA (opcional)',
+      'ARIA 9.0 con la estrategia Tendencia 4h validada',
+      'Varios mercados: cripto, oro, petróleo, índices y acciones',
+      'Calendario de eventos y freno de riesgo',
+      'Noticias por mercado y resúmenes con IA (opcional)',
+      'Modos en sombra para probar sin riesgo',
       'Stop nativo, trailing y límites de pérdida',
       'Bitget Futures: cuenta demo y real',
-      '10 mercados vigilados 24/7',
       'Alertas y control por Telegram',
-      'Backtest incluido para reproducir resultados',
-      'Actualizaciones automáticas',
-      'Soporte por email',
+      'Backtest incluido y copias de seguridad diarias',
+      'Actualizaciones automáticas y soporte por email',
     ],
     featuresYearly: [
       'Todo lo del plan mensual',
@@ -248,7 +259,7 @@ const es = {
       },
       {
         q: '¿Qué rentabilidad puedo esperar?',
-        a: 'No podemos prometerte ninguna. Lo que sí podemos enseñarte es el backtest de la estrategia por defecto: +0,31R de media por operación con comisiones (253 operaciones simuladas en 10 mercados, marzo 2025 – octubre 2026). En ese periodo hubo una caída máxima de 36R (≈ 11 % con un riesgo del 0,3 % por operación). Son resultados simulados: el comportamiento real puede ser peor. Por eso recomendamos varias semanas en demo antes de usar dinero real.',
+        a: 'No podemos prometerte ninguna. Lo que sí podemos enseñarte es el backtest de la estrategia por defecto: +0,31R de media por operación con comisiones (253 operaciones simuladas en 10 mercados, marzo 2025 – octubre 2026). La peor caída, contando las pérdidas por fechas, fue de 48,6R con hasta 24 pérdidas seguidas (≈ 15 % con un riesgo del 0,3 % por operación). Son resultados simulados: el comportamiento real puede ser peor. Por eso recomendamos varias semanas en demo antes de usar dinero real.',
       },
       {
         q: '¿Cómo decide ARIA cuándo entrar?',
@@ -256,7 +267,7 @@ const es = {
       },
       {
         q: '¿Necesito una IA o pagar una API?',
-        a: 'No. La estrategia por defecto es sistemática y no usa IA. Si quieres usar los modos técnico o fundamental, o que una IA revise cada señal, puedes conectar Gemini (tiene nivel gratuito), Claude, OpenAI, Groq o un modelo 100 % local con Ollama.',
+        a: 'No. La estrategia por defecto es sistemática y no usa IA. Si quieres usar los modos técnico o fundamental, o que una IA revise cada señal, puedes conectar Gemini (tiene nivel gratuito), Claude, OpenAI, Groq o un modelo 100 % local con Ollama. Puedes tener varias claves a la vez y repartir las tareas: un modelo bueno para decidir y uno pequeño (casi gratis) para resumir noticias o simular.',
       },
       {
         q: '¿Es seguro conectar mi cuenta de Bitget?',
@@ -268,7 +279,11 @@ const es = {
       },
       {
         q: '¿Qué mercados vigila ARIA?',
-        a: 'Por defecto 10 contratos perpetuos USDT de Bitget: BTC, ETH, SOL, XRP, LTC, BNB, DOGE, ADA, LINK y BCH. Puedes cambiar la lista desde la configuración.',
+        a: 'Por defecto 10 perpetuos USDT de cripto en Bitget (BTC, ETH, SOL, XRP, LTC, BNB, DOGE, ADA, LINK y BCH), los únicos con la estrategia validada. Además puedes activar por clase el oro y la plata, el petróleo, índices y acciones de Bitget (NVDA, TSLA…), cada clase con su estrategia, sus noticias y su calendario. Empiezan en sombra o demo y ARIA te muestra cuándo una clase ha demostrado ventaja para pasar a real; puedes adelantarlo bajo tu responsabilidad, tras un aviso. El explorador de ARIA lista todos los mercados con su liquidez y su recomendación.',
+      },
+      {
+        q: '¿Tiene en cuenta las noticias y los eventos?',
+        a: 'Sí. ARIA lee noticias por mercado (OPEP o Irán para el petróleo, la Fed para el oro, resultados y lanzamientos para las acciones) y, con una IA pequeña, escribe un resumen de cada mercado cada 6 horas. También sigue un calendario —decisiones de la Fed, IPC, empleo, inventarios de crudo, resultados de empresas y festivos de la bolsa— y no abre posiciones nuevas en la ventana de un evento que afecte a ese mercado. Las posiciones abiertas no se tocan: siguen con su stop.',
       },
       {
         q: '¿En qué sistemas operativos funciona?',
@@ -291,13 +306,15 @@ const es = {
 
   /* ── FOOTER ─────────────────────────────────────────────────────────────── */
   footer: {
+    aria:        'Cómo funciona ARIA',
+    news:        'Novedades',
     features:    'Funciones',
     pricing:     'Precios',
     faq:         'FAQ',
     legal:       'Legal',
     myAccount:   'Mi cuenta',
     rights:      'Todos los derechos reservados.',
-    disclaimer:  'El trading de criptomonedas y futuros implica un riesgo significativo de pérdida. Riskeep no ofrece asesoramiento financiero. Los resultados de backtest son simulados y, como las rentabilidades pasadas, no garantizan resultados futuros.',
+    disclaimer:  'El trading de futuros sobre criptomonedas, materias primas, índices o acciones implica un riesgo significativo de pérdida. Riskeep no ofrece asesoramiento financiero. Los resultados de backtest son simulados y, como las rentabilidades pasadas, no garantizan resultados futuros.',
     description: 'ARIA — agente de trading autónomo para Bitget Futures. Reglas medidas, riesgo bajo control, 24/7.',
     navLabel:    'Navegación',
     contact:     'Contacto',
@@ -410,7 +427,7 @@ const es = {
       'Decidir cuándo activar el modo REAL y con qué capital',
       'Supervisar las operaciones abiertas en cualquier momento',
       'Mantener sus claves API de Bitget activas y con los permisos correctos',
-      'Verificar que el trading de criptomonedas es legal en su país o región',
+      'Verificar que el trading de futuros sobre criptomonedas, acciones o materias primas es legal en su país o región',
     ],
     legalRespFooter: 'Riskeep.com y sus desarrolladores no se hacen responsables de ninguna pérdida financiera derivada del uso del software, ya sea en modo paper o real, independientemente de la causa.',
     legalRiskChip:      '⚠️ Riesgo financiero',
@@ -425,6 +442,7 @@ const es = {
       'Los resultados en modo PAPER (Bitget Simulated Trading) son simulaciones en condiciones ideales y no garantizan rendimiento futuro en modo REAL.',
       'ARIA no constituye asesoramiento financiero, legal ni fiscal. Consulta siempre con un profesional regulado antes de invertir.',
       'Los mercados de criptomonedas son altamente volátiles. Las estrategias de ARIA se optimizan continuamente, pero no pueden predecir eventos exógenos: anuncios regulatorios, hacks de exchanges, crisis macroeconómicas.',
+      'Los perpetuos sobre oro, petróleo, índices y acciones siguen a mercados que cierran por la noche, el fin de semana y en festivos: pueden abrir con saltos que superen el stop. ARIA no abre entradas en esas ventanas ni alrededor de eventos por defecto, pero no elimina el riesgo de hueco. Fuera de cripto ninguna estrategia está validada.',
       'Recomendamos un mínimo de 30 días en modo PAPER con resultados consistentes antes de activar el modo REAL.',
       'El apalancamiento amplifica tanto las ganancias como las pérdidas. Un apalancamiento elevado puede resultar en la liquidación total de la posición.',
     ],
@@ -530,7 +548,7 @@ const es = {
     reqHwAlertBody: 'ARIA está validado sobre todo en Apple Silicon (M1/M2/M4) y funciona en Windows 10/11. La versión para Linux está en desarrollo.',
     reqLlmChip:    '🧠 Modelos LLM',
     reqLlmTitle:   'Modelos de Inteligencia Artificial',
-    reqLlmSub: 'Ollama es necesario para noticias y memoria. El modelo grande solo se usa en los modos con IA si no conectas un proveedor en la nube.',
+    reqLlmSub: 'Ollama es necesario para la memoria (y como respaldo de las noticias). El modelo grande solo se usa en los modos con IA si no conectas un proveedor en la nube.',
     reqLlmHeaders: ['Modelo', 'RAM', 'Función', 'Descarga'],
     reqLlmRows: [
       { model: 'qwen2.5:14b',        ram: '~10 GB',   fn: 'LLM local opcional — decide en los modos técnico, fundamental y mezclado si no conectas un proveedor en la nube (la estrategia Tendencia 4h no lo usa)' },
@@ -568,7 +586,7 @@ const es = {
     reqRiskItems: [
       'Stop-loss dinámico por operación','Trailing stop por movimiento de precio',
       'Drawdown máximo configurable','Límite de pérdida diaria',
-      'Máximo de posiciones simultáneas','Riesgo adaptativo por racha de pérdidas',
+      'Máximo de posiciones simultáneas (y por clase)','Freno por eventos: Fed, IPC, resultados',
       'Confianza mínima por operación','Funding rate awareness en futuros',
       'Timeout automático de posiciones','Pausa automática al alcanzar límites',
     ],
@@ -586,17 +604,17 @@ const es = {
       { title: 'Descargar ARIA.app',                     content: 'Descarga {ARIA.app} desde tu panel en riskeep.com. Arrastra la app a la carpeta {Aplicaciones}. Si aparece alerta de Gatekeeper: {Ajustes → Privacidad y Seguridad → Abrir de todas formas}.' },
       { title: 'Instalar Ollama',                        content: 'La app detecta si Ollama está instalado. Si no, te muestra el enlace directo a {ollama.com}. Ollama es la plataforma que ejecuta los modelos LLM localmente en tu Mac.' },
       { title: 'Iniciar sesión con tu cuenta Riskeep',   content: 'Al abrir ARIA por primera vez se lanza el asistente de configuración. Introduce tu email y contraseña de **riskeep.com** para verificar la suscripción activa.' },
-      { title: 'Descarga automática de modelos (~13 GB, o ~3 GB con IA en la nube)', content: 'Ollama es obligatorio: {phi4-mini} y {nomic-embed-text} se descargan siempre (noticias y memoria). {qwen2.5:14b} (~10 GB) solo se descarga si no conectas un proveedor de IA en la nube en el asistente. Progreso visible en el asistente. Tiempo estimado: 15–40 min según conexión, unos minutos si usas la nube.' },
+      { title: 'Descarga automática de modelos (~13 GB, o ~3 GB con IA en la nube)', content: 'Ollama es obligatorio: {phi4-mini} y {nomic-embed-text} se descargan siempre (memoria y respaldo de las noticias). {qwen2.5:14b} (~10 GB) solo se descarga si no conectas un proveedor de IA en la nube en el asistente. Progreso visible en el asistente. Tiempo estimado: 15–40 min según conexión, unos minutos si usas la nube.' },
       { title: 'Configurar claves API de Bitget', content: 'Introduce tus claves de Bitget Simulated Trading (API Key + Secret + Passphrase) para el modo PAPER. Opcionalmente las de Bitget Live y Telegram. Las claves se guardan en {~/.aria/.env} — nunca en la nube.' },
-      { title: 'Abrir el dashboard en http://localhost:8080', content: 'ARIA arranca el servidor web y abre el dashboard automáticamente. Desde ahí controlas trades, configuración, logs, memoria y rendimiento. **Configura los límites de riesgo antes de operar en modo REAL.**' },
+      { title: 'ARIA se abre en su propia ventana', content: 'ARIA arranca y abre su panel en una ventana propia de la app (si no pudiera, lo abre en tu navegador en {http://localhost:8080}). Desde ahí controlas trades, configuración, logs, memoria y rendimiento. **Configura los límites de riesgo antes de operar en modo REAL.**' },
     ],
     instStepsWin: [
       { title: 'Descargar ARIA_Setup.exe',               content: 'Descarga {ARIA_Setup.exe} desde tu panel en riskeep.com. Si Windows SmartScreen muestra un aviso: {Más información → Ejecutar de todas formas}.' },
       { title: 'Instalar Ollama para Windows',           content: 'La app detecta si Ollama está instalado. Si no, te muestra el enlace de descarga. Descarga {OllamaSetup.exe} desde {ollama.com}. Se ejecuta como servicio en segundo plano.' },
       { title: 'Iniciar sesión con tu cuenta Riskeep',   content: 'Al abrir ARIA se lanza el asistente de configuración. Introduce tu email y contraseña de **riskeep.com**.' },
-      { title: 'Descarga automática de modelos (~13 GB, o ~3 GB con IA en la nube)', content: 'Ollama es obligatorio: {phi4-mini} y {nomic-embed-text} se descargan siempre (noticias y memoria). {qwen2.5:14b} (~10 GB) solo se descarga si no conectas un proveedor de IA en la nube en el asistente. Se almacenan en {%USERPROFILE%\\.ollama\\models}.' },
+      { title: 'Descarga automática de modelos (~13 GB, o ~3 GB con IA en la nube)', content: 'Ollama es obligatorio: {phi4-mini} y {nomic-embed-text} se descargan siempre (memoria y respaldo de las noticias). {qwen2.5:14b} (~10 GB) solo se descarga si no conectas un proveedor de IA en la nube en el asistente. Se almacenan en {%USERPROFILE%\\.ollama\\models}.' },
       { title: 'Configurar claves API de Bitget', content: 'Introduce tus claves de Bitget Simulated Trading (API Key + Secret + Passphrase) para el modo PAPER. Opcionalmente las de Bitget Live y Telegram. Las claves se guardan en {%USERPROFILE%\\.aria\\.env} — nunca en la nube.' },
-      { title: 'Abrir el dashboard en http://localhost:8080', content: 'ARIA abre el dashboard automáticamente. El icono del system tray permite controlar la app sin abrir ventanas adicionales.' },
+      { title: 'ARIA se abre en su propia ventana', content: 'ARIA abre su panel en una ventana propia de la app (si no pudiera, lo abre en tu navegador en {http://localhost:8080}). El icono del system tray permite controlar la app sin abrir ventanas adicionales.' },
     ],
     instStepsLin: [
       { title: 'Versión para Linux en desarrollo', content: 'Todavía no hay instalador para Linux. Escríbenos a {support@riskeep.com} y te avisamos en cuanto esté disponible. Mientras tanto, ARIA funciona en Windows 10/11 y macOS 12+.' },
@@ -629,7 +647,7 @@ const es = {
     legalFooterLegal:     'Legal',
     legalFooterAccount:   'Mi cuenta',
     legalFooterRights:    'Todos los derechos reservados.',
-    legalFooterDisclaimer: 'El trading de criptomonedas y futuros implica un riesgo significativo de pérdida. Riskeep no ofrece asesoramiento financiero. Los resultados de backtest son simulados y, como las rentabilidades pasadas, no garantizan resultados futuros.',
+    legalFooterDisclaimer: 'El trading de futuros sobre criptomonedas, materias primas, índices o acciones implica un riesgo significativo de pérdida. Riskeep no ofrece asesoramiento financiero. Los resultados de backtest son simulados y, como las rentabilidades pasadas, no garantizan resultados futuros.',
   },
 }
 
@@ -638,6 +656,7 @@ const es = {
    ═══════════════════════════════════════════════════════════ */
 const en: typeof es = {
   nav: {
+    aria:       'How it works',
     features:   'Features',
     results:    'Results',
     pricing:    'Pricing',
@@ -651,18 +670,19 @@ const en: typeof es = {
   },
 
   hero: {
-    badge:        'ARIA 8.1 · Strategy validated out of sample',
+    badge:        'ARIA 9.0 · Crypto, gold, oil and stocks',
     headlinePrefix: 'Let ARIA Trade',
     typingWords:  ['While You Sleep', 'Around the Clock', 'Without Emotion', 'By Measured Rules'],
     headline1:    'Your autonomous trading',
     headline2:    'agent — intelligent',
-    subheadline:  'watches 10 Bitget markets day and night, enters only when the trend turns in its favour and protects every trade with a stop from the very first second. A strategy measured before trading — not gut feelings.',
+    subheadline:  'watches Bitget markets day and night — crypto and, if you want, gold, oil, indices and stocks — enters only when the trend turns in its favour, holds back before the Fed or an earnings report and protects every trade with a stop from the very first second. Measured rules, not gut feelings.',
     ctaPrimary:   'Try it free in demo →',
     ctaSecondary: 'See how it works',
+    realShots:    'See real screenshots of the app',
     trustNoCard:  'No card required',
     trustCancel:  'Cancel anytime',
     trustPaper:   'Free demo mode',
-    riskNote:     'Cryptocurrency trading involves risk. Never invest more than you can afford to lose.',
+    riskNote:     'Futures trading (crypto, commodities, indices or stocks) involves risk. Never invest more than you can afford to lose.',
     compatible:   'Compatible with',
     dashTitle:        'ARIA Dashboard',
     dashConnected:    'Connected · PAPER',
@@ -707,8 +727,11 @@ const en: typeof es = {
   },
 
   ticker: [
-    '10 markets watched 24/7',
+    'Crypto, gold, oil and stocks',
     '4h Trend strategy, validated',
+    'Calendar: Fed, CPI and earnings',
+    'AI summary of every market',
+    'Risk-free shadow modes',
     'Backtest with fees and slippage',
     'Native Bitget stop from entry',
     'Win rate 64%+',
@@ -744,7 +767,7 @@ const en: typeof es = {
     rExplain:    'R is what you risk on each trade (the distance to the stop). With 0.3% of capital at risk per trade, +0.31R is an average of +0.09% per trade.',
     honestTitle: 'What you should know',
     honest: [
-      'The worst drawdown in the period was {dd}R: be ready for losing streaks.',
+      'The worst drawdown, counting losses by date as you would live them, was {dd}R with up to {streak} losses in a row: be ready for losing streaks.',
       'We picked the configuration using the first 60% of trades and judged it on the final 40%, which it had never seen.',
       'The 15-minute candlestick patterns used by earlier versions failed this test, so they are no longer the default.',
     ],
@@ -763,12 +786,14 @@ const en: typeof es = {
     step2desc:   'The wizard guides you step by step: Bitget Simulated Trading (demo) or live API keys, always without withdrawal permission. They are stored only on your machine.',
     step2badge:  'Windows · macOS · Demo and live',
     step3title:  'ARIA watches and trades',
-    step3desc:   'It checks 10 markets every 15 minutes, enters when the 4h trend turns in favour of the BTC regime and manages the stop until exit. You choose: observe only, approve each trade, or fully automatic.',
+    step3desc:   'It checks each market every 15 minutes with its class strategy, enters when the trend turns in its favour, holds back around the events that affect it and manages the stop until exit. You choose: observe only, approve each trade, or fully automatic.',
     step3badge:  'Observe · Manual · Automatic',
     step1tag:    'No card',
     step2tag:    'No-withdrawal API',
     step3tag:    'Observe · Manual · Auto',
     bottomNote:  'Start in demo, compare against the backtest, and go live only when you are convinced.',
+    deepTitle:   'How it works inside',
+    deepDesc:    'The full cycle, the strategy with all its numbers, risk layer by layer, AI per task and real ARIA 9.0 screenshots.',
   },
 
   features: {
@@ -776,16 +801,16 @@ const en: typeof es = {
     title:    'Everything a serious trader needs',
     subtitle: 'ARIA is not a signal bot. It\'s an agent that measures, decides and manages the risk of every trade from start to finish.',
     items: [
-      { title: 'Optional AI, your choice',       description: 'Gemini, Claude, OpenAI, Groq or 100% local. Use it in technical and fundamental modes, or as a reviewer that can only veto signals.' },
-      { title: 'Risk under control',             description: 'Each trade risks a fixed % of your capital, with a native Bitget stop from entry. Daily loss limit, maximum drawdown and automatic pause.' },
+      { title: 'Several markets at once',        description: 'Crypto and, by class, Bitget gold, oil, indices and stocks: each class with its own strategy, position cap, news and calendar. New classes start in shadow or demo and move to live once they prove an edge.' },
+      { title: 'Risk under control',             description: 'Each trade risks a fixed % of your capital, with a native Bitget stop from entry. Daily loss and drawdown limits, a guard around the Fed, CPI or earnings, and a per-class cut.' },
       { title: 'Let winners run',                description: 'No fixed take profit: the stop follows price at 4×ATR and only moves in your favour, so winners can make up for several small losses.' },
       { title: 'A strategy measured before trading', description: '4h Trend was chosen with a backtest that reproduces the bot\'s real rules and validated on data it had never seen. The backtest ships with ARIA.' },
-      { title: 'Telegram alerts',                description: 'Openings, closes, risk alerts and a daily summary on your phone. The bot only obeys your chat.' },
-      { title: 'Your keys, your machine',        description: 'ARIA runs on your computer. API keys are stored only on your machine with restricted permissions and never pass through Riskeep\'s servers.' },
+      { title: 'AI per task, your pick',         description: 'A good one to decide, a small one for news and shadow: Gemini, OpenAI, Claude, Groq or local.' },
+      { title: 'Your keys, your machine',        description: 'ARIA runs on your computer: API keys stay on your machine and never pass through Riskeep.' },
     ],
     tagSL:        'Native stop',
     tagTP:        'Fixed risk',
-    tagDD:        'Auto pause',
+    tagDD:        'Event guard',
     latencyLabel: 'Average winner vs loser (backtest)',
     winLabel:     'Average winner',
     lossLabel:    'Average loser',
@@ -794,7 +819,9 @@ const en: typeof es = {
     statWinRate:  'Win Rate',
     statActive:   'Active',
     statLatency:  'Latency',
-    alertActive:  'Alert active',
+    alertActive:  'AI summary every 6 h',
+    classes:      [['Crypto', 'Validated'], ['Gold', 'Being measured'], ['Oil', 'Shadow'], ['Indices', 'Shadow'], ['Stocks', 'Shadow']] as ReadonlyArray<readonly [string, string]>,
+    classesNote:  'Nothing outside crypto is validated: it is measured in demo or shadow',
   },
 
   comparison: {
@@ -812,7 +839,8 @@ const en: typeof es = {
       { feature: 'Validation',       aria: 'Faithful backtest + out-of-sample test', manual: 'Intuition and experience' },
       { feature: 'Stop loss',        aria: 'Native on Bitget from entry',         manual: 'Often late or missing' },
       { feature: 'Winning trades',   aria: 'Trailing stop that lets trends run',  manual: 'Closed early out of fear' },
-      { feature: 'Markets',          aria: '10 watched in parallel',              manual: '1–2 at a time' },
+      { feature: 'Markets',          aria: 'Crypto, gold, oil, indices and stocks', manual: '1–2 at a time' },
+      { feature: 'Events (Fed, earnings)', aria: 'Calendar and automatic guard', manual: 'You find out late' },
       { feature: 'Time required',    aria: 'Set up and supervise',                manual: 'Hours of screen time a day' },
     ],
   },
@@ -839,15 +867,16 @@ const en: typeof es = {
       ctaClose: 'Got it',
     },
     featuresMonthly: [
-      'ARIA 8.1 with the validated 4h Trend strategy',
-      'Technical and fundamental modes with AI (optional)',
+      'ARIA 9.0 with the validated 4h Trend strategy',
+      'Several markets: crypto, gold, oil, indices and stocks',
+      'Event calendar and risk guard',
+      'News per market and AI summaries (optional)',
+      'Shadow modes to test risk-free',
       'Native stop, trailing and loss limits',
       'Bitget Futures: demo and live accounts',
-      '10 markets watched 24/7',
       'Telegram alerts and control',
-      'Backtest included to reproduce results',
-      'Automatic updates',
-      'Email support',
+      'Backtest included and daily backups',
+      'Automatic updates and email support',
     ],
     featuresYearly: [
       'Everything in the monthly plan',
@@ -868,7 +897,7 @@ const en: typeof es = {
       },
       {
         q: 'What returns can I expect?',
-        a: 'We can\'t promise any. What we can show you is the backtest of the default strategy: +0.31R per trade on average after fees (253 simulated trades on 10 markets, March 2025 – October 2026). In that period the worst drawdown was 36R (≈ 11% with 0.3% risk per trade). These are simulated results: real behaviour can be worse. That\'s why we recommend several weeks in demo before using real money.',
+        a: 'We can\'t promise any. What we can show you is the backtest of the default strategy: +0.31R per trade on average after fees (253 simulated trades on 10 markets, March 2025 – October 2026). The worst drawdown, counting losses by date, was 48.6R with up to 24 losses in a row (≈ 15% with 0.3% risk per trade). These are simulated results: real behaviour can be worse. That\'s why we recommend several weeks in demo before using real money.',
       },
       {
         q: 'How does ARIA decide when to enter?',
@@ -876,7 +905,7 @@ const en: typeof es = {
       },
       {
         q: 'Do I need an AI or a paid API?',
-        a: 'No. The default strategy is systematic and doesn\'t use AI. If you want the technical or fundamental modes, or an AI to review each signal, you can connect Gemini (free tier available), Claude, OpenAI, Groq or a 100% local model with Ollama.',
+        a: 'No. The default strategy is systematic and doesn\'t use AI. If you want the technical or fundamental modes, or an AI to review each signal, you can connect Gemini (free tier available), Claude, OpenAI, Groq or a 100% local model with Ollama. You can keep several keys at once and split the work: a good model to decide and a small (nearly free) one to summarise news or simulate.',
       },
       {
         q: 'Is it safe to connect my Bitget account?',
@@ -888,7 +917,11 @@ const en: typeof es = {
       },
       {
         q: 'Which markets does ARIA watch?',
-        a: 'By default 10 Bitget USDT perpetual contracts: BTC, ETH, SOL, XRP, LTC, BNB, DOGE, ADA, LINK and BCH. You can change the list in the settings.',
+        a: 'By default 10 crypto USDT perpetuals on Bitget (BTC, ETH, SOL, XRP, LTC, BNB, DOGE, ADA, LINK and BCH), the only ones with the validated strategy. You can also enable, by class, Bitget gold and silver, oil, indices and stocks (NVDA, TSLA…), each class with its own strategy, news and calendar. They start in shadow or demo and ARIA shows you when a class has proven an edge to go live; you can bring it forward at your own risk, after a warning. ARIA\'s explorer lists every market with its liquidity and recommendation.',
+      },
+      {
+        q: 'Does it take news and events into account?',
+        a: 'Yes. ARIA reads news per market (OPEC or Iran for oil, the Fed for gold, earnings and launches for stocks) and, with a small AI, writes a summary of each market every 6 hours. It also follows a calendar — Fed decisions, CPI, jobs, crude inventories, company earnings and stock-market holidays — and opens no new positions inside the window of an event that affects that market. Open positions are untouched: they keep their stop.',
       },
       {
         q: 'Which operating systems are supported?',
@@ -910,13 +943,15 @@ const en: typeof es = {
   },
 
   footer: {
+    aria:        'How ARIA works',
+    news:        'What’s new',
     features:    'Features',
     pricing:     'Pricing',
     faq:         'FAQ',
     legal:       'Legal',
     myAccount:   'My account',
     rights:      'All rights reserved.',
-    disclaimer:  'Cryptocurrency and futures trading involve a significant risk of loss. Riskeep does not provide financial advice. Backtest results are simulated and, like past returns, do not guarantee future results.',
+    disclaimer:  'Trading futures on cryptocurrencies, commodities, indices or stocks involves a significant risk of loss. Riskeep does not provide financial advice. Backtest results are simulated and, like past returns, do not guarantee future results.',
     description: 'ARIA — autonomous trading agent for Bitget Futures. Measured rules, risk under control, 24/7.',
     navLabel:    'Navigation',
     contact:     'Contact',
@@ -1017,7 +1052,7 @@ const en: typeof es = {
       'Deciding when to activate REAL mode and with what capital',
       'Monitoring open positions at all times',
       'Keeping their Bitget API keys active and with the correct permissions',
-      'Verifying that cryptocurrency trading is legal in their country or region',
+      'Verifying that trading futures on cryptocurrencies, stocks or commodities is legal in their country or region',
     ],
     legalRespFooter: 'Riskeep.com and its developers are not responsible for any financial losses resulting from the use of the software, whether in paper or real mode, regardless of cause.',
     legalRiskChip:      '⚠️ Financial risk',
@@ -1032,6 +1067,7 @@ const en: typeof es = {
       'Results in PAPER mode (Bitget Simulated Trading) are simulations under ideal conditions and do not guarantee future performance in REAL mode.',
       'ARIA does not constitute financial, legal or tax advice. Always consult a regulated professional before investing.',
       'Cryptocurrency markets are highly volatile. ARIA\'s strategies are continuously optimized but cannot predict exogenous events: regulatory announcements, exchange hacks, macroeconomic crises.',
+      'Perpetuals on gold, oil, indices and stocks track markets that close overnight, at weekends and on holidays: they can open with gaps beyond the stop. By default ARIA opens no entries in those windows or around events, but it cannot remove gap risk. Outside crypto no strategy is validated.',
       'We recommend a minimum of 30 days in PAPER mode with consistent results before activating REAL mode.',
       'Leverage amplifies both gains and losses. High leverage can result in total liquidation of the position.',
     ],
@@ -1135,7 +1171,7 @@ const en: typeof es = {
     reqHwAlertBody: 'ARIA is mainly validated on Apple Silicon (M1/M2/M4) and runs on Windows 10/11. The Linux version is in development.',
     reqLlmChip:    '🧠 LLM Models',
     reqLlmTitle:   'Artificial Intelligence Models',
-    reqLlmSub: 'Ollama is required for news and memory. The large model is only used in AI modes if you don\'t connect a cloud provider.',
+    reqLlmSub: 'Ollama is required for memory (and as the news fallback). The large model is only used in AI modes if you don\'t connect a cloud provider.',
     reqLlmHeaders: ['Model', 'RAM', 'Function', 'Download'],
     reqLlmRows: [
       { model: 'qwen2.5:14b',        ram: '~10 GB',   fn: 'Optional local LLM — decides in technical, fundamental and mixed modes when no cloud provider is connected (the 4h Trend strategy does not use it)' },
@@ -1173,7 +1209,7 @@ const en: typeof es = {
     reqRiskItems: [
       'Dynamic stop-loss per trade','Trailing stop on price movement',
       'Configurable maximum drawdown','Daily loss limit',
-      'Maximum simultaneous positions','Adaptive risk on losing streaks',
+      'Maximum simultaneous positions (and per class)','Event guard: Fed, CPI, earnings',
       'Minimum confidence per trade','Funding rate awareness in futures',
       'Automatic position timeout','Automatic pause when limits are reached',
     ],
@@ -1190,17 +1226,17 @@ const en: typeof es = {
       { title: 'Download ARIA.app',                       content: 'Download {ARIA.app} from your panel at riskeep.com. Drag the app to the {Applications} folder. If Gatekeeper shows an alert: {Settings → Privacy & Security → Open Anyway}.' },
       { title: 'Install Ollama',                          content: 'The app detects if Ollama is installed. If not, it shows you the direct link to {ollama.com}. Ollama is the platform that runs LLM models locally on your Mac.' },
       { title: 'Sign in with your Riskeep account',       content: 'When opening ARIA for the first time, the setup wizard launches. Enter your **riskeep.com** email and password to verify your active subscription.' },
-      { title: 'Automatic model download (~13 GB, or ~3 GB with cloud AI)',        content: 'Ollama is required: {phi4-mini} and {nomic-embed-text} always download (news and memory). {qwen2.5:14b} (~10 GB) only downloads if you don\'t connect a cloud AI provider in the wizard. Progress visible in the wizard. Estimated time: 15–40 min depending on connection, a few minutes if you use the cloud.' },
+      { title: 'Automatic model download (~13 GB, or ~3 GB with cloud AI)',        content: 'Ollama is required: {phi4-mini} and {nomic-embed-text} always download (memory and the news fallback). {qwen2.5:14b} (~10 GB) only downloads if you don\'t connect a cloud AI provider in the wizard. Progress visible in the wizard. Estimated time: 15–40 min depending on connection, a few minutes if you use the cloud.' },
       { title: 'Configure Bitget API keys',                content: 'Enter your Bitget Simulated Trading keys (API Key + Secret + Passphrase) for PAPER mode. Optionally add Bitget Live and Telegram keys. Keys are saved in {~/.aria/.env} — never in the cloud.' },
-      { title: 'Open dashboard at http://localhost:8080',  content: 'ARIA starts the web server and opens the dashboard automatically. From there you control trades, settings, logs, memory and performance. **Configure risk limits before operating in REAL mode.**' },
+      { title: 'ARIA opens in its own window',  content: 'ARIA starts and opens its dashboard in the app’s own window (if it can’t, it opens it in your browser at {http://localhost:8080}). From there you control trades, settings, logs, memory and performance. **Configure risk limits before operating in REAL mode.**' },
     ],
     instStepsWin: [
       { title: 'Download ARIA_Setup.exe',                 content: 'Download {ARIA_Setup.exe} from your panel at riskeep.com. If Windows SmartScreen shows a warning: {More info → Run anyway}.' },
       { title: 'Install Ollama for Windows',              content: 'The app detects if Ollama is installed. If not, it shows the download link. Download {OllamaSetup.exe} from {ollama.com}. It runs as a background service.' },
       { title: 'Sign in with your Riskeep account',       content: 'When opening ARIA, the setup wizard launches. Enter your **riskeep.com** email and password.' },
-      { title: 'Automatic model download (~13 GB, or ~3 GB with cloud AI)',        content: 'Ollama is required: {phi4-mini} and {nomic-embed-text} always download (news and memory). {qwen2.5:14b} (~10 GB) only downloads if you don\'t connect a cloud AI provider in the wizard. They are stored in {%USERPROFILE%\\.ollama\\models}.' },
+      { title: 'Automatic model download (~13 GB, or ~3 GB with cloud AI)',        content: 'Ollama is required: {phi4-mini} and {nomic-embed-text} always download (memory and the news fallback). {qwen2.5:14b} (~10 GB) only downloads if you don\'t connect a cloud AI provider in the wizard. They are stored in {%USERPROFILE%\\.ollama\\models}.' },
       { title: 'Configure Bitget API keys',                content: 'Enter your Bitget Simulated Trading keys (API Key + Secret + Passphrase) for PAPER mode. Optionally add Bitget Live and Telegram keys. Keys are saved in {%USERPROFILE%\\.aria\\.env} — never in the cloud.' },
-      { title: 'Open dashboard at http://localhost:8080',  content: 'ARIA opens the dashboard automatically. The system tray icon lets you control the app without opening additional windows.' },
+      { title: 'ARIA opens in its own window',  content: 'ARIA opens its dashboard in the app’s own window (if it can’t, it opens it in your browser at {http://localhost:8080}). The system tray icon lets you control the app without opening additional windows.' },
     ],
     instStepsLin: [
       { title: 'Linux version in development', content: 'There is no Linux installer yet. Email us at {support@riskeep.com} and we will let you know as soon as it is available. In the meantime, ARIA runs on Windows 10/11 and macOS 12+.' },
@@ -1232,7 +1268,7 @@ const en: typeof es = {
     legalFooterLegal:     'Legal',
     legalFooterAccount:   'My account',
     legalFooterRights:    'All rights reserved.',
-    legalFooterDisclaimer: 'Cryptocurrency and futures trading involve a significant risk of loss. Riskeep does not provide financial advice. Backtest results are simulated and, like past returns, do not guarantee future results.',
+    legalFooterDisclaimer: 'Trading futures on cryptocurrencies, commodities, indices or stocks involves a significant risk of loss. Riskeep does not provide financial advice. Backtest results are simulated and, like past returns, do not guarantee future results.',
   },
 }
 

@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { KeyRound, SlidersHorizontal, BotMessageSquare, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import { KeyRound, SlidersHorizontal, BotMessageSquare, ArrowRight, BookOpen } from 'lucide-react'
 import AnimateIn from '@/components/ui/AnimateIn'
 import SectionChip from '@/components/ui/SectionChip'
 import { useT } from '@/lib/i18n/LanguageContext'
@@ -201,6 +202,20 @@ export default function HowItWorks() {
               {t.how.bottomNote}
             </p>
           </div>
+        </AnimateIn>
+
+        <AnimateIn delay={460} className="mt-4">
+          <Link href="/aria"
+            className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 p-5 rounded-2xl border border-green-500/20 bg-green-500/[0.04] hover:bg-green-500/[0.08] hover:border-green-500/35 transition-all">
+            <span className="inline-flex p-3 rounded-xl border border-green-500/25 bg-green-500/10 w-fit">
+              <BookOpen className="w-5 h-5 text-green-400" />
+            </span>
+            <span className="flex-1">
+              <span className="block font-heading text-white font-semibold">{t.how.deepTitle}</span>
+              <span className="block text-sm text-slate-400 mt-0.5">{t.how.deepDesc}</span>
+            </span>
+            <ArrowRight className="w-5 h-5 text-green-400 group-hover:translate-x-1 transition-transform hidden sm:block" />
+          </Link>
         </AnimateIn>
       </div>
     </section>

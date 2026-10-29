@@ -829,7 +829,7 @@ export default function LegalPage() {
       <section className="pt-36 pb-14 px-6 text-center relative">
         <div className="animate-[fadeUp_.7s_cubic-bezier(.16,1,.3,1)_.1s_both] inline-flex items-center gap-2 text-[11px] font-mono tracking-widest uppercase text-cyan-400 bg-cyan-500/8 border border-cyan-500/22 rounded-full px-4 py-1.5 mb-7">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-[pulse_2s_infinite]" />
-          {t.legal.docBadge} · v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '8.1.0'}
+          {t.legal.docBadge} · v{process.env.NEXT_PUBLIC_ARIA_VERSION ?? '9.0.0'}
         </div>
 
         <h1 className="animate-[fadeUp_.75s_cubic-bezier(.16,1,.3,1)_.25s_both] font-bold text-[clamp(2.2rem,5vw,3.6rem)] leading-[1.08] tracking-tight text-white mb-5">

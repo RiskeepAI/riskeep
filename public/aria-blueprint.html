@@ -210,8 +210,8 @@
 
     <div class="g3" style="max-width:340px;gap:8px;">
       <div class="card stat" style="padding:8px 5px;">
-        <div class="val" style="font-size:14px;">10 pares</div>
-        <div class="lbl" style="font-size:7.5px;">vigilados a la vez</div>
+        <div class="val" style="font-size:14px;">5 clases</div>
+        <div class="lbl" style="font-size:7.5px;">cripto, oro, petróleo…</div>
       </div>
       <div class="card stat" style="padding:8px 5px;">
         <div class="val" style="font-size:14px;color:#06b6d4;">3 niveles</div>
@@ -346,7 +346,7 @@
       <h3 style="color:#93c5fd;">Referencia rápida</h3>
     </div>
     <div class="g2" style="gap:6px;">
-      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — Dashboard de ARIA, con el launcher abierto</p></div>
+      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — El panel de ARIA en el navegador, solo si la ventana de la app no se abre</p></div>
       <div><p style="font-size:9px;"><code>~/ARIA_data/</code> — Carpeta de datos (logs, memoria, histórico)</p></div>
       <div><p style="font-size:9px;">Panel de control del launcher — botón para reabrir el dashboard o buscar actualizaciones</p></div>
       <div><p style="font-size:9px;">Soporte — <strong style="color:#e2e8f0;">riskeep.com</strong></p></div>
@@ -396,7 +396,7 @@
   <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">1</div>
-      <p style="font-size:9.5px;"><strong>Mide la tendencia</strong> — en velas de 4 horas, el momentum de cada mercado en 6 horizontes (de unos 5 a 30 días), para 10 pares de Bitget a la vez.</p>
+      <p style="font-size:9.5px;"><strong>Mide la tendencia</strong> — en velas de 4 horas, el momentum de cada mercado en 6 horizontes (de unos 5 a 30 días), en las cripto de Bitget y, si las activas, en oro, petróleo, índices y acciones (cada clase con su estrategia).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">2</div>
@@ -404,7 +404,7 @@
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">3</div>
-      <p style="font-size:9.5px;"><strong>Filtra y valida</strong> — un sistema de reglas fijas revisa la decisión antes de operar: descarta entradas con mala relación riesgo:recompensa (contando también las comisiones) y exige liquidez real justo en el momento de ejecutar, no solo cuando se decidió.</p>
+      <p style="font-size:9.5px;"><strong>Filtra y valida</strong> — un sistema de reglas fijas revisa la decisión antes de operar: descarta entradas con mala relación riesgo:recompensa (contando también las comisiones) exige liquidez real justo al ejecutar y no abre posiciones nuevas alrededor de los eventos que afectan a ese mercado (Fed, IPC, resultados).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">4</div>
@@ -698,7 +698,7 @@
       <ul class="clist">
         <li><div class="ico ico-ok">✓</div><div>Ningún dato sale de tu ordenador, ningún coste por uso</div></li>
         <li><div class="ico ico-ok">✓</div><div>Requiere ~15 GB de disco y más RAM/CPU para el modelo principal</div></li>
-        <li><div class="ico ico-tip">i</div><div><code>phi4-mini</code> y <code>nomic-embed-text</code> se usan siempre, elijas lo que elijas — solo el modelo pesado (<code>qwen2.5:14b</code>) es opcional</div></li>
+        <li><div class="ico ico-tip">i</div><div><code>nomic-embed-text</code> (memoria) y <code>phi4-mini</code> (respaldo de noticias) se usan siempre — solo el modelo pesado (<code>qwen2.5:14b</code>) es opcional. Puedes tener varias IA a la vez: una buena para decidir y una pequeña para noticias y sombra</div></li>
       </ul>
     </div>
   </div>
@@ -760,18 +760,17 @@
 
   <!-- Dashboard sections -->
   <div style="margin-bottom:10px;">
-    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard — localhost:8080, con el launcher abierto</div>
+    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard — en la ventana de la app</div>
     <div class="card card-cyan" style="padding:9px 11px;">
       <table>
         <thead><tr><th>Pestaña</th><th>Qué muestra</th></tr></thead>
         <tbody>
-          <tr><td><strong>⚡ Dashboard</strong></td><td>Capital actual, PnL del día, posiciones abiertas y estado general de un vistazo</td></tr>
-          <tr><td><strong>🕯️ Velas</strong></td><td>Gráficos de precio en tiempo real de los pares que ARIA vigila</td></tr>
-          <tr><td><strong>🧠 Memoria</strong></td><td>Operaciones pasadas y lo que ARIA ha aprendido de ellas</td></tr>
-          <tr><td><strong>📊 Performance</strong></td><td>Rendimiento acumulado: operaciones ganadas/perdidas, evolución del capital</td></tr>
-          <tr><td><strong>🗞️ Noticias</strong></td><td>Noticias del mercado que ARIA tiene en cuenta al analizar</td></tr>
-          <tr><td><strong>📋 Logs</strong></td><td>Registro en tiempo real de lo que está haciendo ARIA</td></tr>
-          <tr><td><strong>⚙️ Configuración</strong></td><td>Claves de API, nivel de autonomía, modo Paper/Live, alertas de Telegram y límites de riesgo</td></tr>
+          <tr><td><strong>⚡ Panel</strong></td><td>Estrategia activa, tarjeta «Hoy» (resultado, posiciones cerca del stop, eventos) y posiciones abiertas</td></tr>
+          <tr><td><strong>🌍 Mercados</strong></td><td>Todos los mercados por clase, calendario de eventos, camino a dinero real y explorador</td></tr>
+          <tr><td><strong>🌓 Sombra</strong></td><td>Modos y clases que se simulan sin dinero, con sus resultados</td></tr>
+          <tr><td><strong>📊 Stats · 🧠 Memoria</strong></td><td>Resultados contra el backtest y cada operación con su ficha</td></tr>
+          <tr><td><strong>🗞️ Noticias</strong></td><td>Resumen de cada mercado con IA y titulares por clase</td></tr>
+          <tr><td><strong>⚙️ Configuración</strong></td><td>Claves, riesgo y mercados — los ajustes críticos con su ★ recomendado. Velas y Logs, en modo Avanzado</td></tr>
         </tbody>
       </table>
     </div>
@@ -783,10 +782,10 @@
     <div class="card card-green" style="padding:9px 11px;">
       <h3 style="color:#34d399;margin-bottom:5px;">Al terminar la instalación</h3>
       <ul class="clist">
-        <li><div class="ico ico-ok">1</div><div>El dashboard se abre en <code>localhost:8080</code> y muestra actividad en la pestaña Logs</div></li>
+        <li><div class="ico ico-ok">1</div><div>ARIA se abre en su ventana (o en <code>localhost:8080</code> si no pudiera) y el botón <strong>Diagnóstico</strong> (arriba) sale todo en verde</div></li>
         <li><div class="ico ico-ok">2</div><div>Empieza en modo <strong>Observar + Paper</strong> — sin arriesgar nada, ni siquiera fondos demo</div></li>
         <li><div class="ico ico-ok">3</div><div>Si activaste Telegram, escríbele algo a tu bot y confirma que responde</div></li>
-        <li><div class="ico ico-ok">4</div><div>Revisa Configuración — ajusta cuánto quieres arriesgar por operación y cuántas posiciones a la vez</div></li>
+        <li><div class="ico ico-ok">4</div><div>Revisa Configuración y pulsa los <strong>★ Recomendado</strong> de riesgo y posiciones (cada uno explica por qué)</div></li>
         <li><div class="ico ico-ok">5</div><div>Pasa a <strong>Manual</strong> unos días, y luego a <strong>Automático</strong>, siempre en Paper</div></li>
       </ul>
     </div>
@@ -913,7 +912,7 @@
       <h3 style="color:#93c5fd;">Quick reference</h3>
     </div>
     <div class="g2" style="gap:6px;">
-      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — ARIA's dashboard, with the launcher open</p></div>
+      <div><p style="font-size:9px;"><code>http://localhost:8080</code> — ARIA's dashboard in the browser, only if the app window doesn't open</p></div>
       <div><p style="font-size:9px;"><code>~/ARIA_data/</code> — Data folder (logs, memory, history)</p></div>
       <div><p style="font-size:9px;">Launcher control panel — button to reopen the dashboard or check for updates</p></div>
       <div><p style="font-size:9px;">Support — <strong style="color:#e2e8f0;">riskeep.com</strong></p></div>
@@ -959,7 +958,7 @@
   <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">1</div>
-      <p style="font-size:9.5px;"><strong>Measures the trend</strong> — on 4-hour candles, each market's momentum over 6 horizons (about 5 to 30 days), for 10 Bitget pairs at once.</p>
+      <p style="font-size:9.5px;"><strong>Measures the trend</strong> — on 4-hour candles, each market's momentum over 6 horizons (about 5 to 30 days), on Bitget crypto and, if you enable them, gold, oil, indices and stocks (each class with its own strategy).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">2</div>
@@ -967,7 +966,7 @@
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">3</div>
-      <p style="font-size:9.5px;"><strong>Filters and validates</strong> — a set of fixed rules reviews the decision before trading: it discards entries with a poor risk:reward ratio (fees included) and requires real liquidity right at execution time, not only when the decision was made.</p>
+      <p style="font-size:9.5px;"><strong>Filters and validates</strong> — a set of fixed rules reviews the decision before trading: it discards entries with a poor risk:reward ratio (fees included) requires real liquidity right at execution and opens no new positions around the events that affect that market (Fed, CPI, earnings).</p>
     </div>
     <div class="card" style="padding:8px 11px;display:flex;gap:9px;align-items:flex-start;">
       <div style="flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,.25);border:1px solid rgba(59,130,246,.4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#93c5fd;">4</div>
@@ -1261,7 +1260,7 @@
       <ul class="clist">
         <li><div class="ico ico-ok">✓</div><div>No data ever leaves your computer, no cost per use</div></li>
         <li><div class="ico ico-ok">✓</div><div>Needs ~15 GB of disk and more RAM/CPU for the main model</div></li>
-        <li><div class="ico ico-tip">i</div><div><code>phi4-mini</code> and <code>nomic-embed-text</code> are always used, whatever you choose — only the heavy model (<code>qwen2.5:14b</code>) is optional</div></li>
+        <li><div class="ico ico-tip">i</div><div><code>nomic-embed-text</code> (memory) and <code>phi4-mini</code> (news fallback) are always used — you can also mix AIs: a good one to decide, a small one for news and shadow; only the heavy model (<code>qwen2.5:14b</code>) is optional</div></li>
       </ul>
     </div>
   </div>
@@ -1323,18 +1322,17 @@
 
   <!-- Dashboard sections -->
   <div style="margin-bottom:10px;">
-    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard — localhost:8080, with the launcher open</div>
+    <div class="badge badge-cyan" style="margin-bottom:7px;font-size:8px;">🖥️ Dashboard — in the app window</div>
     <div class="card card-cyan" style="padding:9px 11px;">
       <table>
         <thead><tr><th>Tab</th><th>What it shows</th></tr></thead>
         <tbody>
-          <tr><td><strong>⚡ Dashboard</strong></td><td>Current capital, today's PnL, open positions and overall status at a glance</td></tr>
-          <tr><td><strong>🕯️ Candles</strong></td><td>Real-time price charts for the pairs ARIA is watching</td></tr>
-          <tr><td><strong>🧠 Memory</strong></td><td>Past trades and what ARIA has learned from them</td></tr>
-          <tr><td><strong>📊 Performance</strong></td><td>Cumulative performance: won/lost trades, capital evolution</td></tr>
-          <tr><td><strong>🗞️ News</strong></td><td>Market news that ARIA factors into its analysis</td></tr>
-          <tr><td><strong>📋 Logs</strong></td><td>Real-time log of what ARIA is doing</td></tr>
-          <tr><td><strong>⚙️ Settings</strong></td><td>API keys, autonomy level, Paper/Live mode, Telegram alerts and risk limits</td></tr>
+          <tr><td><strong>⚡ Dashboard</strong></td><td>Active strategy, the «Today» card (result, positions near the stop, events) and open positions</td></tr>
+          <tr><td><strong>🌍 Markets</strong></td><td>Every market by class, event calendar, road to real money and explorer</td></tr>
+          <tr><td><strong>🌓 Shadow</strong></td><td>Modes and classes simulated without money, with their results</td></tr>
+          <tr><td><strong>📊 Stats · 🧠 Memory</strong></td><td>Results against the backtest and every trade with its sheet</td></tr>
+          <tr><td><strong>🗞️ News</strong></td><td>AI summary of each market and headlines by class</td></tr>
+          <tr><td><strong>⚙️ Settings</strong></td><td>Keys, risk and markets — critical settings with their ★ recommendation. Candles and Logs in Advanced mode</td></tr>
         </tbody>
       </table>
     </div>
@@ -1346,10 +1344,10 @@
     <div class="card card-green" style="padding:9px 11px;">
       <h3 style="color:#34d399;margin-bottom:5px;">Right after installing</h3>
       <ul class="clist">
-        <li><div class="ico ico-ok">1</div><div>The dashboard opens at <code>localhost:8080</code> and shows activity in the Logs tab</div></li>
+        <li><div class="ico ico-ok">1</div><div>ARIA opens in its window (or at <code>localhost:8080</code> if it can't) and the <strong>Diagnostics</strong> button (top) is all green</div></li>
         <li><div class="ico ico-ok">2</div><div>Start in <strong>Observe + Paper</strong> mode — risking nothing, not even demo funds</div></li>
         <li><div class="ico ico-ok">3</div><div>If you enabled Telegram, message your bot and confirm it replies</div></li>
-        <li><div class="ico ico-ok">4</div><div>Check Settings — adjust how much you want to risk per trade and how many positions at once</div></li>
+        <li><div class="ico ico-ok">4</div><div>Check Settings and press the <strong>★ Recommended</strong> buttons for risk and positions (each explains why)</div></li>
         <li><div class="ico ico-ok">5</div><div>Move to <strong>Manual</strong> for a few days, then to <strong>Automatic</strong>, always in Paper</div></li>
       </ul>
     </div>
