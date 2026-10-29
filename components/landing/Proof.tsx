@@ -88,13 +88,15 @@ export default function Proof() {
     .replace('{symbols}', String(BACKTEST.symbols))
     .replace('{from}', fmtDate(BACKTEST.from))
     .replace('{to}', fmtDate(BACKTEST.to))
-    .replace('{dd}', num(BACKTEST.maxDrawdownR, 0))
+    .replace('{dd}', num(BACKTEST.maxDrawdownR, 1))
+    .replace('{streak}', String(BACKTEST.maxConsecLosses))
 
   const metrics = [
     { v: `+${num(BACKTEST.expectancyR)}R`, l: t.proof.mExpectancy, sub: '', c: 'text-green-400' },
     { v: num(BACKTEST.profitFactor),       l: t.proof.mProfitFactor, sub: '', c: 'text-amber-400' },
     { v: String(BACKTEST.trades),          l: t.proof.mTrades, sub: `${BACKTEST.symbols} ${lang === 'es' ? 'mercados' : 'markets'}`, c: 'text-slate-100' },
-    { v: `−${num(BACKTEST.maxDrawdownR, 0)}R`, l: t.proof.mDrawdown, sub: '', c: 'text-red-400' },
+    { v: `−${num(BACKTEST.maxDrawdownR, 1)}R`, l: t.proof.mDrawdown,
+      sub: `${BACKTEST.maxConsecLosses} ${lang === 'es' ? 'pérdidas seguidas' : 'losses in a row'}`, c: 'text-red-400' },
   ]
 
   return (

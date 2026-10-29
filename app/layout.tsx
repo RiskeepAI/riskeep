@@ -29,7 +29,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 })
 
 const SITE_DESCRIPTION =
-  'ARIA vigila 10 mercados de Bitget Futures las 24 horas, entra cuando la tendencia gira a su favor y protege cada operación con un stop. Estrategia medida con backtest. Prueba gratis en demo.'
+  'ARIA vigila Bitget Futures las 24 horas —cripto y, si quieres, oro, petróleo, índices y acciones—, entra cuando la tendencia gira a su favor, se frena ante la Fed o unos resultados y protege cada operación con un stop. Prueba gratis en demo.'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://riskeep.com'),

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -72,6 +73,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const t = useT()
+  // Las anclas de la landing (#features…) llevan a la portada desde otras páginas
+  const home = usePathname() === '/' ? '' : '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -80,11 +83,12 @@ export default function Navbar() {
   }, [])
 
   const NAV_LINKS = [
-    { href: '#features',     label: t.nav.features },
-    { href: '#transparency', label: t.nav.results  },
-    { href: '#pricing',      label: t.nav.pricing  },
-    { href: '#faq',      label: t.nav.faq        },
-    { href: '/legal',    label: t.nav.legal      },
+    { href: '/aria',                 label: t.nav.aria     },
+    { href: `${home}#features`,     label: t.nav.features },
+    { href: `${home}#transparency`, label: t.nav.results  },
+    { href: `${home}#pricing`,      label: t.nav.pricing  },
+    { href: `${home}#faq`,          label: t.nav.faq      },
+    { href: '/legal',               label: t.nav.legal    },
   ]
 
   return (

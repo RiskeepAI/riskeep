@@ -28,7 +28,8 @@ const JSON_LD = {
   operatingSystem: 'Windows 10, Windows 11, macOS 12+',
   url: 'https://riskeep.com',
   description:
-    'Agente de trading autónomo para Bitget Futures: estrategia de tendencia en velas de 4 horas validada con backtest, stop nativo en el exchange, modo demo gratuito.',
+    'Agente de trading autónomo para Bitget Futures: cripto y, por clase, oro, petróleo, índices y acciones; estrategia de tendencia en velas de 4 horas validada con backtest, calendario de eventos, stop nativo en el exchange y modo demo gratuito.',
+  softwareVersion: process.env.NEXT_PUBLIC_ARIA_VERSION ?? '9.0.0',
   publisher: { '@type': 'Organization', name: 'Riskeep', url: 'https://riskeep.com', email: 'support@riskeep.com' },
   offers: [
     { '@type': 'Offer', name: 'Modo demo', price: '0', priceCurrency: 'EUR' },

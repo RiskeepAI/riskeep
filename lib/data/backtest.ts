@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   Resultados REALES del backtest de la estrategia "Tendencia 4h" de ARIA 8.1.
+   Resultados REALES del backtest de la estrategia "Tendencia 4h" de ARIA (8.1, vigente en 9.0).
 
    Generado con el backtest del repo de ARIA (models/backtest.py ·
    run_trend_backtest, 720 días de velas de 4h de Bitget, 10 símbolos), que
@@ -24,8 +24,12 @@ export const BACKTEST = {
   expectancyR:     0.311,        // resultado medio por operación, en múltiplos del riesgo (R)
   profitFactor:    1.35,
   totalR:          78.8,
-  maxDrawdownR:    36.3,
-  maxConsecLosses: 9,
+  /* Peor caída y racha en orden CRONOLÓGICO (todos los mercados a la vez, por
+     fecha de cierre, como se viven): revisado en ARIA el 28-10-2026. El cálculo
+     anterior iba mercado a mercado (36,3R / 9 seguidas) e infravaloraba el riesgo.
+     Es la cifra que muestra la propia app (strategy_catalog.TREND_BACKTEST). */
+  maxDrawdownR:    48.6,
+  maxConsecLosses: 24,
   avgWinPct:       11.843,       // % medio de las ganadoras (sobre el nocional)
   avgLossPct:      -3.832,
   /* Validación fuera de muestra: 60% inicial de las operaciones vs 40% final */

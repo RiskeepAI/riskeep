@@ -1,12 +1,14 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { Instagram } from 'lucide-react'
 import { useT } from '@/lib/i18n/LanguageContext'
 
 export default function Footer() {
   const t = useT()
+  const home = usePathname() === '/' ? '' : '/'
 
   return (
     <footer className="border-t border-white/6 bg-[#040e1f]">
@@ -36,9 +38,11 @@ export default function Footer() {
             <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#6b7ba6]">{t.footer.navLabel}</p>
             <nav className="flex flex-col gap-2">
               {[
-                { href: '#features', label: t.footer.features  },
-                { href: '#pricing',  label: t.footer.pricing   },
-                { href: '#faq',      label: t.footer.faq       },
+                { href: '/aria',             label: t.footer.aria      },
+                { href: '/novedades',        label: t.footer.news      },
+                { href: `${home}#features`, label: t.footer.features  },
+                { href: `${home}#pricing`,  label: t.footer.pricing   },
+                { href: `${home}#faq`,      label: t.footer.faq       },
                 { href: '/legal',    label: t.footer.legal     },
                 { href: '/login',    label: t.footer.myAccount },
               ].map(({ href, label }) => (

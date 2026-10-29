@@ -1,74 +1,17 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
   ShieldCheck, TrendingUp, Sparkles, Play,
-  LayoutDashboard, Brain, Activity, Newspaper, Terminal, Settings,
-  CandlestickChart as CandlestickChartIcon,
+  LayoutDashboard, Brain, Activity, Newspaper, Settings, LayoutGrid, Contrast,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import AnimateIn from '@/components/ui/AnimateIn'
 import ParticleCanvas from '@/components/ui/ParticleCanvas'
+import { WordReveal, Tilt3D } from '@/components/ui/Motion'
 import { useT } from '@/lib/i18n/LanguageContext'
-
-/* ── Word reveal ──────────────────────────────────────────────────────
-   Pure-CSS stagger: each word gets its final animation-delay inline, so
-   the reveal starts at paint time (no hydration / IntersectionObserver /
-   setTimeout gate). This is the hero headline — it's always in the
-   initial viewport, so "reveal on scroll" adds nothing but LCP delay;
-   see .wr-word / @keyframes word-in in globals.css. ─────────────────── */
-function WordReveal({ text, baseDelay = 0 }: { text: string; baseDelay?: number }) {
-  return (
-    <span>
-      {text.split(' ').map((word, i) => (
-        <span
-          key={i}
-          className="wr-word inline-block mr-[0.25em]"
-          style={{ animationDelay: `${baseDelay + i * 80}ms` }}
-        >
-          {word}
-        </span>
-      ))}
-    </span>
-  )
-}
-
-/* ── Tilt 3D ──────────────────────────────────────────────── */
-function Tilt3D({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = ref.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5   // -0.5 to 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    el.style.transform = `perspective(1000px) rotateY(${x * 14}deg) rotateX(${-y * 10}deg) translateZ(8px)`
-  }
-
-  function handleLeave() {
-    const el = ref.current
-    if (!el) return
-    el.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)'
-  }
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{
-        transition: 'transform 0.15s ease-out',
-        transformStyle: 'preserve-3d',
-        willChange: 'transform',
-      }}
-    >
-      {children}
-    </div>
-  )
-}
 
 /* ── Typing effect ────────────────────────────────────────── */
 function TypingWord({ words }: { words: string[] }) {
@@ -109,14 +52,16 @@ function TypingWord({ words }: { words: string[] }) {
    de iconos con etiqueta (la navegación vive SOLO ahí, no hay una segunda
    barra de tabs), y los tres paneles reales de la pestaña Dashboard:
    Portfolio, Análisis de Mercado (RSI/Tendencia/Patrón — el gráfico vive
-   en la pestaña Velas, no aquí) y Posiciones Abiertas. */
+   en la pestaña Velas, no aquí) y Posiciones Abiertas.
+   Barra lateral de ARIA 9.0 en su modo por defecto (Sencillo: Velas y Logs
+   solo aparecen en Avanzado). */
 const RAIL_ITEMS = [
-  { Icon: LayoutDashboard,     label: 'Panel' },
-  { Icon: CandlestickChartIcon, label: 'Velas' },
-  { Icon: Brain,               label: 'Memoria' },
-  { Icon: Activity,            label: 'Stats' },
-  { Icon: Newspaper,           label: 'Noticias' },
-  { Icon: Terminal,            label: 'Logs' },
+  { Icon: LayoutDashboard, label: 'Panel' },
+  { Icon: Brain,           label: 'Memoria' },
+  { Icon: Activity,        label: 'Stats' },
+  { Icon: LayoutGrid,      label: 'Mercados' },
+  { Icon: Contrast,        label: 'Sombra' },
+  { Icon: Newspaper,       label: 'Noticias' },
 ]
 
 const MINI_TICKER = [
@@ -378,10 +323,12 @@ export default function Hero() {
               style={{ animationDelay: `${badgeDelay}ms` }}
               className="badge-reveal inline-block"
             >
-              <Badge variant="gold">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"/>
-                {t.hero.badge}
-              </Badge>
+              <Link href="/novedades" className="hover:brightness-125 transition">
+                <Badge variant="gold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"/>
+                  {t.hero.badge}
+                </Badge>
+              </Link>
             </div>
 
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
@@ -401,7 +348,7 @@ export default function Hero() {
               <Link href="/register">
                 <Button size="lg">{t.hero.ctaPrimary}</Button>
               </Link>
-              <Link href="#how-it-works">
+              <Link href="/aria">
                 <Button size="lg" variant="secondary">
                   <Play className="w-4 h-4"/>
                   {t.hero.ctaSecondary}
@@ -439,6 +386,9 @@ export default function Hero() {
             <Tilt3D>
               <DashboardPreview t={t} />
             </Tilt3D>
+            <Link href="/aria#app" className="mt-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 hover:text-green-400 transition-colors">
+              {t.hero.realShots} <span aria-hidden>→</span>
+            </Link>
           </AnimateIn>
 
           {/* Mobile preview (simpler) */}
